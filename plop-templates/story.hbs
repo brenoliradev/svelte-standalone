@@ -1,0 +1,19 @@
+import type { SvelteComponent } from 'svelte';
+
+import type { Meta, StoryObj } from '@storybook/svelte';
+import type { StorybookProps } from './types';
+
+import { defaultConfig, type ConfigProps } from '@/_widgets/{{componentName}}/types';
+
+import {{capitalizeName}} from '@/_widgets/{{componentName}}/{{componentName}}.svelte'
+
+export default {
+	title: 'Widgets/{{capitalizeName}}',
+	component: {{capitalizeName}},
+} satisfies Meta<SvelteComponent<StorybookProps<ConfigProps>>>;
+
+export const {{componentName}}Story: StoryObj<SvelteComponent<StorybookProps<ConfigProps>>> = {
+	args: {
+		config: defaultConfig
+	}
+}
