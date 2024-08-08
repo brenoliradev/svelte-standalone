@@ -20,7 +20,7 @@ const embedFiles = glob.sync('src/_widgets/**/embed.ts');
 // Common plugins
 const commonPlugins = [
 	svelte({
-		emitCss: true,
+		emitCss: false,
 		preprocess: sveltePreprocess()
 	}),
 	typescript(),
@@ -39,6 +39,7 @@ const configs = embedFiles.map((file) => {
 		.dirname(file)
 		.replace('src', 'static')
 		.replace('_widgets', 'dist/visualizer');
+
 	const purgeDir = path.dirname(file).replace('embed.ts', '');
 
 	return {
@@ -51,7 +52,6 @@ const configs = embedFiles.map((file) => {
 		plugins: [
 			...commonPlugins,
 			postcss({
-				extract: false,
 				config: {
 					path: 'postcss.config.cjs'
 				},
@@ -62,7 +62,7 @@ const configs = embedFiles.map((file) => {
 					autoprefixer(),
 					tailwindcss({
 						...tailwindConfig,
-						content: [`./${purgeDir}/*.{svelte,ts}`]
+						content: [`./${purgeDir}/*.{svelte,ts,js}`, `./${purgeDir}/*/*.{svelte,ts,js}`, './src/shared/*/*{svelte,ts,js}']
 					})
 				]
 			}),

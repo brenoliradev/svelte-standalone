@@ -11,7 +11,7 @@
 </script>
 
 <article
-	class={`mx-auto mb-2 flex w-11/12 max-w-96 items-center justify-between rounded-md bg-white px-4 py-3 text-black shadow-md`}
+	class="mb-2 flex w-96 items-center justify-between rounded-md bg-white px-4 py-3 text-black shadow-md"
 	role="alert"
 	transition:fade
 >
@@ -33,7 +33,7 @@
 	{:else if type === 'error'}
 		<svg
 			width="1.1em"
-			class="t-inline-block t-text-center"
+			class="inline-block text-center"
 			aria-hidden="true"
 			focusable="false"
 			role="img"
@@ -56,7 +56,7 @@
 			viewBox="0 0 512 512"
 		>
 			<path
-				class="t-fill-yellow-500"
+				class="fill-yellow-500"
 				d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-36 344h12V232h-12c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12h48c6.627 0 12 5.373 12 12v140h12c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12h-72c-6.627 0-12-5.373-12-12v-8c0-6.627 5.373-12 12-12zm36-240c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z"
 			/>
 		</svg>
@@ -78,7 +78,7 @@
 				role="img"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 352 512"
-				class="t-inline-block t-text-center"
+				class="inline-block text-center"
 			>
 				<path
 					fill="currentColor"

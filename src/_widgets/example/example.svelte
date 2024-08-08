@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../app.css';
 
-	import { Toaster, toast } from '@/helpers/toast';
+	import { Toaster, toast } from '@/shared/toast';
 </script>
 
 <div class="d-flex gap-3">

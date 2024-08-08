@@ -14,7 +14,7 @@ export const toasts = writable<Toast[]>([]);
 
 const timeoutIds = new Map<number, ReturnType<typeof setTimeout>>();
 
-const addToast = (toast: Toast) => {
+const addToast = (toast: Omit<Toast, 'id'>) => {
 	// Create a unique ID so we can easily find/remove it
 	// if it is dismissible/has a timeout.
 	const id = Math.floor(Math.random() * 10000);
@@ -31,7 +31,7 @@ const addToast = (toast: Toast) => {
 	toasts.update((all) => [innerToast, ...all]);
 
 	// If toast is dismissible, dismiss it after "timeout" amount of time.
-	if (innerToast.timeout) {
+	if (innerToast.timeout && innerToast.dismissible) {
 		const timeoutId = setTimeout(() => {
 			dismissToast(id);
 			timeoutIds.delete(id);
@@ -50,7 +50,7 @@ export const dismissToast = (id: number) => {
 };
 
 export const toast: {
-	[type in ToastType]: (m: string, config?: Omit<Toast, 'type' | 'message'>) => void;
+	[type in ToastType]: (m: string, config?: Omit<Toast, 'type' | 'message' | 'id'>) => void;
 } = {
 	error: (m, t) =>
 		addToast({
