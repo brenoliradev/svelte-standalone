@@ -1,3 +1,3 @@
-export type ConfigProps = {};
+export type ConfigProps = undefined;
 
-export const defaultConfig: ConfigProps = {};
+export const defaultConfig: ConfigProps = undefined;

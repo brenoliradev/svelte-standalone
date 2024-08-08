@@ -6,7 +6,7 @@
 
 {#if $toasts}
 	<section
-		class="fixed right-0 -translate-x-[50vw] top-0 z-[1000] mt-4 flex w-0 flex-col items-center justify-center"
+		class="fixed right-0 top-0 z-[1000] mt-4 flex w-0 -translate-x-[50vw] flex-col items-center justify-center"
 	>
 		{#each $toasts as toast (toast.id)}
 			<Toast
