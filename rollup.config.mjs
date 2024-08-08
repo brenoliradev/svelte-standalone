@@ -65,7 +65,7 @@ const configs = embedFiles.map((file) => {
 						content: [
 							`./${purgeDir}/*.{svelte,ts,js}`,
 							`./${purgeDir}/*/*.{svelte,ts,js}`,
-							'./src/shared/*/*{svelte,ts,js}'
+							'./src/shared/*/*.{svelte,ts,js}'
 						]
 					})
 				]
