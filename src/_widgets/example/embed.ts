@@ -1,11 +1,10 @@
-import Example from './example.svelte';
+import Example from './index.svelte';
 import { type ConfigProps } from './types';
 
-let exampleInitialized = false;
-let div = document.getElementById('example-root');
-
 function exampleStart(config: ConfigProps) {
-	if (exampleInitialized) {
+	let div = document.getElementById('example-root');
+
+	if (div) {
 		console.warn('example is already initialized.');
 		return;
 	}
@@ -18,28 +17,25 @@ function exampleStart(config: ConfigProps) {
 	}
 
 	try {
-		// Instantiate the example component with configurations
+		// Instantiate the Example component with configurations
 		new Example({
 			target: div,
 			props: config ? { config } : {}
 		});
-		exampleInitialized = true;
 	} catch (error) {
 		console.error('Failed to initialize example:', error);
 	}
 }
 
 function exampleStop() {
+	const div = document.getElementById('example-root');
+
 	if (div) {
 		div.remove();
-		exampleInitialized = false;
 	}
 }
 
-type CustomWindow = Window & {
-	exampleStart: (config: ConfigProps) => void;
-	exampleStop: () => void;
-};
+type CustomWindow = Window & { exampleStart: (config: ConfigProps) => void; exampleStop: () => void };
 
 // Expose the function globally
 (window as unknown as CustomWindow).exampleStart = exampleStart;

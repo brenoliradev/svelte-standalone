@@ -1,11 +1,10 @@
-import {{capitalizeName}} from './{{componentName}}.svelte';
+import {{capitalizeName}} from './index.svelte';
 import { type ConfigProps } from './types';
 
-let {{componentName}}Initialized = false;
-let div = document.getElementById('{{componentName}}-root');
-
 function {{componentName}}Start(config: ConfigProps) {
-	if ({{componentName}}Initialized) {
+	let div = document.getElementById('{{componentName}}-root');
+
+	if (div) {
 		console.warn('{{componentName}} is already initialized.');
 		return;
 	}
@@ -18,21 +17,21 @@ function {{componentName}}Start(config: ConfigProps) {
 	}
 
 	try {
-		// Instantiate the {{componentName}} component with configurations
+		// Instantiate the {{capitalizeName}} component with configurations
 		new {{capitalizeName}}({
 			target: div,
 			props: config ? { config } : {}
 		});
-		{{componentName}}Initialized = true;
 	} catch (error) {
 		console.error('Failed to initialize {{componentName}}:', error);
 	}
 }
 
 function {{componentName}}Stop() {
+	const div = document.getElementById('{{componentName}}-root');
+
 	if (div) {
 		div.remove();
-		{{componentName}}Initialized = false;
 	}
 }
 
