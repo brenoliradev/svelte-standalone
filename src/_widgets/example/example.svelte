@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../app.css';
+	import '../../css/tailwind-full.css';
 
 	import { Toaster, toast } from '@/shared/toast';
 </script>
