@@ -1,0 +1,21 @@
+<script>
+	import { browser } from '$app/environment';
+
+	import { defaultConfig } from '@/_widgets/{{componentName}}/types';
+
+	const initScript = () => {
+		if (browser) {
+			if (window.{{componentName}}Start) {
+				window.{{componentName}}Start(defaultConfig);
+			}
+		}
+	};
+</script>
+
+<svelte:head>
+	<script src="/dist/widgets/{{componentName}}.min.js"></script>
+</svelte:head>
+
+<main>
+	<button on:click={initScript}>init {{componentName}} script</button>
+</main>

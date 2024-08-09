@@ -53,4 +53,22 @@ module.exports = function (plop) {
 			}
 		]
 	});
+	plop.setGenerator('routes files', {
+		description: 'Generate a default route handler that imports the script',
+		prompts: [
+			{
+				type: 'input',
+				name: 'componentName',
+				message: 'Component name?',
+				when: () => false // We won't prompt for the component name since we'll pass it as an argument
+			}
+		],
+		actions: [
+			{
+				type: 'add',
+				path: 'src/routes/{{componentName}}/+page.svelte',
+				templateFile: 'plop-templates/route.hbs'
+			}
+		]
+	});
 };
