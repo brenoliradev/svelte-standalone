@@ -10,12 +10,27 @@
 			}
 		}
 	};
+
+	const stopScript = () => {
+		if (browser) {
+			if (window.{{componentName}}Stop) {
+				window.{{componentName}}Stop(defaultConfig);
+			}
+		}
+	}
 </script>
 
 <svelte:head>
 	<script src="/dist/widgets/{{componentName}}.min.js"></script>
 </svelte:head>
 
-<main>
-	<button on:click={initScript}>init {{componentName}} script</button>
+<main class="p-2">
+	<button
+		class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		on:click={initScript}>init {{componentName}} script</button
+	>
+	<button
+		class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		on:click={stopScript}>stop {{componentName}} script</button
+	>
 </main>
