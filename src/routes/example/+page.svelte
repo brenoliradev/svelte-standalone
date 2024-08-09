@@ -17,7 +17,7 @@
 				window.exampleStop(defaultConfig);
 			}
 		}
-	}
+	};
 </script>
 
 <svelte:head>

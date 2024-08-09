@@ -35,7 +35,10 @@ function exampleStop() {
 	}
 }
 
-type CustomWindow = Window & { exampleStart: (config: ConfigProps) => void; exampleStop: () => void };
+type CustomWindow = Window & {
+	exampleStart: (config: ConfigProps) => void;
+	exampleStop: () => void;
+};
 
 // Expose the function globally
 (window as unknown as CustomWindow).exampleStart = exampleStart;
