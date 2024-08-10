@@ -16,7 +16,7 @@ It's structure is intended to be simple. Basically you're going to create an fol
  
   - `src/_widgets/<component>/declarations.d.ts` - Exposes `<component>`, `<component>Props` and `defaultConfig`.
     - Using this, you'll be able to import `<component>.svelte` anywhere and have it's props well typed.
-    - For props, you can import `<component>Props`.
+    - If you only want the definition for props, it'll also defines `<component>Props`.
 
 
   - `src/_widgets/<component>/types.ts` - It'll declares `defaultConfig` which will be typed as `<component>Props` so it'll be used as default props for `<component>stories.ts` and also for `src/routes/<component>/+page.svelte`. _It'll also exposes a simple `CustomWindow` and use it inside the route files._
