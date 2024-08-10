@@ -4,6 +4,8 @@
 
 It'll also includes minifications like `terser` and `cssnano`, testing like `playwright` and `vitest` and implements `vite` and `storybook` so you can validate how you standalone widgets are as svelte component and as bundled script.
 
+See "example" component on: https://svelte-standalone.vercel.app/.
+
 # How it works?
 
 It's structure is intended to be simple. Basically you're going to create an folder on `src/_widgets` with the name of your component e.g.: `src/_widgets/<component>`. 
