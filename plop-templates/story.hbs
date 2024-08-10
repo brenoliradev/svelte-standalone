@@ -1,7 +1,6 @@
 import type { SvelteComponent } from 'svelte';
 
 import type { Meta, StoryObj } from '@storybook/svelte';
-import type { StorybookProps } from './types';
 
 import { defaultConfig, type ConfigProps } from '@/_widgets/{{componentName}}/types';
 
@@ -10,8 +9,8 @@ import {{capitalizeName}} from '@/_widgets/{{componentName}}/index.svelte'
 export default {
 	title: 'Widgets/{{capitalizeName}}',
 	component: {{capitalizeName}},
-} satisfies Meta<SvelteComponent<StorybookProps<ConfigProps>>>;
+} satisfies Meta<SvelteComponent<ConfigProps>>;
 
-export const {{componentName}}Story: StoryObj<SvelteComponent<StorybookProps<ConfigProps>>> = {
+export const {{componentName}}Story: StoryObj<SvelteComponent<ConfigProps>> = {
 	args: defaultConfig
 }

@@ -1,7 +1,9 @@
 import Example from './index.svelte';
-import { type ConfigProps } from './types';
+import { defaultConfig, type ConfigProps, type CustomWindow } from './types';
 
-function exampleStart(config: ConfigProps) {
+function exampleStart(props: ConfigProps) {
+	console.log('exampleStart -> ', props);
+
 	let div = document.getElementById('example-root');
 
 	if (div) {
@@ -18,10 +20,14 @@ function exampleStart(config: ConfigProps) {
 
 	try {
 		// Instantiate the Example component with configurations
-		new Example({
+		const example = new Example({
 			target: div,
-			props: config
+			props: {
+				props: defaultConfig
+			}
 		});
+
+		console.log(example);
 	} catch (error) {
 		console.error('Failed to initialize example:', error);
 	}
@@ -34,11 +40,6 @@ function exampleStop() {
 		div.remove();
 	}
 }
-
-type CustomWindow = Window & {
-	exampleStart: (config: ConfigProps) => void;
-	exampleStop: () => void;
-};
 
 // Expose the function globally
 (window as unknown as CustomWindow).exampleStart = exampleStart;

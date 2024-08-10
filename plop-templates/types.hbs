@@ -2,3 +2,8 @@
 export type ConfigProps = undefined;
 
 export const defaultConfig: ConfigProps = undefined;
+
+export type CustomWindow = Window & {
+	{{componentName}}Start: (config: ConfigProps) => void;
+	{{componentName}}Stop: () => void;
+};
