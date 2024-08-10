@@ -65,8 +65,7 @@
 		"build-storybook": "storybook build",
 		"build": "npm run generate-stories.mjs && rollup -c",
 		"dev:vercel": "vite .",
-		"build:vercel": "rollup -c"
+		"build:vercel": "vite build"
 	},
 	"type": "module"
 }
-	
