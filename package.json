@@ -63,7 +63,10 @@
 		"test:unit": "vitest",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
-		"build": "npm run generate-stories.mjs && rollup -c"
+		"build": "npm run generate-stories.mjs && rollup -c",
+		"dev:vercel": "vite .",
+		"build:vercel": "rollup -c"
 	},
 	"type": "module"
 }
+	
