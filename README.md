@@ -31,4 +31,5 @@ If you're going to use your bundled `<component>` into an app that has tailwindc
 
 # How it'll be bundled?
 
-Basically, it'll runs rollup on _everything_ from `src/_widgets`. For each `<component>` inside it, it'll run a separatedly build. It'll also swap `tailwind.content` to be _only_ the `src/_widgets/*` and `src/shared` folders so you can have each `<component>` css purged separatedly relying on tailwind jit. It'll also handle minifications, preprocessing for sveltekit and typescript and just returns a single "`<component>.min.js` and an `<component>.status.html` at `/static/dist`.
+Basically, it'll runs rollup on _everything_ from `src/_widgets`. For each `<component>` inside it, it'll run a separatedly build. It'll also swap `tailwind.content` to be _only_ the `src/_widgets/*` and `src/shared` folders so you can have each `<component>` css purged separatedly relying on tailwind jit. It'll also handle minifications, preprocessing for sveltekit and typescript and just returns a single `<component>.min.js` and an `<component>.status.html` at `/static/dist`.
+
