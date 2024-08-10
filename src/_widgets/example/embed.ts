@@ -20,7 +20,7 @@ function exampleStart(config: ConfigProps) {
 		// Instantiate the Example component with configurations
 		new Example({
 			target: div,
-			props: config ? { config } : {}
+			props: config
 		});
 	} catch (error) {
 		console.error('Failed to initialize example:', error);

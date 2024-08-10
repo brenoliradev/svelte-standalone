@@ -20,7 +20,7 @@ function {{componentName}}Start(config: ConfigProps) {
 		// Instantiate the {{capitalizeName}} component with configurations
 		new {{capitalizeName}}({
 			target: div,
-			props: config ? { config } : {}
+			props: config
 		});
 	} catch (error) {
 		console.error('Failed to initialize {{componentName}}:', error);
