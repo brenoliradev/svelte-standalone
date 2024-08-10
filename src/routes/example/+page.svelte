@@ -4,8 +4,6 @@
 	import { defaultConfig, type CustomWindow } from '@/_widgets/example/types';
 
 	const initScript = () => {
-		console.log(defaultConfig);
-
 		if (browser) {
 			if (window) {
 				(window as unknown as CustomWindow).exampleStart(defaultConfig);
