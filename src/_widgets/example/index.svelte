@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../css/tailwind-full.css';
+	import '../../css/tailwind-utils.css';
 
 	export let props: ConfigProps;
 
