@@ -50,6 +50,11 @@ module.exports = function (plop) {
 				type: 'add',
 				path: 'src/_widgets/{{componentName}}/types.ts',
 				templateFile: 'plop-templates/types.hbs'
+			},
+			{
+				type: 'add',
+				path: 'src/_widgets/{{componentName}}/declarations.d.ts',
+				templateFile: 'plop-templates/declarations.hbs'
 			}
 		]
 	});

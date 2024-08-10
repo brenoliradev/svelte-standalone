@@ -1,9 +1,8 @@
-{{!-- TYPES SHOULD BE ADDED ON TYPES.TS TO EASILY USE IT SEE: https://github.com/sveltejs/svelte/issues/5817 --}}
-export type ConfigProps = undefined;
+import type { {{capitalizeName}}Props } from "./declarations";
 
-export const defaultConfig: ConfigProps = undefined;
+export const defaultConfig: {{capitalizeName}}Props = {};
 
-export type CustomWindow = Window & {
-	{{componentName}}Start: (config: ConfigProps) => void;
-	{{componentName}}Stop: () => void;
-};
+export interface CustomWindow extends Window {
+	{{componentName}}Start(config: {{capitalizeName}}Props): void;
+	{{componentName}}Stop(): void;
+}

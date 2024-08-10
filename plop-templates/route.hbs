@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
-	import { defaultConfig, type CustomWindow } from '@/_widgets/{{componentName}}/types';
+	import { type CustomWindow, defaultConfig } from '@/_widgets/{{componentName}}/types';
 
 	const initScript = () => {
 		if (browser) {
@@ -14,7 +14,7 @@
 	const stopScript = () => {
 		if (browser) {
 			if (window) {
-				(window as unknown as CustomWindow).exampleStop();
+				(window as unknown as CustomWindow).{{componentName}}Stop();
 			}
 		}
 	};

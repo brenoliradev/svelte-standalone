@@ -55,7 +55,7 @@
 	},
 	"scripts": {
 		"dev": "npm run generate-stories.mjs && rollup -c && vite .",
-		"lint": "prettier --write . && eslint .",
+		"lint": "svelte-check && prettier --write . && eslint .",
 		"format": "prettier --write .",
 		"serve:tailwind": "tailwind-config-viewer -o",
 		"test": "npm run test:integration && npm run test:unit",

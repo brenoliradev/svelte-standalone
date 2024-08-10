@@ -1,7 +1,9 @@
-import {{capitalizeName}} from './index.svelte';
-import { type ConfigProps, type CustomWindow } from './types';
+import { type CustomWindow } from './types';
 
-function {{componentName}}Start(config: ConfigProps) {
+import {{capitalizeName}} from './index.svelte'
+import type { {{capitalizeName}}Props } from './declarations';
+
+function {{componentName}}Start(props: {{capitalizeName}}Props) {
 	let div = document.getElementById('{{componentName}}-root');
 
 	if (div) {
@@ -20,9 +22,7 @@ function {{componentName}}Start(config: ConfigProps) {
 		// Instantiate the {{capitalizeName}} component with configurations
 		new {{capitalizeName}}({
 			target: div,
-			props: {
-				props: defaultConfig
-			},
+			props
 		});
 	} catch (error) {
 		console.error('Failed to initialize {{componentName}}:', error);

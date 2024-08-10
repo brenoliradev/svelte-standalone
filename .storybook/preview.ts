@@ -1,5 +1,8 @@
-/** @type { import('@storybook/svelte').Preview } */
-const preview = {
+import type { Preview } from '@storybook/svelte';
+
+import '../src/css/tailwind-full.css';
+
+const preview: Preview = {
 	parameters: {
 		controls: {
 			matchers: {

@@ -1,7 +1,9 @@
-import Example from './index.svelte';
-import { defaultConfig, type ConfigProps, type CustomWindow } from './types';
+import { type CustomWindow } from './types';
 
-function exampleStart(props: ConfigProps) {
+import Example from './index.svelte';
+import type { ExampleProps } from './declarations';
+
+function exampleStart(props: ExampleProps) {
 	let div = document.getElementById('example-root');
 
 	if (div) {
@@ -20,9 +22,7 @@ function exampleStart(props: ConfigProps) {
 		// Instantiate the Example component with configurations
 		new Example({
 			target: div,
-			props: {
-				props: defaultConfig
-			}
+			props
 		});
 	} catch (error) {
 		console.error('Failed to initialize example:', error);
