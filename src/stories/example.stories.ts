@@ -13,7 +13,5 @@ export default {
 } satisfies Meta<SvelteComponent<StorybookProps<ConfigProps>>>;
 
 export const exampleStory: StoryObj<SvelteComponent<StorybookProps<ConfigProps>>> = {
-	args: {
-		config: defaultConfig
-	}
+	args: defaultConfig,
 };
