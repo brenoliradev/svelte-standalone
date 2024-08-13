@@ -5,7 +5,7 @@
 
 	export let type: ToastType = 'error';
 	export let dismissible = true;
-    export let message = ""
+	export let message = '';
 </script>
 
-<Toast dismissible={dismissible} type={type} on:dismiss={() => dismissToast(0)}>{message}</Toast>
+<Toast {dismissible} {type} on:dismiss={() => dismissToast(0)}>{message}</Toast>

@@ -2,7 +2,7 @@
 
 `svelte-standalone` is a serie of configurations that aims to process any svelte widget to a single standalone javascript file. Currently, as a template, you just create a version of it and starts using it.
 
-It'll also includes minifications like `terser` and `cssnano`, testing with `vitest` + `@testing-library/svele` and implements `vite` and `storybook` so you can validate how you standalone widgets are as svelte component and as bundled script.
+It'll also includes minifications like `terser` and `cssnano`, testing with `vitest` + `@testing-library/svelte` and implements `vite` and `storybook` so you can validate how you standalone widgets are as svelte component and as bundled script.
 
 See "example" component on: https://svelte-standalone.vercel.app/.
 

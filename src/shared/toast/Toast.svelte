@@ -71,7 +71,7 @@
 			class="m-0 border-none bg-transparent p-0 text-gray-600 hover:opacity-80"
 			on:click={() => dispatch('dismiss')}
 		>
-			{@html '&#10005;'}
+			&#10005;
 		</button>
 	{/if}
 </article>
