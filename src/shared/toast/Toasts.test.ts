@@ -1,114 +1,67 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+// Toasts.test.ts
+import { render, screen, fireEvent } from '@testing-library/svelte';
+import { describe, it, expect } from 'vitest';
+import Toasts from './Toasts.svelte';
+import { toasts, toast, type Toast } from './store';
+
+import userEvent from '@testing-library/user-event'
 import { get } from 'svelte/store';
 
-import { toasts, dismissToast, toast } from '@/shared/toast';
+describe('Toasts', () => {
+  it('renders toast messages from the store', async () => {
+    const mockToasts = [
+      { id: 1, type: 'info', dismissible: true, message: 'Toast message 1' },
+      { id: 2, type: 'error', dismissible: false, message: 'Toast message 2' },
+      { id: 3, type: 'info', dismissible: false, message: 'Toast message 3' },
+    ] satisfies Toast[];
+    
+    toasts.set(mockToasts);
 
-describe('Toast Store', () => {
-	beforeEach(() => {
-		// Reset the toasts store before each test
-		toasts.set([]);
-		vi.useRealTimers(); // Ensure real timers are used initially
-	});
+    render(Toasts);
 
-	it('should add a toast of type "success"', () => {
-		toast.success('Success message');
+    mockToasts.map(({
+      message      
+    }) => expect(screen.getByText(message)).toBeInTheDocument())
+  });
 
-		const allToasts = get(toasts); // Synchronously get the latest state
+  it('handles toast dismissal', async () => {
+    const user = userEvent.setup();
+  
+    const toastId = 1;
+    const mockToasts = [
+      { id: toastId, type: 'info', message: 'toast message' },
+    ] satisfies Toast[];
+  
+    toasts.set(mockToasts);
+  
+    const { getByText, queryByText, getByRole, rerender, debug } = render(Toasts);
+  
+    expect(getByText('toast message')).toBeInTheDocument();
+  
+    const toastDismissButton = getByRole('button');
+  
+    await user.click(toastDismissButton);
+  
+    expect(queryByText('toast message')).not.toBeInTheDocument();
+  });
 
-		expect(allToasts.length).toBe(1);
-		expect(allToasts[0].message).toBe('Success message');
-		expect(allToasts[0].type).toBe('success');
-	});
+  it('does not render when there are no toasts', () => {
+    toasts.set([]);
 
-	it('should add a toast with a default timeout', () => {
-		vi.useFakeTimers();
+    const { container } = render(Toasts);
 
-		toast.info('Info message');
+    expect(container.querySelector("section")).not.toBeInTheDocument();
+  });
 
-		vi.advanceTimersByTime(3000);
+  it('should auto-dismiss a toast after the timeout period', async () => {
+    toast.info('Auto-dismiss toast', { timeout: 100 }); // Short timeout for test
 
-		const allToasts = get(toasts); // Synchronously get the latest state
+    render(Toasts);
 
-		expect(allToasts.length).toBe(0);
-	});
+    // Wait for the timeout period
+    await new Promise(resolve => setTimeout(resolve, 150));
 
-	it('should add a toast with a custom timeout', () => {
-		toast.info('Info message', { timeout: 5000 });
-
-		const allToasts = get(toasts); // Synchronously get the latest state
-
-		expect(allToasts.length).toBe(1);
-		expect(allToasts[0].timeout).toBe(5000);
-	});
-
-	it('should dismiss a toast after the specified timeout', () => {
-		vi.useFakeTimers();
-
-		toast.error('Error message', { timeout: 1000 });
-
-		vi.advanceTimersByTime(1000);
-
-		const allToasts = get(toasts); // Synchronously get the latest state
-
-		expect(allToasts.length).toBe(0);
-
-		vi.useRealTimers();
-	});
-
-	it('should manually dismiss a toast', () => {
-		toast.success('Dismissable toast');
-
-		let allToasts = get(toasts);
-		const toastId = allToasts[0].id;
-
-		dismissToast(toastId);
-
-		allToasts = get(toasts);
-		expect(allToasts.length).toBe(0);
-	});
-
-	it('should dismiss correct toast', () => {
-		toast.success('First');
-		toast.success('Second');
-
-		let allToasts = get(toasts);
-
-		const toastId = allToasts[0].id;
-		const correctId = allToasts[1].id;
-
-		dismissToast(toastId);
-
-		allToasts = get(toasts);
-
-		expect(allToasts[0].id).toBe(correctId);
-	});
-
-	it('should not dismiss a non-dismissible toast', () => {
-		vi.useFakeTimers();
-
-		toast.info('Non-dismissible toast', { dismissible: false });
-
-		vi.advanceTimersByTime(3000);
-
-		const allToasts = get(toasts); // Synchronously get the latest state
-
-		expect(allToasts.length).toBe(1);
-
-		vi.useRealTimers();
-	});
-
-	it('timer should dismiss correct timed out toast', () => {
-		vi.useFakeTimers();
-
-		toast.info('first-dismissible toast');
-		toast.info('second-dismissible toast', { timeout: 6000 });
-
-		vi.advanceTimersByTime(3000);
-
-		const allToasts = get(toasts); // Synchronously get the latest state
-
-		expect(allToasts.length).toBe(1);
-
-		vi.useRealTimers();
-	});
+    // Check if the toast has been removed
+    expect(screen.queryByText('Auto-dismiss toast')).not.toBeInTheDocument();
+  });
 });

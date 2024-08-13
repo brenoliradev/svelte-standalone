@@ -4,7 +4,7 @@
 	import { dismissToast, toasts } from './store';
 </script>
 
-{#if $toasts}
+{#if $toasts.length}
 	<section
 		class="fixed right-0 top-0 z-[1000] mt-4 flex w-0 -translate-x-[50vw] flex-col items-center justify-center"
 	>
