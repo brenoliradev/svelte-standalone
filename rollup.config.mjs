@@ -45,7 +45,7 @@ const configs = embedFiles.map((file) => {
 	return {
 		input: file,
 		output: {
-			format: 'esm',
+			format: 'iife',
 			file: `${outputDir}.min.js`,
 			sourcemap: false
 		},
