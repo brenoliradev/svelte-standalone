@@ -8,3 +8,4 @@ static/dist
 
 # Ignore handlebard
 *.hbs
+.github/*
