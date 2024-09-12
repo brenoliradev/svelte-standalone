@@ -4,11 +4,11 @@
 
 It includes minifications for JavasCript and CSS absed on `terser` and `cssnano`.
 
-Unit and e2e testing with `vitest` and `@testing-library/svelte`. 
+Unit and e2e testing with `vitest` and `@testing-library/svelte`.
 
-Also, `storybook` and `vite` to ensure that you can check the bundled scripts and the components as it is. 
+Also, `storybook` and `vite` to ensure that you can check the bundled scripts and the components as it is.
 
-_See "example" component on: https://svelte-standalone.vercel.app/._ 
+_See "example" component on: https://svelte-standalone.vercel.app/._
 
 # How it works?
 
