@@ -22,7 +22,7 @@ const commonPlugins = [
 	svelte({
 		emitCss: false,
 		preprocess: sveltePreprocess()
-	}),	
+	}),
 	typescript(),
 	resolve({ browser: true, dedupe: ['svelte'] }),
 	terser(),
