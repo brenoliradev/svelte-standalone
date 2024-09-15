@@ -2,12 +2,12 @@ import fs from 'fs';
 import nodePlop from 'node-plop';
 import path from 'path';
 
-const componentsDir = './src/_widgets'; // Your components directory
-const storybookDir = './src/stories'; // Your stories directory
-const routesDir = './src/routes';
+const componentsDir = 'src/_widgets'; // Your components directory
+const storybookDir = 'src/stories'; // Your stories directory
+const routesDir = 'src/routes';
 
 // Initialize Plop
-const plop = await nodePlop('./plopfile.cjs');
+const plop = await nodePlop('.standalone/plopfile.cjs');
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);

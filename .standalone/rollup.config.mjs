@@ -9,7 +9,7 @@ import { sveltePreprocess } from 'svelte-preprocess';
 import { glob } from 'glob';
 import path from 'path';
 import autoprefixer from 'autoprefixer';
-import tailwindConfig from './tailwind.config.js';
+import tailwindConfig from '../tailwind.config.js';
 import tailwindcss from 'tailwindcss';
 
 import { visualizer } from 'rollup-plugin-visualizer';
