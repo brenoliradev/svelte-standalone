@@ -12,7 +12,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/stories/{{componentName}}.stories.ts',
+				path: '../src/stories/{{componentName}}.stories.ts',
 				templateFile: 'plop-templates/story.hbs'
 			}
 		]
@@ -30,7 +30,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/_widgets/{{componentName}}/embed.ts',
+				path: '../src/_widgets/{{componentName}}/embed.ts',
 				templateFile: 'plop-templates/embed.hbs'
 			}
 		]
@@ -48,12 +48,12 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/_widgets/{{componentName}}/types.ts',
+				path: '../src/_widgets/{{componentName}}/types.ts',
 				templateFile: 'plop-templates/types.hbs'
 			},
 			{
 				type: 'add',
-				path: 'src/_widgets/{{componentName}}/declarations.d.ts',
+				path: '../src/_widgets/{{componentName}}/declarations.d.ts',
 				templateFile: 'plop-templates/declarations.hbs'
 			}
 		]
@@ -71,7 +71,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/routes/{{componentName}}/+page.svelte',
+				path: '../src/routes/{{componentName}}/+page.svelte',
 				templateFile: 'plop-templates/route.hbs'
 			}
 		]
