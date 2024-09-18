@@ -1,6 +1,6 @@
 {
-	"name": "embed-svelte",
-	"version": "0.0.1",
+	"name": "svelte-standalone",
+	"version": "1.0.0-beta",
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
 		"@rollup/plugin-commonjs": "^25.0.7",
