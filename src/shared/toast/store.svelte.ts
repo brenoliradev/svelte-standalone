@@ -8,8 +8,7 @@ export type Toast = {
 	timeout?: number;
 };
 
-export const useToast = () => {	
-let toasts = $state<Toast[]>([]);
+export const toasts = $state<{ current: Toast[] }>({ current: [] });
 
 const timeoutIds = new Map<number, ReturnType<typeof setTimeout>>();
 
@@ -27,7 +26,7 @@ const addToast = (toast: Omit<Toast, 'id'>) => {
 	} satisfies Toast & { id: number };
 
 	// Push the toast to the top of the list of toasts
-	toasts.push(innerToast);
+	toasts.current = [innerToast, ...toasts.current];
 
 	// If toast is dismissible, dismiss it after "timeout" amount of time.
 	if (innerToast.timeout && innerToast.dismissible) {
@@ -40,15 +39,15 @@ const addToast = (toast: Omit<Toast, 'id'>) => {
 };
 
 // Function to dismiss a toast and clear the timeout if it exists
-const dismissToast = (id: number) => {
-	toasts = toasts.filter((toast) => toast.id !== id);
+export const dismissToast = (id: number) => {
+	toasts.current = toasts.current.filter((toast) => toast.id !== id);
 	if (timeoutIds.has(id)) {
 		clearTimeout(timeoutIds.get(id));
 		timeoutIds.delete(id);
 	}
 };
 
-const createToast: {
+export const toast: {
 	[type in ToastType]: (m: string, config?: Omit<Toast, 'type' | 'message' | 'id'>) => void;
 } = {
 	error: (m, t) =>
@@ -70,6 +69,3 @@ const createToast: {
 			message: m
 		})
 };
-
-return { createToast, dismissToast, get toasts() { return toasts } }
-}

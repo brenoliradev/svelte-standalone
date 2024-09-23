@@ -5,7 +5,7 @@
 
 	const { dismissToast } = useToast();
 
-	let { type = 'error', dismissible = true, message = '' }: {
+	const { type = 'error', dismissible = true, message = '' }: {
 		type: ToastType,
 		dismissible: boolean,
 		message: string

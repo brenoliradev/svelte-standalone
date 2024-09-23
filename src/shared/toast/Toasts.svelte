@@ -1,16 +1,18 @@
 <script lang="ts">
 	import Toast from './Toast.svelte';
 
-	import { useToast } from './store.svelte';
+	import { dismissToast, toasts } from './store.svelte';
 
-	const { dismissToast, toasts } = useToast();
+	$effect(() => {
+		console.log(toasts.current)
+	})
 </script>
 
-{#if toasts.length}
+{#if toasts.current.length}
 	<section
 		class="fixed right-0 top-0 z-[1000] mt-4 flex w-0 -translate-x-[50vw] flex-col items-center justify-center"
 	>
-		{#each toasts as toast (toast.id)}
+		{#each toasts.current as toast (toast.id)}
 			<Toast
 				type={toast.type}
 				dismissible={toast.dismissible}

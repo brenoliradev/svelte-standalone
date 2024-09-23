@@ -17,6 +17,11 @@ const config = {
 		alias: {
 			'@/*': 'src/*'
 		}
+	},
+
+	compilerOptions: {
+		runes: true,
+		dev: true
 	}
 };
 

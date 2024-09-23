@@ -6,8 +6,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let type: ToastType = 'error';
-	export let dismissible = true;
+	const { dismissible, type, children }: { type: ToastType, dismissible: boolean, children: any } = $props();
 </script>
 
 <article
@@ -63,13 +62,13 @@
 	{/if}
 
 	<div class="ml-4 mr-auto max-w-72">
-		<slot />
+		{@render children()}
 	</div>
 
 	{#if dismissible}
 		<button
 			class="m-0 border-none bg-transparent p-0 text-gray-600 hover:opacity-80"
-			on:click={() => dispatch('dismiss')}
+			onclick={() => dispatch('dismiss')}
 		>
 			&#10005;
 		</button>
