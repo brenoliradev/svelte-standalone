@@ -3,7 +3,7 @@ import Toast from '@/shared/toast/Toast.test.svelte';
 
 import { describe, expect, test, vi } from 'vitest';
 
-import { dismissToast } from './store';
+import { useToast } from './store.svelte';
 
 vi.mock('./store', () => ({
 	dismissToast: vi.fn()
@@ -50,6 +50,8 @@ describe('Toast Component', () => {
 	});
 
 	test('renders and dismisses toast on button click', async () => {
+		const { dismissToast } = useToast();
+
 		const { getByText, getByRole } = render(Toast, {
 			props: {
 				type: 'error',

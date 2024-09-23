@@ -1,4 +1,4 @@
-export * from './store';
+export * from './store.svelte';
 
 import Toaster from './Toasts.svelte';
 

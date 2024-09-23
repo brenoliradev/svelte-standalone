@@ -1,5 +1,3 @@
-import { writable } from 'svelte/store';
-
 export type ToastType = 'success' | 'error' | 'info';
 
 export type Toast = {
@@ -10,7 +8,8 @@ export type Toast = {
 	timeout?: number;
 };
 
-export const toasts = writable<Toast[]>([]);
+export const useToast = () => {	
+let toasts = $state<Toast[]>([]);
 
 const timeoutIds = new Map<number, ReturnType<typeof setTimeout>>();
 
@@ -28,7 +27,7 @@ const addToast = (toast: Omit<Toast, 'id'>) => {
 	} satisfies Toast & { id: number };
 
 	// Push the toast to the top of the list of toasts
-	toasts.update((all) => [innerToast, ...all]);
+	toasts.push(innerToast);
 
 	// If toast is dismissible, dismiss it after "timeout" amount of time.
 	if (innerToast.timeout && innerToast.dismissible) {
@@ -41,15 +40,15 @@ const addToast = (toast: Omit<Toast, 'id'>) => {
 };
 
 // Function to dismiss a toast and clear the timeout if it exists
-export const dismissToast = (id: number) => {
-	toasts.update((all) => all.filter((toast) => toast.id !== id));
+const dismissToast = (id: number) => {
+	toasts = toasts.filter((toast) => toast.id !== id);
 	if (timeoutIds.has(id)) {
 		clearTimeout(timeoutIds.get(id));
 		timeoutIds.delete(id);
 	}
 };
 
-export const toast: {
+const createToast: {
 	[type in ToastType]: (m: string, config?: Omit<Toast, 'type' | 'message' | 'id'>) => void;
 } = {
 	error: (m, t) =>
@@ -71,3 +70,6 @@ export const toast: {
 			message: m
 		})
 };
+
+return { createToast, dismissToast, get toasts() { return toasts } }
+}

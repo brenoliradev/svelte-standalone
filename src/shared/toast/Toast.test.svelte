@@ -1,11 +1,15 @@
 <!-- BETTER WRITE A .test.svelte THAN <SLOT> WORKAROUNDS -->
 <script lang="ts">
-	import { dismissToast, type ToastType } from './store';
+	import { useToast, type ToastType } from './store.svelte';
 	import Toast from './Toast.svelte';
 
-	export let type: ToastType = 'error';
-	export let dismissible = true;
-	export let message = '';
+	const { dismissToast } = useToast();
+
+	let { type = 'error', dismissible = true, message = '' }: {
+		type: ToastType,
+		dismissible: boolean,
+		message: string
+	} = $props()
 </script>
 
 <Toast {dismissible} {type} on:dismiss={() => dismissToast(0)}>{message}</Toast>

@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import type { ToastType } from './store';
+	import type { ToastType } from './store.svelte';
 
 	const dispatch = createEventDispatcher();
 

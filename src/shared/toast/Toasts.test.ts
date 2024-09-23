@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
 import Toasts from './Toasts.svelte';
-import { toasts, toast, type Toast } from './store';
+import { toasts, toast, type Toast } from './store.svelte.svelte';
 
 import userEvent from '@testing-library/user-event';
 
