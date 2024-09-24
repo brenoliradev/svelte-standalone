@@ -3,8 +3,9 @@ import { type CustomWindow } from './types';
 import { mount } from 'svelte';
 
 import Example from './index.svelte';
+import type { ExampleProps } from './declarations';
 
-function exampleStart(props: any) {
+function exampleStart(props: ExampleProps) {
 	let div = document.getElementById('example-root');
 
 	if (div) {

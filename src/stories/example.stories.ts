@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 
-import Example from '@/_widgets/example/index.svelte';
+import Example from '@/_widgets/example/Example.svelte';
 import { defaultConfig } from '@/_widgets/example/types';
 
 export default {

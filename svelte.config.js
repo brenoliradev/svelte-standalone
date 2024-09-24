@@ -20,7 +20,6 @@ const config = {
 	},
 
 	compilerOptions: {
-		runes: true,
 		dev: true
 	}
 };
