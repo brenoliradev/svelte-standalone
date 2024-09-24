@@ -21,10 +21,10 @@ function exampleStart(props: any) {
 
 	try {
 		// Instantiate the Example component with configurations
-		mount(Example as any, {
+		mount(Example, {
 			target: div,
 			props
-		});
+		})
 	} catch (error) {
 		console.error('Failed to initialize example:', error);
 	}
