@@ -5,7 +5,7 @@
 	export let error: string;
 	export let info: string;
 
-	import { Toaster, toast } from '@/shared/toast';
+	import { Toaster, toast } from '../../shared/toast';
 </script>
 
 <div class="d-flex gap-3 p-2">

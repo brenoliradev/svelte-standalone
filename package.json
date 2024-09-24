@@ -53,7 +53,7 @@
 		"vitest": "^2.0.5"
 	},
 	"scripts": {
-		"build": "npm run .standalone/generate-stories.mjs && rollup -c .standalone/rollup.config.mjs",
+		"build": "npm run .standalone/generate-stories.mjs && .standalone/run-vite.js",
 		"build:storybook": "storybook build",
 		"build:vercel": "vite build",
 		"dev": "npm run build && vite .",
