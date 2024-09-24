@@ -28,13 +28,18 @@ const configs = embedFiles.map((file) => {
         input: file,
         output: {
           format: 'esm',
-          dir: outputDir,
+          dir: 'static/dist/widgets',
+          entryFileNames: `${outputDir}.min.js`,
           sourcemap: false
         },
         plugins: [
           svelte({
             emitCss: false,
-            preprocess: sveltePreprocess()
+            preprocess: sveltePreprocess({
+              postcss: {
+                
+              }
+            }),
           }),
           visualizer({
             filename: `${visualizerDir}.status.html`,
