@@ -2,7 +2,7 @@ import { type CustomWindow } from './types';
 
 import { mount } from 'svelte';
 
-import Example from './index.svelte'
+import Example from './index.svelte';
 
 function exampleStart(props: any) {
 	let div = document.getElementById('example-root');
@@ -21,10 +21,10 @@ function exampleStart(props: any) {
 
 	try {
 		// Instantiate the Example component with configurations
-		mount(Example as any, ({
+		mount(Example as any, {
 			target: div,
 			props
-		}));
+		});
 	} catch (error) {
 		console.error('Failed to initialize example:', error);
 	}

@@ -1,11 +1,15 @@
 <script lang="ts">
 	import '../../css/tailwind-utils.css';
 
-	const {error, info, success} :{
-		success: string,
-		error: string,
-		info: string,
-	} = $props()
+	const {
+		error,
+		info,
+		success
+	}: {
+		success: string;
+		error: string;
+		info: string;
+	} = $props();
 
 	import { Toaster, toast, toasts } from '@/shared/toast';
 </script>
@@ -28,6 +32,6 @@
 	>
 </div>
 
-{ JSON.stringify(toasts) }
+{JSON.stringify(toasts)}
 
 <Toaster />

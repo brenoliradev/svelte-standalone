@@ -4,8 +4,8 @@
 	import { dismissToast, toasts } from './store.svelte';
 
 	$effect(() => {
-		console.log(toasts.current)
-	})
+		console.log(toasts.current);
+	});
 </script>
 
 {#if toasts.current.length}

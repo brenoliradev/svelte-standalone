@@ -5,11 +5,15 @@
 
 	const { dismissToast } = useToast();
 
-	const { type = 'error', dismissible = true, message = '' }: {
-		type: ToastType,
-		dismissible: boolean,
-		message: string
-	} = $props()
+	const {
+		type = 'error',
+		dismissible = true,
+		message = ''
+	}: {
+		type: ToastType;
+		dismissible: boolean;
+		message: string;
+	} = $props();
 </script>
 
 <Toast {dismissible} {type} on:dismiss={() => dismissToast(0)}>{message}</Toast>
