@@ -14,6 +14,8 @@ import tailwindConfig from '../tailwind.config.js';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { sveltePreprocess } from 'svelte-preprocess';
 
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
+
 import resolve from '@rollup/plugin-node-resolve';
 
 const embedFiles = glob.sync('src/_widgets/**/embed.ts');
@@ -30,16 +32,6 @@ const configs = embedFiles.map((file) => {
 	console.log(file);
 
 	return defineConfig({
-		plugins: [
-			svelte({
-				emitCss: 'false',
-				preprocess: sveltePreprocess()
-			}),
-			visualizer({
-				filename: `${visualizerDir}.status.html`,
-				title: `${outputDir} status`
-			}),
-		],
 		css: {
 			postcss: {
 				plugins: [
@@ -59,19 +51,34 @@ const configs = embedFiles.map((file) => {
 			minify: true,
 			cssMinify: 'lightningcss',
 			emptyOutDir: false,
+			lib: {
+				formats: ['iife'],
+				entry: file,
+				name: outputDir
+			},
+			outDir: 'static/dist/widgets',
 			rollupOptions: {
-				input: file,
 				output: {
-					format: 'esm',
-					dir: 'static/dist/widgets',
+					chunkFileNames: 'chunks/[name].[hash].js',
+					assetFileNames: 'assets/[name][extname]',
 					entryFileNames: `${outputDir}.min.js`,
-					sourcemap: false,
 				},
 				plugins: [
 					resolve({ browser: true, dedupe: ['svelte'] }),
 				]
 			}
 		},
+		plugins: [
+			svelte({
+				emitCss: false,
+				preprocess: sveltePreprocess()
+			}),
+			visualizer({
+				filename: `${visualizerDir}.status.html`,
+				title: `${outputDir} status`
+			}),
+			libInjectCss()
+		],
 		resolve: {
 			alias: {
 				'@': path.resolve(__dirname.replace('.standalone', ''), 'src')

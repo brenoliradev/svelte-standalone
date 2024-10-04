@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-	<script src="/dist/widgets/test.min.js"></script>
+	<script type="module" src="/dist/widgets/test.min.js"></script>
 </svelte:head>
 
 <main class="p-2">
