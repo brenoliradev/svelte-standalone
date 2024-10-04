@@ -11,12 +11,11 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 import tailwindConfig from '../tailwind.config.js';
 
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { sveltePreprocess } from 'svelte-preprocess';
-
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
 import resolve from '@rollup/plugin-node-resolve';
+
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 const embedFiles = glob.sync('src/_widgets/**/embed.ts');
 
@@ -49,7 +48,6 @@ const configs = embedFiles.map((file) => {
 		},
 		build: {
 			minify: true,
-			cssMinify: 'lightningcss',
 			emptyOutDir: false,
 			lib: {
 				formats: ['iife'],
@@ -69,10 +67,7 @@ const configs = embedFiles.map((file) => {
 			}
 		},
 		plugins: [
-			svelte({
-				emitCss: false,
-				preprocess: sveltePreprocess()
-			}),
+			svelte(),
 			visualizer({
 				filename: `${visualizerDir}.status.html`,
 				title: `${outputDir} status`
