@@ -1,6 +1,4 @@
 <script lang="ts">
 </script>
 
-<div>
-hello world
-</div>
+<div>hello world</div>

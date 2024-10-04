@@ -1,6 +1,6 @@
 import { type CustomWindow } from './types';
 
-import Test from './index.svelte'
+import Test from './index.svelte';
 import type { TestProps } from './declarations';
 
 function testStart(props: TestProps) {
