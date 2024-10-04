@@ -59,11 +59,9 @@ const configs = embedFiles.map((file) => {
 				output: {
 					chunkFileNames: 'chunks/[name].[hash].js',
 					assetFileNames: 'assets/[name][extname]',
-					entryFileNames: `${outputDir}.min.js`,
+					entryFileNames: `${outputDir}.min.js`
 				},
-				plugins: [
-					resolve({ browser: true, dedupe: ['svelte'] }),
-				]
+				plugins: [resolve({ browser: true, dedupe: ['svelte'] })]
 			}
 		},
 		plugins: [

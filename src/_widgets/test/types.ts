@@ -1,4 +1,4 @@
-import type { TestProps } from "./declarations";
+import type { TestProps } from './declarations';
 
 export const defaultConfig: TestProps = {
 	error: 'error!',
