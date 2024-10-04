@@ -25,7 +25,17 @@ const commonPlugins = [
 	}),
 	typescript(),
 	resolve({ browser: true, dedupe: ['svelte'] }),
-	terser(),
+	terser({
+		compress: {
+			drop_console: true,
+			unused: true,
+			reduce_vars: true,
+			pure_funcs: ['console.debug', 'debug']
+		},
+		output: {
+			comments: false
+		}
+	}),
 	strip({
 		// Options herea
 		functions: ['console.log', 'assert.*']
