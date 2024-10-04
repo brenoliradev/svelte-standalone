@@ -16,6 +16,7 @@ import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import resolve from '@rollup/plugin-node-resolve';
 
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import cssnanoPlugin from 'cssnano';
 
 const embedFiles = glob.sync('src/_widgets/**/embed.ts');
 
@@ -42,7 +43,8 @@ const configs = embedFiles.map((file) => {
 							`./${purgeDir}/*/*.{svelte,ts,js}`,
 							'./src/shared/*/*.{svelte,ts,js}'
 						]
-					})
+					}),
+					cssnanoPlugin()
 				]
 			}
 		},
