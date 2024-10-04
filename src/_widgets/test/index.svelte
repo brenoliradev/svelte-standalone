@@ -1,11 +1,11 @@
 <script lang="ts">
-	import '../../css/tailwind-utils.css';
+	import '@/css/tailwind-utils.css';
 
 	export let success: string;
 	export let error: string;
 	export let info: string;
 
-	import { Toaster, toast } from '../../shared/toast';
+	import { Toaster, toast } from '@/shared/toast';
 </script>
 
 <div class="d-flex gap-3 p-2">

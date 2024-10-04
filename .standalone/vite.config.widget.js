@@ -12,6 +12,9 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import tailwindConfig from '../tailwind.config.js';
 
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { sveltePreprocess } from 'svelte-preprocess';
+
+import resolve from '@rollup/plugin-node-resolve';
 
 const embedFiles = glob.sync('src/_widgets/**/embed.ts');
 
@@ -27,21 +30,17 @@ const configs = embedFiles.map((file) => {
 	console.log(file);
 
 	return defineConfig({
-		build: {
-			minify: true,
-      cssMinify: 'lightningcss',
-      emptyOutDir: false,
-			rollupOptions: {
-				input: file,
-				output: {
-					format: 'esm',
-					dir: 'static/dist/widgets',
-					entryFileNames: `${outputDir}.min.js`,
-					sourcemap: false
-				}    
-			}
-		},
-    css: {
+		plugins: [
+			svelte({
+				emitCss: 'false',
+				preprocess: sveltePreprocess()
+			}),
+			visualizer({
+				filename: `${visualizerDir}.status.html`,
+				title: `${outputDir} status`
+			}),
+		],
+		css: {
 			postcss: {
 				plugins: [
 					autoprefixer(),
@@ -56,18 +55,26 @@ const configs = embedFiles.map((file) => {
 				]
 			}
 		},
-		plugins: [
-			svelte({
-				emitCss: false
-			}),
-			visualizer({
-				filename: `${visualizerDir}.status.html`,
-				title: `${outputDir} status`
-			}),
-		],
+		build: {
+			minify: true,
+			cssMinify: 'lightningcss',
+			emptyOutDir: false,
+			rollupOptions: {
+				input: file,
+				output: {
+					format: 'esm',
+					dir: 'static/dist/widgets',
+					entryFileNames: `${outputDir}.min.js`,
+					sourcemap: false,
+				},
+				plugins: [
+					resolve({ browser: true, dedupe: ['svelte'] }),
+				]
+			}
+		},
 		resolve: {
 			alias: {
-				'@': path.resolve(__dirname.replace('.standalone'), 'src')
+				'@': path.resolve(__dirname.replace('.standalone', ''), 'src')
 			}
 		}
 	});

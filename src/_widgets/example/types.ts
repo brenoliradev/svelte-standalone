@@ -1,10 +1,6 @@
 import type { ExampleProps } from './declarations';
 
-export const defaultConfig: ExampleProps = {
-	error: 'error!',
-	info: 'info!',
-	success: 'success!'
-};
+export const defaultConfig: ExampleProps = {};
 
 export interface CustomWindow extends Window {
 	exampleStart(config: ExampleProps): void;

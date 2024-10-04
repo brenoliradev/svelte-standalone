@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../css/tailwind-utils.css';
+	import '@/css/tailwind-utils.css';
 </script>
 
 <div class="d-flex gap-3 p-2">

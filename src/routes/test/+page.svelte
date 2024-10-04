@@ -6,7 +6,7 @@
 	const initScript = () => {
 		if (browser) {
 			if (window) {
-				(window as unknown as CustomWindow).exampleStart(defaultConfig);
+				(window as unknown as CustomWindow).testStart(defaultConfig);
 			}
 		}
 	};
@@ -14,7 +14,7 @@
 	const stopScript = () => {
 		if (browser) {
 			if (window) {
-				(window as unknown as CustomWindow).exampleStop();
+				(window as unknown as CustomWindow).testStop();
 			}
 		}
 	};
