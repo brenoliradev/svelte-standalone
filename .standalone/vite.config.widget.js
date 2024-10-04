@@ -29,8 +29,6 @@ const configs = embedFiles.map((file) => {
 
 	const purgeDir = path.dirname(file).replace('embed.ts', '');
 
-	console.log(file);
-
 	return defineConfig({
 		css: {
 			postcss: {
@@ -52,7 +50,7 @@ const configs = embedFiles.map((file) => {
 			minify: 'terser',
 			emptyOutDir: false,
 			lib: {
-				formats: ['iife'],
+				formats: ['umd'],
 				entry: file,
 				name: outputDir
 			},
