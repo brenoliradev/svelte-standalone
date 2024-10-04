@@ -47,7 +47,7 @@ const configs = embedFiles.map((file) => {
 			}
 		},
 		build: {
-			minify: true,
+			minify: 'terser',
 			emptyOutDir: false,
 			lib: {
 				formats: ['iife'],
