@@ -23,11 +23,11 @@ It's structure is intended to be simple. Basically you're going to create an fol
     - If you only want the definition for props, it'll also defines `<component>Props`.
 
   - `src/_standalone/<component>/types.ts` - It'll declares `defaultConfig` which will be typed as `<component>Props` so it'll be used as default props for `<component>stories.ts` and also for `src/routes/<component>/+page.svelte`. _It'll also exposes a simple `CustomWindow` and use it inside the route files._
-  - `src/routes/<component>/+page.svelte` - Exposes a route that imports the bundled script from rollup so you'll can check how the compiled script is working. It'll also initializes `window.<component>Start` and `window.<component>Stop` using `defaultConfig` from types.ts.
+  - `src/routes/<component>/+page.svelte` - Exposes a route that imports the bundled script from vite so you'll can check how the compiled script is working. It'll also initializes `window.<component>Start` and `window.<component>Stop` using `defaultConfig` from types.ts.
   - `src/stories/<component>.stories.ts` - A simple storybook that imports the `<component>/index.svelte` so you'll be able to see how the svelte component is without bundling it.
 
 If you're going to use your bundled `<component>` into an app that has tailwindcss, consider importing: `/src/css/tailwind-utils.css` instead of `/src/css/tailwind-full.css`.
 
 # How it'll be bundled?
 
-Basically, it'll runs rollup on _everything_ from `src/_standalone`. For each `<component>` inside it, it'll run a separatedly build. It'll also swap `tailwind.content` to be _only_ the `src/_standalone/*` and `src/shared` folders so you can have each `<component>` css purged separatedly relying on tailwind jit. It'll also handle minifications, preprocessing for sveltekit and typescript and just returns a single `<component>.min.js` and an `<component>.status.html` at `/static/dist`.
+Basically, it'll runs vite on _everything_ from `src/_standalone`. For each `<component>` inside it, it'll run a separatedly build. It'll also swap `tailwind.content` to be _only_ the `src/_standalone/*` and `src/shared` folders so you can have each `<component>` css purged separatedly relying on tailwind jit. It'll also handle minifications, preprocessing for sveltekit and typescript and just returns a single `<component>.min.js` and an `<component>.status.html` at `/static/dist`.
