@@ -54,10 +54,10 @@
 	"scripts": {
 		"build": "bun run .standalone/generate-stories.mjs && bun run .standalone/vite.config.widget.js",
 		"build:storybook": "storybook build",
-		"build:depĺoy": "vite build",
+		"build:deploy": "vite build",
 		"dev": "bun run build && vite .",
 		"dev:tailwind": "tailwind-config-viewer -o",
-		"dev:depĺoy": "vite .",
+		"dev:deploy": "vite .",
 		"format": "prettier --write .",
 		"lint": "svelte-check && prettier --write . && eslint .",
 		"storybook": "storybook dev -p 6006",
