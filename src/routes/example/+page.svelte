@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
-	import { type CustomWindow, defaultConfig } from '@/_widgets/example/types';
+	import { type CustomWindow, defaultConfig } from '@/_standalone/example/types';
 
 	const initScript = () => {
 		if (browser) {

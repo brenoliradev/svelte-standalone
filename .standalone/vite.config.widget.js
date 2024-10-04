@@ -15,7 +15,7 @@ import { terser } from 'rollup-plugin-terser';
 
 import tailwindConfig from '../tailwind.config.js';
 
-const embedFiles = glob.sync('src/_widgets/**/embed.ts');
+const embedFiles = glob.sync('src/_standalone/**/embed.ts');
 
 const getPostCSSPlugins = (purgeDir) => [
 	autoprefixer(),
@@ -40,11 +40,11 @@ const commonPlugins = (outputDir, visualizerDir) => [
 ];
 
 const configs = embedFiles.map((file) => {
-	const outputDir = path.dirname(file).replace('src/', '').replace('_widgets/', '');
+	const outputDir = path.dirname(file).replace('src/', '').replace('_standalone/', '');
 	const visualizerDir = path
 		.dirname(file)
 		.replace('src', 'static')
-		.replace('_widgets', 'dist/visualizer');
+		.replace('_standalone', 'dist/visualizer');
 	const purgeDir = path.dirname(file).replace('embed.ts', '');
 
 	return defineConfig({
