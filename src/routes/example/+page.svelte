@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
-	import { type CustomWindow, defaultConfig } from '@/_widgets/example/types';
+	import { type CustomWindow, defaultConfig } from '@/_standalone/example/types';
 
 	const initScript = () => {
 		if (browser) {
@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-	<script src="/dist/widgets/example.min.js"></script>
+	<script type="module" src="/dist/widgets/example.min.js"></script>
 </svelte:head>
 
 <main class="p-2">
