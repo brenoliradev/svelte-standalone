@@ -36,6 +36,7 @@
 		"prettier-plugin-svelte": "^3.1.2",
 		"prettier-plugin-tailwindcss": "^0.5.1",
 		"rollup-plugin-strip": "^1.2.2",
+		"rollup-plugin-terser": "^7.0.2",
 		"rollup-plugin-visualizer": "^5.12.0",
 		"storybook": "^8.3.0",
 		"svelte": "^4.2.7",

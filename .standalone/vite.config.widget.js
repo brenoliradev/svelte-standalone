@@ -11,6 +11,8 @@ import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from 'rollup-plugin-strip';
 
+import { terser } from 'rollup-plugin-terser';
+
 import tailwindConfig from '../tailwind.config.js';
 
 const embedFiles = glob.sync('src/_widgets/**/embed.ts');
@@ -23,7 +25,7 @@ const getPostCSSPlugins = (purgeDir) => [
 			`./${purgeDir}/*.{svelte,ts,js}`,
 			`./${purgeDir}/*/*.{svelte,ts,js}`,
 			'./src/shared/*/*.{svelte,ts,js}'
-		]
+		],
 	}),
 	cssnanoPlugin()
 ];
@@ -52,7 +54,6 @@ const configs = embedFiles.map((file) => {
 			},
 		},
 		build: {
-			minify: 'terser',
 			emptyOutDir: false,
 			lib: {
 				formats: ['umd'],
@@ -69,7 +70,19 @@ const configs = embedFiles.map((file) => {
 				plugins: [
 					resolve({ browser: true, dedupe: ['svelte'] }),
 					strip({
-						functions: ['console.log', 'assert.*']
+						functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
+					}),
+					terser({
+						compress: {
+							drop_console: true,    
+							unused: true,
+							reduce_vars: true,
+							pure_funcs: ['console.debug', 'debug'],
+						  },
+						  output: {
+							comments: false,
+						  }
+						
 					})
 				],
 			},
