@@ -25,7 +25,7 @@ const getPostCSSPlugins = (purgeDir) => [
 			`./${purgeDir}/*.{svelte,ts,js}`,
 			`./${purgeDir}/*/*.{svelte,ts,js}`,
 			'./src/shared/*/*.{svelte,ts,js}'
-		],
+		]
 	}),
 	cssnanoPlugin()
 ];
@@ -50,22 +50,22 @@ const configs = embedFiles.map((file) => {
 	return defineConfig({
 		css: {
 			postcss: {
-				plugins: getPostCSSPlugins(purgeDir),
-			},
+				plugins: getPostCSSPlugins(purgeDir)
+			}
 		},
 		build: {
 			emptyOutDir: false,
 			lib: {
 				formats: ['umd'],
 				entry: file,
-				name: outputDir,
+				name: outputDir
 			},
 			outDir: 'static/dist/widgets',
 			rollupOptions: {
 				output: {
 					chunkFileNames: 'chunks/[name].[hash].js',
 					assetFileNames: 'assets/[name][extname]',
-					entryFileNames: `${outputDir}.min.js`,
+					entryFileNames: `${outputDir}.min.js`
 				},
 				plugins: [
 					resolve({ browser: true, dedupe: ['svelte'] }),
@@ -74,25 +74,24 @@ const configs = embedFiles.map((file) => {
 					}),
 					terser({
 						compress: {
-							drop_console: true,    
+							drop_console: true,
 							unused: true,
 							reduce_vars: true,
-							pure_funcs: ['console.debug', 'debug'],
-						  },
-						  output: {
-							comments: false,
-						  }
-						
+							pure_funcs: ['console.debug', 'debug']
+						},
+						output: {
+							comments: false
+						}
 					})
-				],
-			},
+				]
+			}
 		},
 		plugins: commonPlugins(outputDir, visualizerDir),
 		resolve: {
 			alias: {
-				'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
-			},
-		},
+				'@': path.resolve(__dirname.replace('.standalone', ''), 'src')
+			}
+		}
 	});
 });
 
