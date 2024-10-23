@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '@/css/tailwind-utils.css';
+	import '@/css/tailwind-full.css';
 
 	const {
 		error,

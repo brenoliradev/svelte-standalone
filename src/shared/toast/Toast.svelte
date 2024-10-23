@@ -61,9 +61,11 @@
 		>
 	{/if}
 
-	<div class="ml-4 mr-auto max-w-72">
-		{@render children()}
-	</div>
+	{#if children}
+		<div class="ml-4 mr-auto max-w-72">
+			{@render children()}
+		</div>
+	{/if}
 
 	{#if dismissible}
 		<button

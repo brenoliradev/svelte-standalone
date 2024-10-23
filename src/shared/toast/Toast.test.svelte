@@ -1,9 +1,7 @@
 <!-- BETTER WRITE A .test.svelte THAN <SLOT> WORKAROUNDS -->
 <script lang="ts">
-	import { useToast, type ToastType } from './store.svelte';
+	import { dismissToast, type ToastType } from './store.svelte';
 	import Toast from './Toast.svelte';
-
-	const { dismissToast } = useToast();
 
 	const {
 		type = 'error',
