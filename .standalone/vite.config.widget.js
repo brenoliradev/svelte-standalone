@@ -30,17 +30,17 @@ const getPostCSSPlugins = (purgeDir) => [
 	cssnanoPlugin()
 ];
 
-const commonPlugins = (outputDir, visualizerDir) => [
+const commonPlugins = (componentName, visualizerDir) => [
 	svelte(),
 	visualizer({
 		filename: `${visualizerDir}.status.html`,
-		title: `${outputDir} status`
+		title: `${componentName} status`
 	}),
 	libInjectCss()
 ];
 
 const configs = embedFiles.map((file) => {
-	const outputDir = path.dirname(file).replace('src/', '').replace('_standalone/', '');
+	const componentName = path.dirname(file).replace('src/', '').replace('_standalone/', '');
 	const visualizerDir = path
 		.dirname(file)
 		.replace('src', 'static')
@@ -58,14 +58,14 @@ const configs = embedFiles.map((file) => {
 			lib: {
 				formats: ['umd'],
 				entry: file,
-				name: outputDir
+				name: componentName
 			},
 			outDir: 'static/dist/widgets',
 			rollupOptions: {
 				output: {
 					chunkFileNames: 'chunks/[name].[hash].js',
 					assetFileNames: 'assets/[name][extname]',
-					entryFileNames: `${outputDir}.min.js`
+					entryFileNames: `${componentName}.min.js`
 				},
 				plugins: [
 					resolve({ browser: true, dedupe: ['svelte'] }),
@@ -86,7 +86,7 @@ const configs = embedFiles.map((file) => {
 				]
 			}
 		},
-		plugins: commonPlugins(outputDir, visualizerDir),
+		plugins: commonPlugins(componentName, visualizerDir),
 		resolve: {
 			alias: {
 				'@': path.resolve(__dirname.replace('.standalone', ''), 'src')
