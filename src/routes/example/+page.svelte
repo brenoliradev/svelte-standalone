@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
-	import { type CustomWindow, defaultConfig } from '@/_standalone/example/types';
+	import { defaultConfig } from '@/_standalone/example/types';
 
 	const initScript = () => {
 		if (browser) {
 			if (window) {
-				(window as unknown as CustomWindow).example.start(defaultConfig);
+				window.example.start(defaultConfig);
 			}
 		}
 	};
@@ -14,7 +14,7 @@
 	const stopScript = () => {
 		if (browser) {
 			if (window) {
-				(window as unknown as CustomWindow).example.stop();
+				window.example.stop();
 			}
 		}
 	};

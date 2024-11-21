@@ -90,7 +90,7 @@ const configs = embedFiles.map((file) => {
 		resolve: {
 			alias: {
 				'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
-				'standalone': path.resolve(__dirname)
+				standalone: path.resolve(__dirname)
 			}
 		}
 	});

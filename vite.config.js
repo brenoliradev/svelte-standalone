@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: {
 				'@/': '/src',
-				'standalone': '/.standalone',
+				standalone: '/.standalone'
 			}
 		}
 	};

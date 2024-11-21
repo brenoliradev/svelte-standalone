@@ -16,7 +16,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'@/*': 'src/*',
-			'standalone': '.standalone/*',
+			standalone: '.standalone/*'
 		}
 	}
 };

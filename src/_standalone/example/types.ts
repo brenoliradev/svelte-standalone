@@ -9,9 +9,11 @@ export const defaultConfig: ExampleProps = {
 	success: 'success!'
 };
 
-export interface CustomWindow extends Window {
-	example: {
-		start(config: ExampleProps): void;
-		stop(): void;
+declare global {
+	interface Window {
+		example: {
+			start(config: ExampleProps): void;
+			stop(): void;
+		};
 	}
 }
