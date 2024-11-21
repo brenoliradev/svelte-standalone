@@ -1,42 +1,5 @@
-import { type CustomWindow } from './types';
+import { embed } from 'standalone/embed'
 
 import {{capitalizeName}} from './index.svelte'
-import type { {{capitalizeName}}Props } from './declarations';
 
-function {{componentName}}Start(props: {{capitalizeName}}Props) {
-	let div = document.getElementById('{{componentName}}-root');
-
-	if (div) {
-		console.warn('{{componentName}} is already initialized.');
-		return;
-	}
-
-	// Create a div element only if it doesn't already exist
-	if (!div) {
-		div = document.createElement('div');
-		div.id = '{{componentName}}-root';
-		document.body.appendChild(div);
-	}
-
-	try {
-		// Instantiate the {{capitalizeName}} component with configurations
-		new {{capitalizeName}}({
-			target: div,
-			props
-		});
-	} catch (error) {
-		console.error('Failed to initialize {{componentName}}:', error);
-	}
-}
-
-function {{componentName}}Stop() {
-	const div = document.getElementById('{{componentName}}-root');
-
-	if (div) {
-		div.remove();
-	}
-}
-
-// Expose the function globally
-(window as unknown as CustomWindow).{{componentName}}Start = {{componentName}}Start;
-(window as unknown as CustomWindow).{{componentName}}Stop = {{componentName}}Stop;
+embed({{capitalizeName}}, {{componentName}})

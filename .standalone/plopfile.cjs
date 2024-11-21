@@ -51,11 +51,6 @@ module.exports = function (plop) {
 				path: '../src/_standalone/{{componentName}}/types.ts',
 				templateFile: 'plop-templates/types.hbs'
 			},
-			{
-				type: 'add',
-				path: '../src/_standalone/{{componentName}}/declarations.d.ts',
-				templateFile: 'plop-templates/declarations.hbs'
-			}
 		]
 	});
 	plop.setGenerator('routes files', {

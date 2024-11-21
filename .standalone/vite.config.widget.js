@@ -89,7 +89,8 @@ const configs = embedFiles.map((file) => {
 		plugins: commonPlugins(componentName, visualizerDir),
 		resolve: {
 			alias: {
-				'@': path.resolve(__dirname.replace('.standalone', ''), 'src')
+				'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
+				'standalone': path.resolve(__dirname)
 			}
 		}
 	});
