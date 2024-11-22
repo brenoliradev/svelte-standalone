@@ -1,62 +1,45 @@
+import type { ComponentProps, SvelteComponent } from 'svelte';
+
 // default with import/export
-export function embed(mount: any, name: string) {
-	function start<T>(props: T) {
-		let div = document.getElementById(name);
+export function embed<T>(mount: T, name: string) {
+	var component;
 
-		if (!div) {
-			div = document.createElement('div');
-			div.id = name;
-			document.body.appendChild(div);
-		}
-
-		new (mount as any)({
-			// TODO: revaluate this type
-			target: div,
-			props: props
-		});
-	}
-
-	function stop() {
-		const div = document.getElementById(name);
-
-		if (div) {
-			div.remove();
+	function start(props: ComponentProps<T extends SvelteComponent ? T : never>) {
+		if (!component) {
+			// @ts-expect-error
+			component = new mount({
+				target: document.body,
+				props: {
+					...props,
+					id: name
+				}
+			});
 		}
 	}
 
-	window[name].start = start;
-	window[name].stop = stop;
+	const stop = () => (component.$destroy(), (component = false));
+
+	window[name] = {
+		start,stop
+		
+	};
 }
 
-export function embedMultiple(mount: any, componentName: string) {
-	function start<T>(props: T, name: string) {
-		let div = document.getElementById(name);
-
-		if (!div) {
-			div = document.createElement('div');
-			div.id = name;
-			document.body.appendChild(div);
-		}
-
-		new (mount as any)({
-			// TODO: revaluate this type
-			target: div,
+export function embedMultiple(mount: any, componentName: string, target?: string) {
+	function start<T>(props: T) {
+		const c = new mount({
+			target: !target ? document.body : document.getElementById(target),
 			props: props
 		});
+
+		return {
+			stop: () => c.$destroy()
+		};
 	}
 
-	function stop(name: string) {
-		const div = document.getElementById(name);
-
-		if (div) div.remove();
-	}
-
-	function createInstance<T>(props: T, name: string) {
-		window[name].start = () => start<T>(props, name);
-		window[name].stop = () => stop(name);
-	}
-
-	window[componentName].createInstance = createInstance;
+	window[componentName] = {
+		start
+	};
 }
 
 export const autoEmbedWithTarget = (mount: any) =>
@@ -66,17 +49,7 @@ export const autoEmbedWithTarget = (mount: any) =>
 		)
 	});
 
-export function autoEmbedOnBody(mount: any, name: string) {
-	let div = document.getElementById(name);
-
-	if (!div) {
-		div = document.createElement('div');
-		div.id = name;
-		document.body.appendChild(div);
-	}
-
-	new (mount as any)({
-		// TODO: revaluate this type
-		target: div
+export const autoEmbedOnBody = (mount: any, name: string) =>
+	new mount({
+		target: document.body
 	});
-}
