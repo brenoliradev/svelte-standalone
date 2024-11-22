@@ -1,6 +1,8 @@
 import inquirer from 'inquirer';
+import fs from 'fs'
 
 import { create } from './create';
+
 
 const componentNameRegex = /^[a-zA-Z0-9]+$/;
 
@@ -12,6 +14,10 @@ const embeddableName = {
   validate: (input) => {
     if (!componentNameRegex.test(input)) {
       console.error("Invalid component name. Please use only alphanumeric characters.");
+      return false;
+    }
+    if (!fs.existsSync(input) || !fs.lstatSync(input).isDirectory()) {
+      console.error(`Invalid component name. ${input} already exists.`);
       return false;
     }
     return true;

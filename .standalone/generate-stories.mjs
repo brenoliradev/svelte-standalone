@@ -25,7 +25,8 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'story') {
 			await storyGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: capitalizeFirstLetter(componentName),
+				strategy
 			});
 			console.log(`Story for ${componentName} generated successfully.`);
 		}
