@@ -1,14 +1,6 @@
 module.exports = function (plop) {
 	plop.setGenerator('story', {
 		description: 'Generate a Storybook story',
-		prompts: [
-			{
-				type: 'input',
-				name: 'componentName',
-				message: 'Component name?',
-				when: () => false // We won't prompt for the component name since we'll pass it as an argument
-			}
-		],
 		actions: [
 			{
 				type: 'add',
@@ -19,14 +11,6 @@ module.exports = function (plop) {
 	});
 	plop.setGenerator('embed files', {
 		description: 'Generate a embed.ts default file',
-		prompts: [
-			{
-				type: 'input',
-				name: 'componentName',
-				message: 'Component name?',
-				when: () => false // We won't prompt for the component name since we'll pass it as an argument
-			}
-		],
 		actions: [
 			{
 				type: 'add',
@@ -37,14 +21,6 @@ module.exports = function (plop) {
 	});
 	plop.setGenerator('types files', {
 		description: 'Generate a types.ts default file',
-		prompts: [
-			{
-				type: 'input',
-				name: 'componentName',
-				message: 'Component name?',
-				when: () => false // We won't prompt for the component name since we'll pass it as an argument
-			}
-		],
 		actions: [
 			{
 				type: 'add',
@@ -55,14 +31,6 @@ module.exports = function (plop) {
 	});
 	plop.setGenerator('routes files', {
 		description: 'Generate a default route handler that imports the script',
-		prompts: [
-			{
-				type: 'input',
-				name: 'componentName',
-				message: 'Component name?',
-				when: () => false // We won't prompt for the component name since we'll pass it as an argument
-			}
-		],
 		actions: [
 			{
 				type: 'add',
@@ -73,14 +41,6 @@ module.exports = function (plop) {
 	});
 	plop.setGenerator('svelte files', {
 		description: 'Generate a default svelte component to be embedded',
-		prompts: [
-			{
-				type: 'input',
-				name: 'componentName',
-				message: 'Component name?',
-				when: () => false // We won't prompt for the component name since we'll pass it as an argument
-			}
-		],
 		actions: [
 			{
 				type: 'add',
