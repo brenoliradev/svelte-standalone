@@ -20,7 +20,7 @@ And that's it! You'll see the following file: `/src/_standalone/<component name/
 
 # How to build my components?
 
-Just run `bun run build` and select which components you want to build - by default all of them will be bundled.  
+Just run `bun run build` and select which components you want to build - by default all of them will be bundled.
 
 # Shared folder
 
