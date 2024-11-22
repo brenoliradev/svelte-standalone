@@ -3,20 +3,17 @@ import fs from 'fs'
 
 import { create } from './create';
 
-
-const componentNameRegex = /^[a-zA-Z0-9]+$/;
-
 const embeddableName = {
   type: 'input',
   name: 'name',
   message: 'Name your embeddable:',
   required: true,
   validate: (input) => {
-    if (!componentNameRegex.test(input)) {
+    if (!/^[a-zA-Z0-9_-]+$/.test(input)) {
       console.error("Invalid component name. Please use only alphanumeric characters.");
       return false;
     }
-    if (!fs.existsSync(input) || !fs.lstatSync(input).isDirectory()) {
+    if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
       console.error(`Invalid component name. ${input} already exists.`);
       return false;
     }

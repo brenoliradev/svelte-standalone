@@ -19,8 +19,6 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 	const routesGenerator = plop.getGenerator('routes files');
 	const svelteGenerator = plop.getGenerator('svelte files');
 
-	console.log(embedType, strategy)
-
 	try {
 		if (fileType === 'story') {
 			await storyGenerator.runActions({

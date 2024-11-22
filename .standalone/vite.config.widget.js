@@ -60,7 +60,7 @@ const configs = embedFiles.map((file) => {
 				entry: file,
 				name: componentName
 			},
-			outDir: 'static/dist/widgets',
+			outDir: 'static/dist/standalone',
 			rollupOptions: {
 				output: {
 					chunkFileNames: 'chunks/[name].[hash].js',
