@@ -51,7 +51,8 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'routes') {
 			await routesGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: capitalizeFirstLetter(componentName),
+				strategy
 			});
 			// Append to the /src/routes/+page.svelte
 			const pageFilePath = path.join(routesDir, '+page.svelte');
