@@ -13,7 +13,6 @@ Svelte Standalone features codegen using `bun generate`. Components created with
 https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
 
 [_See the source code_](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
-
 [_See the svelte-notifications demo_](https://svelte-standalone-beyonk.vercel.app/)
 
 # How to create a new componet?
