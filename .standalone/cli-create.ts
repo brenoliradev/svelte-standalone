@@ -32,7 +32,7 @@ const embeddableStrategy = {
 			short: 'Explicit Call'
 		},
 		{
-			name: 'When downloaded append it to target <div>',
+			name: 'When downloaded automatically append it to target <div>',
 			value: 'autoEmbedWithTarget',
 			short: 'Auto-Embed with Target'
 		},
