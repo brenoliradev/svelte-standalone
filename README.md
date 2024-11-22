@@ -37,6 +37,7 @@ Just run `bun run build` and select which components you want to build - by defa
 Svelte Standalone can have a `/src/shared` folder. Everything added to `/src/shared` will have their `tailwindcss` included to all components i.e.:
 
 - [shared example](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo/src/shared/toast) - css will be included in `all` Standalone Components but the toast javascript will only be bundled when imported because of tree-shaking.
+
 # Bundling Process
 
 Programatically runs `vite` for building each component included in `src/_standalone/<component name>/index.svelte`. Generates a separate build for each component.
