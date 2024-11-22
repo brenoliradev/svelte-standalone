@@ -22,6 +22,7 @@ It's designed to be simple, with the CLI you'll have all the structure handled a
 - Inside the root directory of your Svelte Standalone instance, you'll run: `bun generate`.
 - After inserting a `component name` you'll be able to choice how your Standalone Component will be bundled:
   - On explicit call - component props would be parsed as types.ts => This would generate theses files: #TODO explict.md
+  - Multiple instance explicit call - component props would be parsed as types.ts => This would generate theses files: #TODO explict-multiple.md
   - When downloaded automatically append it to target <div> => This would generate theses files: #TODO target.md
   - When downloaded automatically append to the <body> => This would generate theses files: #TODO body.md
 
