@@ -2,9 +2,9 @@ import { EmbeddableStrageies } from "./cli-create";
 import { generateFiles } from "./generate-stories.mjs";
 
 const TYPE_TO_ROUTE: { [key in EmbeddableStrageies]: string } = {
-    autoEmbedOnBody: 'route-auto-start.hbs',
-    autoEmbedWithTarget: 'route-with-target.hbs',
-    embed: 'route-callable.hbs'
+    autoEmbedOnBody: 'route-auto-start',
+    autoEmbedWithTarget: 'route-with-target',
+    embed: 'route-callable'
 }
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
