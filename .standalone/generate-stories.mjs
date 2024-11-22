@@ -12,12 +12,14 @@ function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export async function generateFiles(componentName, fileType, embedType) {
+export async function generateFiles(componentName, fileType, embedType, strategy) {
 	const storyGenerator = plop.getGenerator('story');
 	const embedGenerator = plop.getGenerator('embed files');
 	const typesGenerator = plop.getGenerator('types files');
 	const routesGenerator = plop.getGenerator('routes files');
 	const svelteGenerator = plop.getGenerator('svelte files');
+
+	console.log(embedType, strategy)
 
 	try {
 		if (fileType === 'story') {
@@ -32,7 +34,8 @@ export async function generateFiles(componentName, fileType, embedType) {
 			await embedGenerator.runActions({
 				componentName,
 				capitalizeName: capitalizeFirstLetter(componentName),
-				embedType
+				embedType,
+				strategy
 			});
 			console.log(`Embed file for ${componentName} generated successfully.`);
 		}
