@@ -9,7 +9,7 @@ const embeddableName = {
 	message: 'Name your embeddable:',
 	required: true,
 	validate: (input) => {
-		if (!/^[a-zA-Z0-9_-]+$/.test(input)) {
+		if (!/^[a-zA-Z0-9_]+$/.test(input)) {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
 		}
