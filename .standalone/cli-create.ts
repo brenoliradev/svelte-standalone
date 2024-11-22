@@ -27,17 +27,17 @@ const embeddableStrategy =   {
   message: 'When should your embeddable be triggered?',
   choices: [
     {
-      name: 'On explicit call - has types.ts',
+      name: 'On explicit call will contain types.ts',
       value: 'embed',
       short: 'Explicit Call',
     },
     {
-      name: 'When downloaded - appended to target div',
+      name: 'When downloaded append it to target <div>',
       value: 'autoEmbedWithTarget',
       short: 'Auto-Embed with Target',
     },
     {
-      name: 'When downloaded - automatically appended to the body',
+      name: 'When downloaded automatically append to the <body>',
       value: 'autoEmbedOnBody',
       short: 'Auto-Embed on Body',
     },
