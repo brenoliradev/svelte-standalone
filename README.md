@@ -4,7 +4,7 @@ Svelte Standalone is a complete end-to-end service to transform `Svelte` compone
 
 Svelte Standalone features codegen using `bun generate`. Components created with Svelte Standalone CLI will have an dedicated route using `sveltejs/kit` and a `storybook` story.
 
-_See "example" component on: https://svelte-standalone.vercel.app/._
+[_See the shared folder demo_](https://svelte-standalone-shared.vercel.app/)
 
 # Why use Svelte Standalone?
 
@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
 
 [_See the source code_](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
 
-[_See the demo_](https://svelte-standalone-beyonk.vercel.app/)
+[_See the svelte-notifications demo_](https://svelte-standalone-beyonk.vercel.app/)
 
 # How to create a new componet?
 
@@ -36,7 +36,7 @@ Just run `bun run build` and select which components you want to build - by defa
 
 Svelte Standalone can have a `/src/shared` folder. Everything added to `/src/shared` will have their `tailwindcss` included to all components i.e.:
 
-- [shared example](https://github.com/brenoliradev/svelte-standalone/tree/main/src/shared/toast) - css will be included in `all` Standalone Components but the toast javascript will only be bundled when imported because of tree-shaking.
+- [shared example](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo/src/shared/toast) - css will be included in `all` Standalone Components but the toast javascript will only be bundled when imported because of tree-shaking.
 
 # Bundling Process
 
