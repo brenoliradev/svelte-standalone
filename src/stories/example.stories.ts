@@ -4,7 +4,7 @@ import Example from '@/_standalone/example/index.svelte';
 import { defaultConfig } from '@/_standalone/example/types';
 
 export default {
-	title: 'Widgets/Example',
+	title: 'Standalone/Example',
 	component: Example
 } satisfies Meta<Example>;
 

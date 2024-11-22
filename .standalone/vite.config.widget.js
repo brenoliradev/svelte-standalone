@@ -60,7 +60,7 @@ const configs = embedFiles.map((file) => {
 				entry: file,
 				name: componentName
 			},
-			outDir: 'static/dist/widgets',
+			outDir: 'static/dist/standalone',
 			rollupOptions: {
 				output: {
 					chunkFileNames: 'chunks/[name].[hash].js',
@@ -89,7 +89,8 @@ const configs = embedFiles.map((file) => {
 		plugins: commonPlugins(componentName, visualizerDir),
 		resolve: {
 			alias: {
-				'@': path.resolve(__dirname.replace('.standalone', ''), 'src')
+				'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
+				standalone: path.resolve(__dirname)
 			}
 		}
 	});

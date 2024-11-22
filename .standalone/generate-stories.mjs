@@ -2,8 +2,6 @@ import fs from 'fs';
 import nodePlop from 'node-plop';
 import path from 'path';
 
-const componentsDir = 'src/_standalone'; // Your components directory
-const storybookDir = 'src/stories'; // Your stories directory
 const routesDir = 'src/routes';
 
 // Initialize Plop
@@ -13,17 +11,19 @@ function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function generateFiles(componentName, fileType) {
+export async function generateFiles(componentName, fileType, embedType, strategy) {
 	const storyGenerator = plop.getGenerator('story');
 	const embedGenerator = plop.getGenerator('embed files');
 	const typesGenerator = plop.getGenerator('types files');
 	const routesGenerator = plop.getGenerator('routes files');
+	const svelteGenerator = plop.getGenerator('svelte files');
 
 	try {
 		if (fileType === 'story') {
 			await storyGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: capitalizeFirstLetter(componentName),
+				strategy
 			});
 			console.log(`Story for ${componentName} generated successfully.`);
 		}
@@ -31,7 +31,9 @@ async function generateFiles(componentName, fileType) {
 		if (fileType === 'embed') {
 			await embedGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: capitalizeFirstLetter(componentName),
+				embedType,
+				strategy
 			});
 			console.log(`Embed file for ${componentName} generated successfully.`);
 		}
@@ -47,7 +49,8 @@ async function generateFiles(componentName, fileType) {
 		if (fileType === 'routes') {
 			await routesGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: capitalizeFirstLetter(componentName),
+				strategy
 			});
 			// Append to the /src/routes/+page.svelte
 			const pageFilePath = path.join(routesDir, '+page.svelte');
@@ -72,43 +75,15 @@ async function generateFiles(componentName, fileType) {
 			});
 			console.log(`Route file for ${componentName} generated successfully.`);
 		}
+
+		if (fileType === 'svelte') {
+			await svelteGenerator.runActions({
+				componentName,
+				capitalizeName: capitalizeFirstLetter(componentName)
+			});
+			console.log(`Types file for ${componentName} generated successfully.`);
+		}
 	} catch (err) {
 		console.error(`Error generating files for ${componentName}:`, err);
 	}
 }
-
-fs.readdir(componentsDir, (err, files) => {
-	if (err) {
-		console.error('Could not list the directory.', err);
-		process.exit(1);
-	}
-
-	files.forEach((file) => {
-		const componentName = path.parse(file).name;
-
-		const storyFilePath = path.join(storybookDir, `${componentName}.stories.ts`);
-		const embedFilePath = path.join(componentsDir, componentName, 'embed.ts');
-		const typesFilePath = path.join(componentsDir, componentName, 'types.ts');
-		const routesFilePath = path.join(routesDir, componentName, '+page.svelte');
-
-		if (!fs.existsSync(storyFilePath)) {
-			console.log(`Story file for ${componentName} is missing, generating.`);
-			generateFiles(componentName, 'story');
-		}
-
-		if (!fs.existsSync(embedFilePath)) {
-			console.log(`Embed file for ${componentName} is missing, generating.`);
-			generateFiles(componentName, 'embed');
-		}
-
-		if (!fs.existsSync(typesFilePath)) {
-			console.log(`Types file for ${componentName} is missing, generating.`);
-			generateFiles(componentName, 'types');
-		}
-
-		if (!fs.existsSync(routesFilePath)) {
-			console.log(`Route file for ${componentName} is missing, generating.`);
-			generateFiles(componentName, 'routes');
-		}
-	});
-});

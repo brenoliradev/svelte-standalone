@@ -21,7 +21,8 @@ export default defineConfig(({ mode }) => {
 		},
 		resolve: {
 			alias: {
-				'@/': '/src'
+				'@/': '/src',
+				standalone: '/.standalone'
 			}
 		}
 	};

@@ -1,4 +1,7 @@
-import type { ExampleProps } from './declarations';
+import type { ComponentProps } from 'svelte';
+import Example from './index.svelte';
+
+export type ExampleProps = ComponentProps<Example>;
 
 export const defaultConfig: ExampleProps = {
 	error: 'error!',
@@ -6,7 +9,11 @@ export const defaultConfig: ExampleProps = {
 	success: 'success!'
 };
 
-export interface CustomWindow extends Window {
-	exampleStart(config: ExampleProps): void;
-	exampleStop(): void;
+declare global {
+	interface Window {
+		example: {
+			start(config: ExampleProps): void;
+			stop(): void;
+		};
+	}
 }

@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from '@storybook/svelte';
+
+import {{capitalizeName}} from '@/_standalone/{{componentName}}/index.svelte';
+
+export default {
+	title: 'Standalone/{{capitalizeName}}',
+	component: {{capitalizeName}}
+} satisfies Meta<{{capitalizeName}}>;
+
+export const {{componentName}}Story: StoryObj<{{capitalizeName}}> = {
+	args: {} // don't have args since auto-embeddable
+};

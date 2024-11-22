@@ -19,6 +19,7 @@
 		"@testing-library/svelte": "^5.2.1",
 		"@tsconfig/svelte": "^5.0.4",
 		"@types/eslint": "^8.56.0",
+		"@types/inquirer": "^9.0.7",
 		"@vitest/expect": "^2.0.5",
 		"autoprefixer": "^10.4.16",
 		"cssnano": "^7.0.4",
@@ -27,6 +28,7 @@
 		"eslint-plugin-storybook": "^0.8.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"glob": "^11.0.0",
+		"inquirer": "^12.1.0",
 		"jsdom": "^24.1.1",
 		"jwt-decode": "^4.0.0",
 		"node-plop": "^0.32.0",
@@ -51,7 +53,7 @@
 		"vitest": "^2.0.5"
 	},
 	"scripts": {
-		"build": "bun run .standalone/generate-stories.mjs && bun run .standalone/vite.config.widget.js",
+		"build": "bun run .standalone/vite.config.widget.js",
 		"build:storybook": "storybook build",
 		"build:deploy": "vite build",
 		"dev": "bun run build && vite .",
@@ -59,6 +61,7 @@
 		"dev:deploy": "vite .",
 		"format": "prettier --write .",
 		"lint": "svelte-check && prettier --write . && eslint .",
+		"standalone:create": "bun run .standalone/cli-create.ts",
 		"storybook": "storybook dev -p 6006",
 		"test": "vitest"
 	},
