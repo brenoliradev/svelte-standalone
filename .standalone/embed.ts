@@ -48,6 +48,6 @@ export function autoEmbedOnBody(mount: any, name: string) {
 
 	new (mount as any)({
 		// TODO: revaluate this type
-		target: div,
+		target: div
 	});
 }

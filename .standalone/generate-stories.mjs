@@ -2,7 +2,6 @@ import fs from 'fs';
 import nodePlop from 'node-plop';
 import path from 'path';
 
-
 const routesDir = 'src/routes';
 
 // Initialize Plop
