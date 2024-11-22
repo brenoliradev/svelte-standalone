@@ -8,7 +8,7 @@ _See "example" component on: https://svelte-standalone.vercel.app/._
 
 # Why use Svelte Standalone?
 
-- Svelte Standalone simplifies your process of transforming your Svelte code into standalone scripts. To showcase how simple it is, I'll transform the [following component](https://github.com/beyonk-group/svelte-notifications) into a Svelte Standalone component: 
+- Svelte Standalone simplifies your process of transforming your Svelte code into standalone scripts. To showcase how simple it is, I'll transform the [following component](https://github.com/beyonk-group/svelte-notifications) into a Svelte Standalone component:
 
 https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
 
