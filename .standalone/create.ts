@@ -8,9 +8,9 @@ const TYPE_TO_ROUTE: { [key in EmbeddableStrageies]: string } = {
 }
 
 const TYPE_TO_STORY: { [key in EmbeddableStrageies]: string } = {
-    autoEmbedOnBody: 'store-no-config',
-    autoEmbedWithTarget: 'store-no-config',
-    embed: 'store-with-config'
+    autoEmbedOnBody: 'story-no-config',
+    autoEmbedWithTarget: 'story-no-config',
+    embed: 'story-with-config'
 }
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
