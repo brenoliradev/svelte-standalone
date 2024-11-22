@@ -2,21 +2,25 @@
 
 Svelte Standalone is a complete end-to-end service to transform `Svelte` components into standalone scripts. Supporting `tailwindcss` and `TypeScript` and unit/e2e tests with `vitest` and `@testing-library/svelte`.
 
-Svelte Standalone features codegen using `bun standalone:create` CLI. Components created with Svelte Standalone CLI will have an dedicated route using `sveltejs/kit` and `storybook`.
+Svelte Standalone features codegen using `bun generate`. Components created with Svelte Standalone CLI will have an dedicated route using `sveltejs/kit` and a `storybook` story.
 
 _See "example" component on: https://svelte-standalone.vercel.app/._
 
-# How it works?
+# How to create a new componet?
 
 It's designed to be simple, with the CLI you'll have all the structure handled and will only need to write the Svelte Component itself.
 
-- Inside the root directory of your Svelte Standalone instance, you'll run: `bun standalone:create`.
+- Inside the root directory of your Svelte Standalone instance, you'll run: `bun generate`.
 - After inserting a `component name` you'll be able to choice how your Standalone Component will be bundled:
   - On explicit call - component props would be parsed as types.ts => This would generate theses files: #TODO explict.md
   - When downloaded automatically append it to target <div> => This would generate theses files: #TODO target.md
   - When downloaded automatically append to the <body> => This would generate theses files: #TODO body.md
 
 And that's it! You'll see the following file: `/src/_standalone/<component name/index.svelte`. You will just need code your desired Svelte Component on it, import your desired code/npm packages and Svelte Standalone will transform it into an script.min.js for you.
+
+# How to build my components?
+
+Just run `bun run build` and select which components you want to build - by default all of them will be bundled.  
 
 # Shared folder
 
