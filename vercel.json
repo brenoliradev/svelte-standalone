@@ -1,0 +1,22 @@
+{
+    "headers": [
+      {
+        "source": "/static/*",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "https://svelte-standalone-beyonk.vercel.app/"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type"
+          }
+        ]
+      }
+    ]
+  }
+  
