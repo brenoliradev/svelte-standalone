@@ -4,9 +4,9 @@ import { glob } from 'glob';
 import { buildStandalone } from './build';
 
 const components = glob
-	.sync('src/_standalone/**/embed.ts')
+	.sync('src/_standalone/**/embed.{js,ts}') // Matches both .js and .ts
 	.map((path) => {
-		const match = path.match(/src\/_standalone\/(.*?)\/index\.svelte/);
+		const match = path.match(/src\/_standalone\/(.*?)\/embed\.(js|ts)/);
 		return match ? { match: match[1], path } : null;
 	})
 	.filter(Boolean)
