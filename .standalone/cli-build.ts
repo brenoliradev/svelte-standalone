@@ -10,7 +10,7 @@ const components = glob
 		return match ? { match: match[1], path } : null;
 	})
 	.filter(Boolean)
-	
+
 	.map((c) => ({
 		name: c?.match ?? undefined,
 		value: c?.path ?? undefined,
