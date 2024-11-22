@@ -27,19 +27,24 @@ const embeddableStrategy = {
 	message: 'When should your embeddable be triggered?',
 	choices: [
 		{
-			name: 'On explicit call - component props would be parsed as types.ts',
+			name: 'On explicit call can be mounted only once',
 			value: 'embed',
-			short: 'Explicit Call'
+			short: 'Explicit call'
+		},
+		{
+			name: 'On explicit call can be mounted as much time as needed',
+			value: 'embedMultiple',
+			short: 'Explicit call w/ instances'
 		},
 		{
 			name: 'When downloaded automatically append it to target <div>',
 			value: 'autoEmbedWithTarget',
-			short: 'Auto-Embed with Target'
+			short: 'Auto-embed with target'
 		},
 		{
 			name: 'When downloaded automatically append to the <body>',
 			value: 'autoEmbedOnBody',
-			short: 'Auto-Embed on Body'
+			short: 'Auto-embed on body'
 		}
 	]
 } as const satisfies Parameters<typeof inquirer.prompt>[0];

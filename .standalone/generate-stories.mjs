@@ -41,7 +41,8 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'types') {
 			await typesGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: capitalizeFirstLetter(componentName),
+				embedType
 			});
 			console.log(`Types file for ${componentName} generated successfully.`);
 		}

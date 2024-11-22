@@ -1,5 +1,4 @@
 import { build, defineConfig } from 'vite';
-import { glob } from 'glob';
 import path from 'path';
 
 import autoprefixer from 'autoprefixer';

@@ -25,7 +25,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: '../src/_standalone/{{componentName}}/types.ts',
-				templateFile: 'plop-templates/types.hbs'
+				templateFile: 'plop-templates/{{strategy}}.hbs'
 			}
 		]
 	});
