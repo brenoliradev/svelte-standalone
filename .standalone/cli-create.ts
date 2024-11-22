@@ -27,7 +27,7 @@ const embeddableStrategy = {
 	message: 'When should your embeddable be triggered?',
 	choices: [
 		{
-			name: 'On explicit call will contain types.ts',
+			name: 'On explicit call - component props would be parsed as types.ts',
 			value: 'embed',
 			short: 'Explicit Call'
 		},
