@@ -10,6 +10,9 @@
   
 	  return () => {
 		document.head.removeChild(script);
+
+		// also cleanup from body
+		document.getElementById('{{componentName}}').remove();
 	  };
 	});
 </script>
