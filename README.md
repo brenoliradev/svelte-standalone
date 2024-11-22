@@ -1,10 +1,18 @@
-# What is "svelte-standalone"?
+# What is Svelte Standalone?
 
 Svelte Standalone is a complete end-to-end service to transform `Svelte` components into standalone scripts. Supporting `tailwindcss` and `TypeScript` and unit/e2e tests with `vitest` and `@testing-library/svelte`.
 
 Svelte Standalone features codegen using `bun generate`. Components created with Svelte Standalone CLI will have an dedicated route using `sveltejs/kit` and a `storybook` story.
 
 _See "example" component on: https://svelte-standalone.vercel.app/._
+
+# Why use Svelte Standalone?
+
+- Svelte Standalone simplifies your process of transforming your Svelte code into standalone scripts. To showcase how simple it is, I'll transform the [following component](https://github.com/beyonk-group/svelte-notifications) into a Svelte Standalone component: 
+
+https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
+
+_[See the source code]_(https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
 
 # How to create a new componet?
 
