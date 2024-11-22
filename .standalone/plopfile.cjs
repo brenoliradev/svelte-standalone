@@ -71,4 +71,22 @@ module.exports = function (plop) {
 			}
 		]
 	});
+	plop.setGenerator('svelte files', {
+		description: 'Generate a default svelte component to be embedded',
+		prompts: [
+			{
+				type: 'input',
+				name: 'componentName',
+				message: 'Component name?',
+				when: () => false // We won't prompt for the component name since we'll pass it as an argument
+			}
+		],
+		actions: [
+			{
+				type: 'add',
+				path: '../src/_standalone/{{componentName}}/index.svelte',
+				templateFile: 'plop-templates/svelte.hbs'
+			}
+		]
+	});
 };

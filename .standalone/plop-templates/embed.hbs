@@ -1,5 +1,5 @@
-import { embed } from 'standalone/embed'
+import { {{embedType}} } from 'standalone/embed'
 
 import {{capitalizeName}} from './index.svelte'
 
-embed({{capitalizeName}}, {{componentName}})
+{{embedType}}({{capitalizeName}}, '{{componentName}}')
