@@ -33,4 +33,4 @@ async function cli() {
 	buildStandalone(answers.components);
 }
 
-cli();
+components.length && cli();
