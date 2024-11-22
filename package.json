@@ -53,15 +53,15 @@
 		"vitest": "^2.0.5"
 	},
 	"scripts": {
-		"build": "bun run .standalone/vite.config.widget.js",
+		"build": "bun run .standalone/cli-build.ts",
 		"build:storybook": "storybook build",
 		"build:deploy": "vite build",
 		"dev": "bun run build && vite .",
 		"dev:tailwind": "tailwind-config-viewer -o",
 		"dev:deploy": "vite .",
 		"format": "prettier --write .",
+		"generate": "bun run .standalone/cli-create.ts",
 		"lint": "svelte-check && prettier --write . && eslint .",
-		"standalone:create": "bun run .standalone/cli-create.ts",
 		"storybook": "storybook dev -p 6006",
 		"test": "vitest"
 	},
