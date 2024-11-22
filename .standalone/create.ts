@@ -6,7 +6,9 @@ export const create = (componentName: string, type: EmbeddableStrageies) => {
 
     generateFiles(componentName, 'embed', type, type === 'autoEmbedWithTarget' ? 'embed-with-target' : 'embed');
 
-    generateFiles(componentName, 'types');
+    if (type === 'embed') {
+        generateFiles(componentName, 'types');
+    }
 
     generateFiles(componentName, 'routes');
     
