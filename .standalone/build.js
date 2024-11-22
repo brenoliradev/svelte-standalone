@@ -37,61 +37,63 @@ const commonPlugins = (componentName, visualizerDir) => [
 	libInjectCss()
 ];
 
-const handleBuild = (files) => files.map((file) => {
-	const componentName = path.dirname(file).replace('src/', '').replace('_standalone/', '');
-	const visualizerDir = path
-		.dirname(file)
-		.replace('src', 'static')
-		.replace('_standalone', 'dist/visualizer');
-	const purgeDir = path.dirname(file).replace('embed.ts', '');
+const handleBuild = (files) =>
+	files.map((file) => {
+		const componentName = path.dirname(file).replace('src/', '').replace('_standalone/', '');
+		const visualizerDir = path
+			.dirname(file)
+			.replace('src', 'static')
+			.replace('_standalone', 'dist/visualizer');
+		const purgeDir = path.dirname(file).replace('embed.ts', '');
 
-	return defineConfig({
-		css: {
-			postcss: {
-				plugins: getPostCSSPlugins(purgeDir)
-			}
-		},
-		build: {
-			emptyOutDir: false,
-			lib: {
-				formats: ['umd'],
-				entry: file,
-				name: componentName
+		return defineConfig({
+			css: {
+				postcss: {
+					plugins: getPostCSSPlugins(purgeDir)
+				}
 			},
-			outDir: 'static/dist/standalone',
-			rollupOptions: {
-				output: {
-					chunkFileNames: 'chunks/[name].[hash].js',
-					assetFileNames: 'assets/[name][extname]',
-					entryFileNames: `${componentName}.min.js`
+			build: {
+				emptyOutDir: false,
+				lib: {
+					formats: ['umd'],
+					entry: file,
+					name: componentName
 				},
-				plugins: [
-					resolve({ browser: true, dedupe: ['svelte'] }),
-					strip({
-						functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
-					}),
-					terser({
-						compress: {
-							drop_console: true,
-							unused: true,
-							reduce_vars: true,
-							pure_funcs: ['console.debug', 'debug']
-						},
-						output: {
-							comments: false
-						}
-					})
-				]
+				outDir: 'static/dist/standalone',
+				rollupOptions: {
+					output: {
+						chunkFileNames: 'chunks/[name].[hash].js',
+						assetFileNames: 'assets/[name][extname]',
+						entryFileNames: `${componentName}.min.js`
+					},
+					plugins: [
+						resolve({ browser: true, dedupe: ['svelte'] }),
+						strip({
+							functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
+						}),
+						terser({
+							compress: {
+								drop_console: true,
+								unused: true,
+								reduce_vars: true,
+								pure_funcs: ['console.debug', 'debug']
+							},
+							output: {
+								comments: false
+							}
+						})
+					]
+				}
+			},
+			plugins: commonPlugins(componentName, visualizerDir),
+			resolve: {
+				alias: {
+					'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
+					standalone: path.resolve(__dirname)
+				}
 			}
-		},
-		plugins: commonPlugins(componentName, visualizerDir),
-		resolve: {
-			alias: {
-				'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
-				standalone: path.resolve(__dirname)
-			}
-		}
+		});
 	});
-});
 
-export const buildStandalone = (files) => handleBuild(files).map((config) => build({ ...config, configFile: false }));
+export const buildStandalone = (files) =>
+	handleBuild(files).map((config) => build({ ...config, configFile: false }));
