@@ -8,12 +8,11 @@ Svelte Standalone features codegen using `bun generate`. Components created with
 
 # Why use Svelte Standalone?
 
-- Svelte Standalone simplifies your process of transforming your Svelte code into standalone scripts. To showcase how simple it is, I'll transform the [following component](https://github.com/beyonk-group/svelte-notifications) into a Svelte Standalone component:
+- Svelte Standalone simplifies your process of transforming your Svelte code into standalone scripts. To showcase how simple it is, I'll transform the [svelte-notications package](https://github.com/beyonk-group/svelte-notifications) into a Svelte Standalone component:
 
 https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
 
 [_See the source code_](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
-
 [_See the svelte-notifications demo_](https://svelte-standalone-beyonk.vercel.app/)
 
 # How to create a new componet?
