@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { ComponentProps, SvelteComponent } from 'svelte';
 
 // default with import/export

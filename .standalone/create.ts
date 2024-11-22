@@ -26,7 +26,12 @@ export const create = (componentName: string, type: EmbeddableStrageies) => {
 	);
 
 	if (type === 'embed' || type === 'embedMultiple') {
-		generateFiles(componentName, 'types');
+		generateFiles(
+			componentName,
+			'types',
+			undefined,
+			type === 'embed' ? 'types' : 'types-multiples'
+		);
 	}
 
 	generateFiles(componentName, 'routes', undefined, TYPE_TO_ROUTE[type]);
