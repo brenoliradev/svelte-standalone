@@ -12,7 +12,7 @@ _See "example" component on: https://svelte-standalone.vercel.app/._
 
 https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
 
-_[See the source code]_(https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
+[_See the source code_](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
 
 # How to create a new componet?
 
