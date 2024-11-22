@@ -1,33 +1,32 @@
 # What is "svelte-standalone"?
 
-`svelte-standalone` is a serie of configurations that aims to process any svelte widget to a single standalone javascript file. Currently, as a template, you just create a version of it and starts using it.
+Svelte Standalone is a complete end-to-end service to transform `Svelte` components into standalone scripts. Supporting `tailwindcss` and `TypeScript` and unit/e2e tests with `vitest` and `@testing-library/svelte`. 
 
-It includes minifications for JavasCript and CSS absed on `terser` and `cssnano`.
-
-Unit and e2e testing with `vitest` and `@testing-library/svelte`.
-
-Also, `storybook` and `vite` to ensure that you can check the bundled scripts and the components as it is.
+Svelte Standalone features codegen using `bun standalone:create` CLI. Components created with Svelte Standalone CLI will have an dedicated route using `sveltejs/kit` and `storybook`.
 
 _See "example" component on: https://svelte-standalone.vercel.app/._
 
 # How it works?
 
-It's structure is intended to be simple. Basically you're going to create an folder on `src/_standalone` with the name of your component e.g.: `src/_standalone/<component>`.
+It's designed to be simple, with the CLI you'll have all the structure handled and will only need to write the Svelte Component itself. 
 
-- Inside the example folder initially you just need to create an `index.svelte` file and once you run the `dev` / `build` scripts it'll generate some files using plop. These files will be:
+- Inside the root directory of your Svelte Standalone instance, you'll run: `bun standalone:create`. 
+- After inserting a `component name` you'll be able to choice how your Standalone Component will be bundled:
+  - On explicit call - component props would be parsed as types.ts => This would generate theses files: #TODO explict.md
+  - When downloaded automatically append it to target <div> => This would generate theses files: #TODO target.md
+  - When downloaded automatically append to the <body> => This would generate theses files: #TODO body.md
 
-  - `src/_standalone/<component>/embed.ts` - A simple file that'll create a new instance of `index.svelte` component. It'll also implements `window.<component>Start` and `window.<component>Stop`.
-  - `src/_standalone/<component>/declarations.d.ts` - Exposes `<component>`, `<component>Props` and `defaultConfig`.
+And that's it! You'll see the following file: `/src/_standalone/<component name/index.svelte`. You will just need code your desired Svelte Component on it, import your desired code/npm packages and Svelte Standalone will transform it into an script.min.js for you. 
 
-    - Using this, you'll be able to import `<component>.svelte` anywhere and have it's props well typed.
-    - If you only want the definition for props, it'll also defines `<component>Props`.
+# Shared folder
 
-  - `src/_standalone/<component>/types.ts` - It'll declares `defaultConfig` which will be typed as `<component>Props` so it'll be used as default props for `<component>stories.ts` and also for `src/routes/<component>/+page.svelte`. _It'll also exposes a simple `CustomWindow` and use it inside the route files._
-  - `src/routes/<component>/+page.svelte` - Exposes a route that imports the bundled script from vite so you'll can check how the compiled script is working. It'll also initializes `window.<component>Start` and `window.<component>Stop` using `defaultConfig` from types.ts.
-  - `src/stories/<component>.stories.ts` - A simple storybook that imports the `<component>/index.svelte` so you'll be able to see how the svelte component is without bundling it.
+Svelte Standalone can have a `/src/shared` folder. Everything added to `/src/shared` will have their `tailwindcss` included to all components i.e.:
+- [shared example](https://github.com/brenoliradev/svelte-standalone/tree/main/src/shared/toast) - css will be included in `all` Standalone Components but the toast javascript will only be bundled when imported because of tree-shaking.
 
-If you're going to use your bundled `<component>` into an app that has tailwindcss, consider importing: `/src/css/tailwind-utils.css` instead of `/src/css/tailwind-full.css`.
+# Bundling Process
 
-# How it'll be bundled?
+Programatically runs `vite` for building each component included in `src/_standalone/<component name>/index.svelte`. Generates a separate build for each component.
+- Dynamically adjusts `tailwind.content` to focus on `src/_standalone/<component name>` and `src/shared`. Ensures CSS purging for each component separatedly.
 
-Basically, it'll runs vite on _everything_ from `src/_standalone`. For each `<component>` inside it, it'll run a separatedly build. It'll also swap `tailwind.content` to be _only_ the `src/_standalone/*` and `src/shared` folders so you can have each `<component>` css purged separatedly relying on tailwind jit. It'll also handle minifications, preprocessing for sveltekit and typescript and just returns a single `<component>.min.js` and an `<component>.status.html` at `/static/dist`.
+Ouputs:
+- Outputs `<component name>.min.js` and `<component name>.status.html` in `/static/dist/standalone`. Handles minification, Svelte preprocessing, parses TypeScript to JavaScript, and includes `tailwindcss` used utils on `<component name>.min.js`.
