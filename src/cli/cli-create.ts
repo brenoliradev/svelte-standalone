@@ -100,9 +100,7 @@ export async function generate() {
 	const a2 = await inquirer.prompt(
 		(a1.type as EmbeddableStrageies) === 'webcomponent' ? webComponentName : embeddableName
 	);
-	const a3 = await inquirer.prompt(
-		shouldInclude
-	)
+	const a3 = await inquirer.prompt(shouldInclude);
 
 	create(a2.name, a1.type, a3.support);
 }

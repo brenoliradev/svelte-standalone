@@ -11,6 +11,8 @@ import strip from 'rollup-plugin-strip';
 
 import { terser } from 'rollup-plugin-terser';
 
+import fs from 'fs';
+
 const getPostCSSPlugins = (purgeDir) => [
 	tailwindcss({
 		content: [
@@ -112,8 +114,6 @@ export const buildStandalone = (files) =>
 	});
 
 function injectCSSWebComponent(file) {
-	const fs = require('fs');
-
 	fs.readFile(file, 'utf8', (err, data) => {
 		if (err) {
 			console.error('Error reading file:', err);
