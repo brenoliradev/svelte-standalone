@@ -95,8 +95,7 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'svelte') {
 			await svelteGenerator.runActions({
 				componentName,
-				capitalizeName: isWebComponent ? parseToPascalCase(componentName) : capitalizeFirstLetter(componentName),
-				svelteType: isWebComponent ? 'web-component.hbs' : 'component.hbs'
+				svelteType: isWebComponent ? 'web-component' : 'component'
 			});
 			console.log(`Types file for ${componentName} generated successfully.`);
 		}
