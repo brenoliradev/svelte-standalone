@@ -6,8 +6,6 @@ import { build } from './cli-build.js';
 
 const packageJson = require('../../package.json');
 
-import { configurate } from './cli-config.js';
-
 const program = new Command();
 
 program
@@ -19,8 +17,6 @@ program
 	.command('generate')
 	.description('Generate code for start your standalone components')
 	.action(generate);
-
-program.command('config').description('Configure standalone support').action(configurate);
 
 program.command('build').description('Build your standalone components').action(build);
 

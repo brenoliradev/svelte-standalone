@@ -74,13 +74,35 @@ const embeddableStrategy = {
 	]
 } as const;
 
+const shouldInclude = {
+	type: 'checkbox',
+	name: 'support',
+	message: 'What do you want for your embedabble?',
+	choices: [
+		{
+			name: 'Storybook',
+			value: 'storybook',
+			short: 'Storybook'
+		},
+		{
+			name: 'Routes',
+			value: 'routes',
+			short: 'Routes'
+		}
+	]
+} as const;
+
 export type EmbeddableStrageies = (typeof embeddableStrategy.choices)[number]['value'];
+export type Support = (typeof shouldInclude.choices)[number]['value'];
 
 export async function generate() {
 	const a1 = await inquirer.prompt(embeddableStrategy);
 	const a2 = await inquirer.prompt(
 		(a1.type as EmbeddableStrageies) === 'webcomponent' ? webComponentName : embeddableName
 	);
+	const a3 = await inquirer.prompt(
+		shouldInclude
+	)
 
-	create(a2.name, a1.type);
+	create(a2.name, a1.type, a3.support);
 }

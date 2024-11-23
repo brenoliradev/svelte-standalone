@@ -1,4 +1,4 @@
-import { EmbeddableStrageies } from '../cli-create.js';
+import { EmbeddableStrageies, Support } from '../cli-create.js';
 import {
 	generateEmbedFiles,
 	generateRoutesFile,
@@ -14,14 +14,18 @@ import {
 	TYPE_TO_TYPESCRIPT
 } from '../utils/hashmaps.js';
 
-export const create = (componentName: string, type: EmbeddableStrageies) => {
-	generateStoryFile(componentName, TYPE_TO_STORY[type]);
+export const create = (componentName: string, type: EmbeddableStrageies, support: Support[]) => {
+	if (support.includes('storybook')) {
+		generateStoryFile(componentName, TYPE_TO_STORY[type]);
+	}
 
 	generateEmbedFiles(componentName, type, TYPE_TO_EMBED[type]);
 
 	generateTypesFile(componentName, TYPE_TO_TYPESCRIPT[type]);
 
-	generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
+	if (support.includes('routes')) {
+		generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
+	}
 
 	generateSvelteFile(componentName);
 };
