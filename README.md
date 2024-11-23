@@ -15,7 +15,11 @@ https://github.com/user-attachments/assets/a6cbc3fb-12ca-4c89-9a82-a6cbefed0d25
 [_See the source code_](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
 [_See the svelte-notifications demo_](https://svelte-standalone-beyonk.vercel.app/)
 
-# How to create a new componet?
+# How to use it?
+
+Currently there's no npm package setup. You'll have to clone the repository then install it. After that you'll be able to use Svelte Standalone.
+
+# How to create a new component?
 
 It's designed to be simple, with the CLI you'll have all the structure handled and will only need to write the Svelte Component itself.
 
