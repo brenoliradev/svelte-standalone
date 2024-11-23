@@ -1,6 +1,7 @@
 {
 	"name": "svelte-standalone",
 	"version": "1.0.0-beta",
+	"description": "Transform Svelte components in standalone scripts!",
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
 		"@rollup/plugin-node-resolve": "^15.2.3",
@@ -22,6 +23,7 @@
 		"@types/inquirer": "^9.0.7",
 		"@vitest/expect": "^2.0.5",
 		"autoprefixer": "^10.4.16",
+		"commander": "^12.1.0",
 		"cssnano": "^7.0.4",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -30,7 +32,6 @@
 		"glob": "^11.0.0",
 		"inquirer": "^12.1.0",
 		"jsdom": "^24.1.1",
-		"jwt-decode": "^4.0.0",
 		"node-plop": "^0.32.0",
 		"plop": "^4.0.1",
 		"postcss": "^8.4.33",
@@ -64,6 +65,9 @@
 		"lint": "svelte-check && prettier --write . && eslint .",
 		"storybook": "storybook dev -p 6006",
 		"test": "vitest"
+	},
+	"bin": {
+		"standalone": ".standalone/cli/cli.ts"
 	},
 	"type": "module"
 }

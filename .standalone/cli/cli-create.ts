@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import fs from 'fs';
 
-import { create } from './create';
+import { create } from './methods/create';
 
 const embeddableName = {
 	type: 'input',
@@ -55,10 +55,8 @@ const questions = [embeddableName, embeddableStrategy] satisfies readonly Parame
 
 export type EmbeddableStrageies = (typeof embeddableStrategy.choices)[number]['value'];
 
-async function cli() {
+export async function generate() {
 	const answers = await inquirer.prompt(questions);
 
 	create(answers.name, answers.type);
 }
-
-cli();

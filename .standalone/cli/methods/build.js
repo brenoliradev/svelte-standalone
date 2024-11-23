@@ -12,7 +12,7 @@ import strip from 'rollup-plugin-strip';
 
 import { terser } from 'rollup-plugin-terser';
 
-import tailwindConfig from '../tailwind.config.js';
+import tailwindConfig from '../../../tailwind.config.js';
 
 const getPostCSSPlugins = (purgeDir) => [
 	autoprefixer(),

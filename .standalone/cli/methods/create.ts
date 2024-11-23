@@ -1,5 +1,5 @@
-import { EmbeddableStrageies } from './cli-create';
-import { generateFiles } from './generate-stories.mjs';
+import { EmbeddableStrageies } from '../cli-create';
+import { generateFiles } from '../../generate-stories.mjs';
 
 const TYPE_TO_ROUTE: { [key in EmbeddableStrageies]: string } = {
 	autoEmbedOnBody: 'route-auto-start',
