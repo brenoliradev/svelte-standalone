@@ -1,7 +1,6 @@
 import { build, defineConfig } from 'vite';
 import path from 'path';
 
-import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
@@ -20,8 +19,7 @@ const getPostCSSPlugins = (purgeDir) => [
 			'./src/shared/*/*.{svelte,ts,js}'
 		]
 	}),
-	cssnanoPlugin(),
-	autoprefixer()
+	cssnanoPlugin()
 ];
 
 const getConfig = (isWebComponent) => {
