@@ -25,7 +25,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: '../src/_standalone/{{componentName}}/types.ts',
-				templateFile: 'plop-templates/{{strategy}}.hbs'
+				templateFile: 'plop-templates/types/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -45,7 +45,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: '../src/_standalone/{{componentName}}/index.svelte',
-				templateFile: 'plop-templates/component.hbs'
+				templateFile: 'plop-templates/{{svelteType}}.hbs'
 			}
 		]
 	});
