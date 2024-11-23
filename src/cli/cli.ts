@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { generate } from './cli-create';
 import { build } from './cli-build';
 
-const packageJson = require('../../package.json');
+import packageJson from '../../package.json';
 
 const program = new Command();
 

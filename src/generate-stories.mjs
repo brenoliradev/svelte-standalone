@@ -5,7 +5,7 @@ import path from 'path';
 const routesDir = 'src/routes';
 
 // Initialize Plop
-const plop = await nodePlop('.standalone/plopfile.cjs');
+const plop = await nodePlop('src/plopfile.cjs');
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);

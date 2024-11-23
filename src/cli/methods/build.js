@@ -12,12 +12,10 @@ import strip from 'rollup-plugin-strip';
 
 import { terser } from 'rollup-plugin-terser';
 
-import tailwindConfig from '../../../tailwind.config.js';
 
 const getPostCSSPlugins = (purgeDir) => [
 	autoprefixer(),
 	tailwindcss({
-		...tailwindConfig,
 		content: [
 			`./${purgeDir}/*.{svelte,ts,js}`,
 			`./${purgeDir}/*/*.{svelte,ts,js}`,

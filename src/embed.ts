@@ -38,7 +38,7 @@ export function embedMultiple(m: any, n: string) {
 }
 
 export const autoEmbedWithTarget = (mount: any) => {
-	const t = new URL((document.currentScript as HTMLScriptElement).src).searchParams.get('target');
+	const t = new URL((document.currentScript as HTMLScriptElement).src).searchParams.get('target')!;
 
 	const c = new mount({
 		target: document.getElementById(t)
