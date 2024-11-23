@@ -1,9 +1,15 @@
 /* eslint-disable */
 import type { ComponentProps, SvelteComponent } from 'svelte';
 
+declare global {
+	interface Window {
+		[key: string]: any;
+	}
+}
+
 // default with import/export
 export function embed<T>(m: T, n: string) {
-	var c;
+	var c: any;
 
 	window[n] = {
 		start: (props: ComponentProps<T extends SvelteComponent ? T : never>) => {

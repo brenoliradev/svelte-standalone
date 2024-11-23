@@ -1,52 +1,22 @@
-import { EmbeddableStrageies } from '../cli-create';
-import { generateFiles } from '../../generate-stories.mjs';
+import { EmbeddableStrageies } from '../cli-create.js';
+import {
+	generateEmbedFiles,
+	generateRoutesFile,
+	generateStoryFile,
+	generateSvelteFile,
+	generateTypesFile
+} from '../../generate-plop.js';
 
-const TYPE_TO_ROUTE: { [key in EmbeddableStrageies]: string } = {
-	autoEmbedOnBody: 'route-auto-start',
-	autoEmbedWithTarget: 'route-with-target',
-	embed: 'route-callable',
-	embedMultiple: 'route-multiple',
-	webcomponent: 'route-web-component'
-};
-
-const TYPE_TO_STORY: { [key in EmbeddableStrageies]: string } = {
-	autoEmbedOnBody: 'story-no-config',
-	autoEmbedWithTarget: 'story-no-config',
-	embed: 'story-with-config',
-	embedMultiple: 'story-with-config',
-	webcomponent: 'story-with-config'
-};
-
-const TYPE_TO_TYPESCRIPT: { [key in EmbeddableStrageies]?: string } = {
-	autoEmbedOnBody: undefined,
-	autoEmbedWithTarget: undefined,
-	embed: 'types',
-	embedMultiple: 'types-multiple',
-	webcomponent: 'types-web-component'
-};
-
-const TYPE_TO_EMBED: { [key in EmbeddableStrageies]?: string } = {
-	autoEmbedOnBody: 'embed',
-	autoEmbedWithTarget: 'embed-with-target',
-	embed: 'embed',
-	embedMultiple: 'embed',
-	webcomponent: 'embed-web-component'
-};
+import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from '../utils/hashmaps.js';
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
-	generateFiles(componentName, 'story', undefined, TYPE_TO_STORY[type], type === 'webcomponent');
+	generateStoryFile(componentName, TYPE_TO_STORY[type]);
 
-	generateFiles(componentName, 'embed', type, TYPE_TO_EMBED[type], type === 'webcomponent');
+	generateEmbedFiles(componentName, type, TYPE_TO_EMBED[type]);
 
-	generateFiles(
-		componentName,
-		'types',
-		undefined,
-		TYPE_TO_TYPESCRIPT[type],
-		type === 'webcomponent'
-	);
+	generateTypesFile(componentName, TYPE_TO_TYPESCRIPT[type]);
 
-	generateFiles(componentName, 'routes', undefined, TYPE_TO_ROUTE[type], type === 'webcomponent');
+	generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
 
-	generateFiles(componentName, 'svelte', undefined, undefined, type === 'webcomponent');
+	generateSvelteFile(componentName);
 };

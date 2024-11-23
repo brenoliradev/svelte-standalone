@@ -1,14 +1,14 @@
 import inquirer from 'inquirer';
 import fs from 'fs';
 
-import { create } from './methods/create';
+import { create } from './methods/create.js';
 
 const embeddableName = {
 	type: 'input',
 	name: 'name',
 	message: 'Name your embeddable:',
 	required: true,
-	validate: (input) => {
+	validate: (input: string) => {
 		if (!/^[a-zA-Z0-9_]+$/.test(input)) {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
@@ -26,7 +26,7 @@ const webComponentName = {
 	name: 'name',
 	message: 'Name your web component:',
 	required: true,
-	validate: (input) => {
+	validate: (input: string) => {
 		if (!/^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input)) {
 			console.error(
 				'Invalid web component name. Please use lowercase letters, numbers, and hyphens (starting with a letter).'

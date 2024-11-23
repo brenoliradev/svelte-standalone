@@ -1,4 +1,4 @@
-import inquirer from "inquirer";
+import inquirer from 'inquirer';
 
 const config = {
 	type: 'checkbox',
@@ -19,12 +19,12 @@ const config = {
 			name: 'Vitest',
 			value: 'vitest',
 			short: 'vitest'
-		},
+		}
 	]
 } as const satisfies Parameters<typeof inquirer.prompt>[0];
 
 export async function configurate() {
 	const answers = await inquirer.prompt(config);
 
-    console.log(answers.type)
+	console.log(answers.type);
 }

@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 
 import { glob } from 'glob';
-import { buildStandalone } from './methods/build';
+import { buildStandalone } from './methods/build.js';
 
 const components = glob
 	.sync('src/_standalone/**/embed.{js,ts}') // Matches both .js and .ts
@@ -45,8 +45,10 @@ export async function build() {
 	const answers = await inquirer.prompt(questions);
 
 	if (!components.length) {
-		console.warn("You don't have any standalone component. Generate them using bun standalone generate.")
-		return
+		console.warn(
+			"You don't have any standalone component. Generate them using bun standalone generate."
+		);
+		return;
 	}
 
 	buildStandalone(answers.components);

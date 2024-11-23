@@ -6,7 +6,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: sveltePreprocess({
 		typescript: true
-	}),
+	})
 };
 
 export default config;
