@@ -18,6 +18,10 @@ const config = {
 			'@/*': 'src/*',
 			standalone: '.standalone/*'
 		}
+	},
+
+	compilerOptions: {
+		customElement: true
 	}
 };
 

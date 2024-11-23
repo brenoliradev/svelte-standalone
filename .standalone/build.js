@@ -15,7 +15,6 @@ import { terser } from 'rollup-plugin-terser';
 import tailwindConfig from '../tailwind.config.js';
 
 const getPostCSSPlugins = (purgeDir) => [
-	autoprefixer(),
 	tailwindcss({
 		...tailwindConfig,
 		content: [
@@ -24,15 +23,22 @@ const getPostCSSPlugins = (purgeDir) => [
 			'./src/shared/*/*.{svelte,ts,js}'
 		]
 	}),
-	cssnanoPlugin()
+	cssnanoPlugin(),
+	autoprefixer()
 ];
 
-const commonPlugins = (componentName, visualizerDir) => [
-	svelte({
-		compilerOptions: {
-			customElement: true
-		}
-	}),
+const getConfig = (isWebComponent) => {
+	return isWebComponent
+		? {
+				compilerOptions: {
+					customElement: true
+				}
+			}
+		: undefined;
+};
+
+const commonPlugins = (componentName, visualizerDir, isWebComponent) => [
+	svelte({ ...getConfig(isWebComponent), configFile: false }),
 	visualizer({
 		filename: `${visualizerDir}.status.html`,
 		title: `${componentName} status`
@@ -49,18 +55,22 @@ const handleBuild = (files) =>
 			.replace('_standalone', 'dist/visualizer');
 		const purgeDir = path.dirname(file).replace('embed.ts', '');
 
+		const isWebComponent = /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(componentName);
+
 		return defineConfig({
 			css: {
 				postcss: {
 					plugins: getPostCSSPlugins(purgeDir)
 				}
 			},
+			plugins: commonPlugins(componentName, visualizerDir, isWebComponent),
 			build: {
 				emptyOutDir: false,
 				lib: {
 					formats: ['umd'],
 					entry: file,
-					name: componentName
+					name: componentName,
+					fileName: componentName
 				},
 				outDir: 'static/dist/standalone',
 				rollupOptions: {
@@ -88,7 +98,6 @@ const handleBuild = (files) =>
 					]
 				}
 			},
-			plugins: commonPlugins(componentName, visualizerDir),
 			resolve: {
 				alias: {
 					'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
@@ -99,4 +108,34 @@ const handleBuild = (files) =>
 	});
 
 export const buildStandalone = (files) =>
-	handleBuild(files).map((config) => build({ ...config, configFile: false }));
+	handleBuild(files).map((config) => {
+		const isWebComponent = /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.build.lib.name);
+		build({ ...config, configFile: false }).then(
+			(f) =>
+				isWebComponent && injectCSSWebComponent(`static/dist/standalone/${f[0].output[0].fileName}`)
+		);
+	});
+
+function injectCSSWebComponent(file) {
+	const fs = require('fs');
+
+	fs.readFile(file, 'utf8', (err, data) => {
+		if (err) {
+			console.error('Error reading file:', err);
+			return;
+		}
+
+		const modifiedContent = data.replace(
+			/document\.head\.appendChild\(([^)]+)\)/g,
+			"document.getElementsByTagName('my-component')[0].shadowRoot.appendChild($1)"
+		);
+
+		fs.writeFile(file, modifiedContent, 'utf8', (err) => {
+			if (err) {
+				console.error('Error writing file:', err);
+			} else {
+				console.log('File modified successfully.');
+			}
+		});
+	});
+}

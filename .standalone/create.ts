@@ -36,13 +36,7 @@ const TYPE_TO_EMBED: { [key in EmbeddableStrageies]?: string } = {
 export const create = (componentName: string, type: EmbeddableStrageies) => {
 	generateFiles(componentName, 'story', undefined, TYPE_TO_STORY[type], type === 'webcomponent');
 
-	generateFiles(
-		componentName,
-		'embed',
-		type,
-		TYPE_TO_EMBED[type],
-		type === 'webcomponent'
-	);
+	generateFiles(componentName, 'embed', type, TYPE_TO_EMBED[type], type === 'webcomponent');
 
 	generateFiles(
 		componentName,

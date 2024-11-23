@@ -17,11 +17,24 @@ const components = glob
 		checked: true
 	}));
 
+const webComponents = glob
+	.sync('src/_standalone/**/index.svelte')
+	.map((path) => {
+		const match = path.match(/src\/_standalone\/(.*?)\/index\.svelte/);
+		return match ? { match: match[1], path } : null;
+	})
+	.filter((w) => components.filter((c) => c.name !== w?.match).length)
+	.map((c) => ({
+		name: c?.match ?? undefined,
+		value: c?.path ?? undefined,
+		checked: true
+	}));
+
 const buildStrategy = {
 	type: 'checkbox',
 	name: 'components',
 	message: 'Which components should be builded?',
-	choices: [...components]
+	choices: [...webComponents, ...components]
 } as const satisfies Parameters<typeof inquirer.prompt>[0];
 
 const questions = [buildStrategy] satisfies readonly Parameters<typeof inquirer.prompt>[0][];
