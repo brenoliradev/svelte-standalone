@@ -3,8 +3,9 @@
 	"version": "1.1.0-beta",
 	"description": "Transform Svelte components in standalone scripts!",
 	"bin": {
-		"standalone": "src/cli/cli.ts"
+		"standalone": "dist/cli/cli.js"
 	},
+	"main": "dist/cli/cli.js",
 	"devDependencies": {
 		"@chromatic-com/storybook": "^2.0.2",
 		"@rollup/plugin-node-resolve": "^15.2.3",
@@ -37,10 +38,10 @@
 		"vite-plugin-lib-inject-css": "^2.1.1"
 	},
 	"scripts": {
+		"build": "tsc+",
 		"format": "prettier --write .",
 		"lint": "prettier --write . && eslint ."
 	},
-	"main": "svelte.config.js",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/brenoliradev/svelte-standalone.git"

@@ -1,14 +1,17 @@
 {
 	"compilerOptions": {
-		"allowJs": true,
-		"outDir": "./dist",
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"module": "NodeNext",
-		"target": "esnext",
-		"strict": true,
-		"skipLibCheck": true
+	  "module": "ESNext",
+	  "target": "ESNext",
+	  "moduleResolution": "node",
+	  "esModuleInterop": true,
+	  "allowJs": true,
+	  "outDir": "./dist",
+	  "declaration": true,
+	  "emitDeclarationOnly": true,
+	  "strict": true,
+	  "skipLibCheck": true
 	},
 	"include": ["src/**/*"],
-	"exclude": ["node_modules/*", "__sapper__/*", "static/*"]
-}
+	"exclude": ["node_modules", "dist"]
+  }
+  
