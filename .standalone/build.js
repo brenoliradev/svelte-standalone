@@ -28,7 +28,11 @@ const getPostCSSPlugins = (purgeDir) => [
 ];
 
 const commonPlugins = (componentName, visualizerDir) => [
-	svelte(),
+	svelte({
+		compilerOptions: {
+			customElement: true
+		}
+	}),
 	visualizer({
 		filename: `${visualizerDir}.status.html`,
 		title: `${componentName} status`

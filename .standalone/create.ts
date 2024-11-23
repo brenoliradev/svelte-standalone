@@ -25,6 +25,14 @@ const TYPE_TO_TYPESCRIPT: { [key in EmbeddableStrageies]?: string } = {
 	webcomponent: 'types-web-component'
 };
 
+const TYPE_TO_EMBED: { [key in EmbeddableStrageies]?: string } = {
+	autoEmbedOnBody: 'embed',
+	autoEmbedWithTarget: 'embed-with-target',
+	embed: 'embed',
+	embedMultiple: 'embed',
+	webcomponent: 'embed-web-component'
+};
+
 export const create = (componentName: string, type: EmbeddableStrageies) => {
 	generateFiles(componentName, 'story', undefined, TYPE_TO_STORY[type], type === 'webcomponent');
 
@@ -32,7 +40,7 @@ export const create = (componentName: string, type: EmbeddableStrageies) => {
 		componentName,
 		'embed',
 		type,
-		type === 'autoEmbedWithTarget' ? 'embed-with-target' : 'embed',
+		TYPE_TO_EMBED[type],
 		type === 'webcomponent'
 	);
 
