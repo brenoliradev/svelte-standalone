@@ -12,7 +12,7 @@ const embeddableName = {
 		if (!/^[a-zA-Z0-9_]+$/.test(input)) {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
-		  }
+		}
 		if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
@@ -28,7 +28,9 @@ const webComponentName = {
 	required: true,
 	validate: (input) => {
 		if (!/^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input)) {
-			console.error('Invalid web component name. Please use lowercase letters, numbers, and hyphens (starting with a letter).');
+			console.error(
+				'Invalid web component name. Please use lowercase letters, numbers, and hyphens (starting with a letter).'
+			);
 			return false;
 		}
 		if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
@@ -36,7 +38,7 @@ const webComponentName = {
 			return false;
 		}
 		return true;
-	},
+	}
 } as const satisfies Parameters<typeof inquirer.prompt>[0];
 
 const embeddableStrategy = {

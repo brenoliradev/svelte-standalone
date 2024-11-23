@@ -26,23 +26,25 @@ const TYPE_TO_TYPESCRIPT: { [key in EmbeddableStrageies]?: string } = {
 };
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
-	generateFiles(componentName, 'story', undefined, TYPE_TO_STORY[type]);
+	generateFiles(componentName, 'story', undefined, TYPE_TO_STORY[type], type === 'webcomponent');
 
 	generateFiles(
 		componentName,
 		'embed',
 		type,
-		type === 'autoEmbedWithTarget' ? 'embed-with-target' : 'embed'
+		type === 'autoEmbedWithTarget' ? 'embed-with-target' : 'embed',
+		type === 'webcomponent'
 	);
 
 	generateFiles(
 		componentName,
 		'types',
 		undefined,
-		TYPE_TO_TYPESCRIPT[type]
+		TYPE_TO_TYPESCRIPT[type],
+		type === 'webcomponent'
 	);
- 
-	generateFiles(componentName, 'routes', undefined, TYPE_TO_ROUTE[type]);
 
-	generateFiles(componentName, 'svelte');
+	generateFiles(componentName, 'routes', undefined, TYPE_TO_ROUTE[type], type === 'webcomponent');
+
+	generateFiles(componentName, 'svelte', undefined, undefined, type === 'webcomponent');
 };

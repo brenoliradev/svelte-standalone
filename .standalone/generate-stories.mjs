@@ -11,7 +11,14 @@ function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export async function generateFiles(componentName, fileType, embedType, strategy) {
+function parseToPascalCase(componentName) {
+	return componentName
+		.split('-') // Split the name into parts by hyphens
+		.map((part) => part.charAt(0).toUpperCase() + part.slice(1)) // Capitalize each part
+		.join(''); // Join the parts back together
+}
+
+export async function generateFiles(componentName, fileType, embedType, strategy, isWebComponent) {
 	const storyGenerator = plop.getGenerator('story');
 	const embedGenerator = plop.getGenerator('embed files');
 	const typesGenerator = plop.getGenerator('types files');
@@ -22,7 +29,9 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'story') {
 			await storyGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName),
+				capitalizeName: isWebComponent
+					? parseToPascalCase(componentName)
+					: capitalizeFirstLetter(componentName),
 				strategy
 			});
 			console.log(`Story for ${componentName} generated successfully.`);
@@ -31,7 +40,9 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'embed') {
 			await embedGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName),
+				capitalizeName: isWebComponent
+					? parseToPascalCase(componentName)
+					: capitalizeFirstLetter(componentName),
 				embedType,
 				strategy
 			});
@@ -41,7 +52,9 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'types') {
 			await typesGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName),
+				capitalizeName: isWebComponent
+					? parseToPascalCase(componentName)
+					: capitalizeFirstLetter(componentName),
 				strategy
 			});
 			console.log(`Types file for ${componentName} generated successfully.`);
@@ -50,7 +63,9 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'routes') {
 			await routesGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName),
+				capitalizeName: isWebComponent
+					? parseToPascalCase(componentName)
+					: capitalizeFirstLetter(componentName),
 				strategy
 			});
 			// Append to the /src/routes/+page.svelte
@@ -80,7 +95,8 @@ export async function generateFiles(componentName, fileType, embedType, strategy
 		if (fileType === 'svelte') {
 			await svelteGenerator.runActions({
 				componentName,
-				capitalizeName: capitalizeFirstLetter(componentName)
+				capitalizeName: isWebComponent ? parseToPascalCase(componentName) : capitalizeFirstLetter(componentName),
+				svelteType: isWebComponent ? 'web-component.hbs' : 'component.hbs'
 			});
 			console.log(`Types file for ${componentName} generated successfully.`);
 		}

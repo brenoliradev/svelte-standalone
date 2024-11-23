@@ -45,7 +45,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: '../src/_standalone/{{componentName}}/index.svelte',
-				templateFile: 'plop-templates/component.hbs'
+				templateFile: 'plop-templates/{{svelteType}}.hbs'
 			}
 		]
 	});
