@@ -37,17 +37,8 @@
 		"vite-plugin-lib-inject-css": "^2.1.1"
 	},
 	"scripts": {
-		"build": "bun run .standalone/cli-build.ts",
-		"build:storybook": "storybook build",
-		"build:deploy": "vite build",
-		"dev": "bun run build && vite .",
-		"dev:tailwind": "tailwind-config-viewer -o",
-		"dev:deploy": "vite .",
 		"format": "prettier --write .",
-		"generate": "bun run .standalone/cli-create.ts",
-		"lint": "svelte-check && prettier --write . && eslint .",
-		"storybook": "storybook dev -p 6006",
-		"test": "vitest"
+		"lint": "prettier --write . && eslint ."
 	},
 	"main": "svelte.config.js",
 	"repository": {

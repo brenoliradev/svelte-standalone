@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 
 import { glob } from 'glob';
-import { buildStandalone } from './methods/build.js';
+import { buildStandalone } from './methods/index.js';
 
 const components = glob
 	.sync('src/_standalone/**/embed.{js,ts}') // Matches both .js and .ts
