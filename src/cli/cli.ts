@@ -5,6 +5,7 @@ import { generate } from './cli-create';
 import { build } from './cli-build';
 
 import packageJson from '../../package.json';
+import { configurate } from './cli-config';
 
 const program = new Command();
 
@@ -17,6 +18,11 @@ program
   .command('generate')
   .description('Generate code for start your standalone components')
   .action(generate);
+
+program
+  .command('config')
+  .description('Configure standalone support')
+  .action(configurate)
 
 program
   .command('build')
