@@ -1,4 +1,4 @@
-import { EmbeddableStrageies } from "../cli-create.js";
+import { EmbeddableStrageies } from '../cli-create.js';
 
 const TYPE_TO_ROUTE: { [key in EmbeddableStrageies]: string } = {
 	autoEmbedOnBody: 'route-auto-start',
@@ -32,4 +32,4 @@ const TYPE_TO_EMBED: { [key in EmbeddableStrageies]?: string } = {
 	webcomponent: 'embed-web-component'
 } as const;
 
-export { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_TYPESCRIPT, TYPE_TO_STORY }
+export { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_TYPESCRIPT, TYPE_TO_STORY };

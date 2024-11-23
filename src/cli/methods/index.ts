@@ -1,7 +1,4 @@
-import { buildStandalone } from './build.js'
-import { create } from './create.js'
+import { buildStandalone } from './build.js';
+import { create } from './create.js';
 
-export {
-    buildStandalone,
-    create
-}
+export { buildStandalone, create };

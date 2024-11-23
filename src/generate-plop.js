@@ -85,7 +85,7 @@ export async function generateTypesFile(componentName, strategy) {
 			capitalizeName: isWebComponent(componentName)
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
-				strategy
+			strategy
 		});
 		console.log(`Types file for ${componentName} generated successfully.`);
 	} catch (err) {
