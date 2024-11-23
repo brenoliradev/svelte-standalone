@@ -12,13 +12,31 @@ const embeddableName = {
 		if (!/^[a-zA-Z0-9_]+$/.test(input)) {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
-		}
+		  }
 		if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
-			console.error(`Invalid component name. ${input} already exists.`);
+			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}
 		return true;
 	}
+} as const satisfies Parameters<typeof inquirer.prompt>[0];
+
+const webComponentName = {
+	type: 'input',
+	name: 'name',
+	message: 'Name your web component:',
+	required: true,
+	validate: (input) => {
+		if (!/^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input)) {
+			console.error('Invalid web component name. Please use lowercase letters, numbers, and hyphens (starting with a letter).');
+			return false;
+		}
+		if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
+			console.error(`Invalid name. ${input} already exists.`);
+			return false;
+		}
+		return true;
+	},
 } as const satisfies Parameters<typeof inquirer.prompt>[0];
 
 const embeddableStrategy = {
@@ -26,6 +44,11 @@ const embeddableStrategy = {
 	name: 'type',
 	message: 'When should your embeddable be triggered?',
 	choices: [
+		{
+			name: 'Should bundle as a Web Component',
+			value: 'webcomponent',
+			short: 'Web component'
+		},
 		{
 			name: 'On explicit call can be mounted only once',
 			value: 'embed',
@@ -47,18 +70,17 @@ const embeddableStrategy = {
 			short: 'Auto-embed on body'
 		}
 	]
-} as const satisfies Parameters<typeof inquirer.prompt>[0];
-
-const questions = [embeddableName, embeddableStrategy] satisfies readonly Parameters<
-	typeof inquirer.prompt
->[0][];
+} as const;
 
 export type EmbeddableStrageies = (typeof embeddableStrategy.choices)[number]['value'];
 
 async function cli() {
-	const answers = await inquirer.prompt(questions);
+	const a1 = await inquirer.prompt(embeddableStrategy);
+	const a2 = await inquirer.prompt(
+		(a1.type as EmbeddableStrageies) === 'webcomponent' ? webComponentName : embeddableName
+	);
 
-	create(answers.name, answers.type);
+	create(a2.name, a1.type);
 }
 
 cli();
