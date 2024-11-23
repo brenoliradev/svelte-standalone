@@ -30,26 +30,24 @@ const webComponents = glob
 		checked: true
 	}));
 
-const buildStrategy = {
+export const buildStrategy = {
 	type: 'checkbox',
 	name: 'components',
 	message: 'Which components should be builded?',
 	choices: [...webComponents, ...components]
 } as const satisfies Parameters<typeof inquirer.prompt>[0];
 
-const questions = [buildStrategy] satisfies readonly Parameters<typeof inquirer.prompt>[0][];
-
 export type BuildStrageies = (typeof buildStrategy.choices)[number]['value'];
 
 export async function build() {
-	const answers = await inquirer.prompt(questions);
-
-	if (!components.length) {
+	if (buildStrategy.choices.length === 0) {
 		console.warn(
 			"You don't have any standalone component. Generate them using bun standalone generate."
 		);
-		return;
-	}
 
+		return
+	}
+	
+	const answers = await inquirer.prompt(buildStrategy);
 	buildStandalone(answers.components);
 }
