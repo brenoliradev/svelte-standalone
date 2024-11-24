@@ -2,7 +2,7 @@ import fs from 'fs';
 import nodePlop from 'node-plop';
 import path from 'path';
 
-const routesDir = 'src/routes';
+const routesDir = `${process.cwd()}/src/routes`;
 
 const initialContent = `<div class="flex flex-col items-start gap-2 p-2"></div>`;
 const newLink = (componentName) =>
@@ -130,7 +130,7 @@ export async function generateRoutesFile(componentName, strategy) {
 				`${newLink(componentName)}$1`
 			);
 
-			fs.writeFile(pageFilePath, updatedData, 'utf8', (err) => {
+			fs.appendFile(pageFilePath, updatedData, 'utf8', (err) => {
 				if (err) {
 					console.error(`Error writing ${pageFilePath}:`, err);
 				} else {

@@ -3,8 +3,10 @@ import inquirer from 'inquirer';
 import { glob } from 'glob';
 import { buildStandalone } from './methods/index.js';
 
+const rootDir = process.cwd()
+
 const components = glob
-	.sync('src/_standalone/**/embed.{js,ts}') // Matches both .js and .ts
+	.sync(`${rootDir}/src/_standalone/**/embed.{js,ts}`) // Matches both .js and .ts
 	.map((path) => {
 		const match = path.match(/src\/_standalone\/(.*?)\/embed\.(js|ts)/);
 		return match ? { match: match[1], path } : null;
@@ -18,7 +20,7 @@ const components = glob
 	}));
 
 const webComponents = glob
-	.sync('src/_standalone/**/index.svelte')
+	.sync(`${rootDir}/src/_standalone/**/index.svelte`)
 	.map((path) => {
 		const match = path.match(/src\/_standalone\/(.*?)\/index\.svelte/);
 		return match ? { match: match[1], path } : null;

@@ -3,6 +3,8 @@ import fs from 'fs';
 
 import { create } from './methods/create.js';
 
+const rootDir = process.cwd()
+
 const embeddableName = {
 	type: 'input',
 	name: 'name',
@@ -13,7 +15,7 @@ const embeddableName = {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
 		}
-		if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
+		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}
@@ -33,7 +35,7 @@ const webComponentName = {
 			);
 			return false;
 		}
-		if (fs.existsSync(`src/_standalone/${input}/index.svelte`)) {
+		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}

@@ -16,9 +16,9 @@ import fs from 'fs';
 const getPostCSSPlugins = (purgeDir) => [
 	tailwindcss({
 		content: [
-			`./${purgeDir}/*.{svelte,ts,js}`,
-			`./${purgeDir}/*/*.{svelte,ts,js}`,
-			'./src/shared/*/*.{svelte,ts,js}'
+			`${purgeDir}/*.{svelte,ts,js}`,
+			`${purgeDir}/*/*.{svelte,ts,js}`,
+			'src/shared/*/*.{svelte,ts,js}'
 		]
 	}),
 	cssnanoPlugin()
