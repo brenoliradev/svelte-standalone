@@ -45,9 +45,9 @@ export async function build() {
 			"You don't have any standalone component. Generate them using bun standalone generate."
 		);
 
-		return
+		return;
 	}
-	
+
 	const answers = await inquirer.prompt(buildStrategy);
 	buildStandalone(answers.components);
 }

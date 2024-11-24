@@ -1,10 +1,11 @@
 #!/usr/bin/env bun
 import { Command } from 'commander';
+4
+import packageJson from '../../package.json';
 
 import { generate } from './cli-create.js';
 import { build } from './cli-build.js';
-
-import packageJson from '../../package.json';
+import { setup } from './cli-setup.js';
 
 const program = new Command();
 
@@ -14,9 +15,14 @@ program
 	.version(packageJson.version, '-v, --version', 'output the current version');
 
 program
-	.command('generate')
+	.command('create')
 	.description('Generate code for start your standalone components')
 	.action(generate);
+
+program
+	.command('add')
+	.description('Setup your components')
+	.action(setup)
 
 program.command('build').description('Build your standalone components').action(build);
 
