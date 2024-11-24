@@ -9,7 +9,8 @@ const newLink = (componentName) =>
 	`<a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
 // Initialize Plop
-const plop = await nodePlop('./plopfile.cjs');
+const plopFile = path.resolve('./plopfile.cjs')
+const plop = await nodePlop(plopFile);
 
 function isWebComponent(componentName) {
 	return componentName.includes('-');
