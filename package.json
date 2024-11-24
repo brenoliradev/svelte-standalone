@@ -1,11 +1,16 @@
 {
 	"name": "svelte-standalone",
-	"version": "1.2.5-beta",
+	"version": "1.2.6-beta",
 	"description": "Transform Svelte components in standalone scripts!",
 	"bin": {
-		"standalone": "dist/src/cli/cli.js"
+		"standalone": "src/cli/cli.js"
 	},
-	"main": "dist/src/cli/cli.js",
+	"main": "src/cli/cli.js",
+	"exports": {
+		".": {
+		  "import": "./dist/index.js"
+		}
+	},
 	"files": [
 		"dist",
 		"plop-templates"
@@ -38,7 +43,7 @@
 		"commander": "^12.1.0"
 	},
 	"scripts": {
-		"build": "tsc && cp -r 'src/plop-templates' dist/src",
+		"build": "tsc",
 		"format": "prettier --write .",
 		"lint": "prettier --write . && eslint ."
 	},
