@@ -1,1 +1,1 @@
-export * from './hashmaps.js';
+export * from './hashmaps';

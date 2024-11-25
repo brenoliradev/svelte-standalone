@@ -2,6 +2,7 @@ import inquirer from 'inquirer';
 
 import { glob } from 'glob';
 import { buildStandalone } from './methods/index.js';
+import { testWebComponent } from './utils/isWebComponent.js';
 
 const rootDir = process.cwd();
 
@@ -25,7 +26,7 @@ const webComponents = glob
 		const match = path.match(/src\/_standalone\/(.*?)\/index\.svelte/);
 		return match ? { match: match[1], path } : null;
 	})
-	.filter((w) => components.filter((c) => c.name !== w?.match).length)
+	.filter((w) => w && testWebComponent(w.match))
 	.map((c) => ({
 		name: c?.match ?? undefined,
 		value: c?.path ?? undefined,

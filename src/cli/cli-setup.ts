@@ -1,5 +1,4 @@
 import inquirer from 'inquirer';
-import fs from 'fs';
 
 import { handleSetup } from './methods/setup.js';
 
@@ -36,5 +35,5 @@ export type Support = (typeof shouldInclude.choices)[number]['value'];
 export async function setup() {
 	const answers = await inquirer.prompt(shouldInclude);
 
-	handleSetup(answers.support);
+	handleSetup();
 }

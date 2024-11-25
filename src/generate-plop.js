@@ -6,16 +6,14 @@ import { rootDir } from './cli/utils/rootdir';
 
 const routesDir = path.resolve(rootDir, 'src/routes');
 
+import { testWebComponent } from './cli/utils/isWebComponent';
+
 const initialContent = `<div class="flex flex-col items-start gap-2 p-2"></div>`;
 const newLink = (componentName) =>
 	`<a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
 // Initialize Plop
 const plop = await nodePlop(`${__dirname}/plopfile.cjs`);
-
-function isWebComponent(componentName) {
-	return componentName.includes('-');
-}
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,7 +38,7 @@ export async function generateStoryFile(componentName, strategy) {
 	try {
 		await storyGenerator.runActions({
 			componentName,
-			capitalizeName: isWebComponent(componentName)
+			capitalizeName: testWebComponent(componentName)
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
 			strategy
@@ -64,7 +62,7 @@ export async function generateEmbedFiles(componentName, embedType, strategy) {
 	try {
 		await embedGenerator.runActions({
 			componentName,
-			capitalizeName: isWebComponent(componentName)
+			capitalizeName: testWebComponent(componentName)
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
 			embedType,
@@ -88,7 +86,7 @@ export async function generateTypesFile(componentName, strategy) {
 	try {
 		await typesGenerator.runActions({
 			componentName,
-			capitalizeName: isWebComponent(componentName)
+			capitalizeName: testWebComponent(componentName)
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
 			strategy
@@ -111,7 +109,7 @@ export async function generateRoutesFile(componentName, strategy) {
 	try {
 		await routesGenerator.runActions({
 			componentName,
-			capitalizeName: isWebComponent(componentName)
+			capitalizeName: testWebComponent(componentName)
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
 			strategy
@@ -154,10 +152,14 @@ export async function generateRoutesFile(componentName, strategy) {
 export async function generateSvelteFile(componentName) {
 	const svelteGenerator = plop.getGenerator('svelte files');
 
+	console.log(componentName)
+
+	const isWebComponent = testWebComponent(componentName)
+
 	try {
 		await svelteGenerator.runActions({
 			componentName,
-			capitalizeName: isWebComponent(componentName)
+			capitalizeName: isWebComponent
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
 			svelteType: isWebComponent ? 'web-component' : 'component'

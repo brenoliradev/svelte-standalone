@@ -14,7 +14,7 @@ import { terser } from 'rollup-plugin-terser';
 import fs from 'fs';
 import { rootDir } from '../utils/rootdir';
 
-const testWebComponent = (c) => /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(c);
+import { testWebComponent } from '../utils/isWebComponent';
 
 const getPostCSSPlugins = (purgeDir) => [
 	tailwindcss({

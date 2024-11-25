@@ -1,5 +1,5 @@
-import findUp from 'find-up';
+import { findUpSync } from 'find-up';
 
-const root = findUp.sync('package.json')?.replace('/package.json', '');
+const root = findUpSync('package.json')?.replace('/package.json', '');
 
 export const rootDir = root ?? process.cwd();
