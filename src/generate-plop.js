@@ -1,9 +1,10 @@
 import fs from 'fs';
 import nodePlop from 'node-plop';
 import path from 'path';
+
 import { rootDir } from './cli/utils/rootdir';
 
-const routesDir = path.resolve(rootDir, "src/route");
+const routesDir = path.resolve(rootDir, "src/routes");
 
 const initialContent = `<div class="flex flex-col items-start gap-2 p-2"></div>`;
 const newLink = (componentName) =>
