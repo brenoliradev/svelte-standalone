@@ -12,13 +12,14 @@ import strip from 'rollup-plugin-strip';
 import { terser } from 'rollup-plugin-terser';
 
 import fs from 'fs';
+import { rootDir } from '../utils/rootdir';
 
 const getPostCSSPlugins = (purgeDir) => [
 	tailwindcss({
 		content: [
-			`${purgeDir}/*.{svelte,ts,js}`,
-			`${purgeDir}/*/*.{svelte,ts,js}`,
-			'src/shared/*/*.{svelte,ts,js}'
+			path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
+			path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
+			path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
 		]
 	}),
 	cssnanoPlugin()
@@ -69,7 +70,7 @@ const handleBuild = (files) =>
 					name: componentName,
 					fileName: componentName
 				},
-				outDir: 'static/dist/standalone',
+				outDir: path.resolve(rootDir, 'static/dist/standalone'),
 				rollupOptions: {
 					output: {
 						chunkFileNames: 'chunks/[name].[hash].js',
@@ -97,8 +98,7 @@ const handleBuild = (files) =>
 			},
 			resolve: {
 				alias: {
-					'@': path.resolve(__dirname.replace('.standalone', ''), 'src'),
-					standalone: path.resolve(__dirname)
+					'@': path.resolve(rootDir, 'src'),
 				}
 			}
 		});
@@ -109,7 +109,7 @@ export const buildStandalone = (files) =>
 		const isWebComponent = /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.build.lib.name);
 		build({ ...config, configFile: false }).then(
 			(f) =>
-				isWebComponent && injectCSSWebComponent(`static/dist/standalone/${f[0].output[0].fileName}`)
+				isWebComponent && injectCSSWebComponent(path.resolve(rootDir, `static/dist/standalone/${f[0].output[0].fileName}`))
 		);
 	});
 
@@ -122,7 +122,7 @@ function injectCSSWebComponent(file) {
 
 		const modifiedContent = data.replace(
 			/document\.head\.appendChild\(([^)]+)\)/g,
-			"document.getElementsByTagName('my-component')[0].shadowRoot.appendChild($1)"
+			"Array.from(document.getElementsByTagName('my-component')).forEach((el) => el.shadowRoot.appendChild($1))"
 		);
 
 		fs.writeFile(file, modifiedContent, 'utf8', (err) => {

@@ -16,8 +16,7 @@ const embeddableName = {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
 		}
-		const embeddablePath = path.resolve(rootDir, `src/_standalone/${input}/index.svelte`);
-		if (fs.existsSync(embeddablePath)) {
+		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}
@@ -37,8 +36,7 @@ const webComponentName = {
 			);
 			return false;
 		}
-		const webComponentPath = path.resolve(rootDir, `src/_standalone/${input}/index.svelte`);
-		if (fs.existsSync(webComponentPath)) {
+		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}
