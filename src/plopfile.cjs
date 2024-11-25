@@ -1,4 +1,5 @@
-const rootDir = process.cwd()
+const path = require('path');
+const rootDir = process.cwd();
 
 module.exports = function (plop) {
 	plop.setGenerator('story', {
@@ -6,7 +7,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: rootDir + '/src/stories/{{componentName}}.stories.ts',
+				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.ts'),
 				templateFile: 'src/plop-templates/story/{{strategy}}.hbs'
 			}
 		]
@@ -16,7 +17,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: rootDir + '/src/_standalone/{{componentName}}/embed.ts',
+				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
 				templateFile: 'src/plop-templates/embed/{{strategy}}.hbs'
 			}
 		]
@@ -26,7 +27,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: rootDir + '/src/_standalone/{{componentName}}/types.ts',
+				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/types.ts'),
 				templateFile: 'src/plop-templates/types/{{strategy}}.hbs'
 			}
 		]
@@ -36,7 +37,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: rootDir + '/src/routes/{{componentName}}/+page.svelte',
+				path: path.resolve(rootDir, 'src/routes/{{componentName}}/+page.svelte'),
 				templateFile: 'src/plop-templates/route/{{strategy}}.hbs'
 			}
 		]
@@ -46,7 +47,7 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: rootDir + '/src/_standalone/{{componentName}}/index.svelte',
+				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
 				templateFile: 'src/plop-templates/{{svelteType}}.hbs'
 			}
 		]
