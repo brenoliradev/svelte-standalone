@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 import { Command } from 'commander';
-4
+
 import packageJson from '../../package.json';
 
 import { generate } from './cli-create.js';

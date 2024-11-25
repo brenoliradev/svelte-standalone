@@ -11,6 +11,8 @@ const newLink = (componentName) =>
 // Initialize Plop
 const plop = await nodePlop(`${__dirname}/plopfile.cjs`);
 
+console.log(__dirname)
+
 function isWebComponent(componentName) {
 	return componentName.includes('-');
 }
