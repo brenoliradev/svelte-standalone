@@ -14,6 +14,8 @@ import { terser } from 'rollup-plugin-terser';
 import fs from 'fs';
 import { rootDir } from '../utils/rootdir';
 
+const testWebComponent = (c) => /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(c);
+
 const getPostCSSPlugins = (purgeDir) => [
 	tailwindcss({
 		content: [
@@ -46,14 +48,15 @@ const commonPlugins = (componentName, visualizerDir, isWebComponent) => [
 
 const handleBuild = (files) =>
 	files.map((file) => {
-		const componentName = path.dirname(file).replace('src/', '').replace('_standalone/', '');
+		const componentName = path.dirname(file).split('/').at(-1);
+		console.log(componentName, path.dirname(file));
 		const visualizerDir = path
 			.dirname(file)
 			.replace('src', 'static')
 			.replace('_standalone', 'dist/visualizer');
 		const purgeDir = path.dirname(file).replace('embed.ts', '');
 
-		const isWebComponent = /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(componentName);
+		const isWebComponent = testWebComponent(componentName);
 
 		return defineConfig({
 			css: {
@@ -98,7 +101,7 @@ const handleBuild = (files) =>
 			},
 			resolve: {
 				alias: {
-					'@': path.resolve(rootDir, 'src'),
+					'@': path.resolve(rootDir, 'src')
 				}
 			}
 		});
@@ -106,10 +109,12 @@ const handleBuild = (files) =>
 
 export const buildStandalone = (files) =>
 	handleBuild(files).map((config) => {
-		const isWebComponent = /^[a-z][a-z0-9]*-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.build.lib.name);
 		build({ ...config, configFile: false }).then(
 			(f) =>
-				isWebComponent && injectCSSWebComponent(path.resolve(rootDir, `static/dist/standalone/${f[0].output[0].fileName}`))
+				testWebComponent(config.build.lib.name) &&
+				injectCSSWebComponent(
+					path.resolve(rootDir, `static/dist/standalone/${f[0].output[0].fileName}`)
+				)
 		);
 	});
 

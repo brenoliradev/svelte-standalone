@@ -1,7 +1,7 @@
 import { rootDir } from './cli/utils/rootdir';
 const path = require('path');
 
-const templates = __dirname.replace('/dist/src', '')
+const templates = __dirname.replace('/dist/src', '');
 
 module.exports = function (plop) {
 	plop.setGenerator('story', {

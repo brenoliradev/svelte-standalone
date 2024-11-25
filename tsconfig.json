@@ -9,7 +9,7 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true,
-		"outDir": "dist",
+		"outDir": "dist"
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist"]
