@@ -17,7 +17,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/_standalone/{{componentName}}/embed.ts',
-				templateFile: __dirname + '/plop-templates/embed/{{strategy}}.hbs'
+				templateFile: 'plop-templates/embed/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -27,7 +27,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/_standalone/{{componentName}}/types.ts',
-				templateFile: __dirname + '/plop-templates/types/{{strategy}}.hbs'
+				templateFile: 'plop-templates/types/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -37,7 +37,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/routes/{{componentName}}/+page.svelte',
-				templateFile: __dirname + '/plop-templates/route/{{strategy}}.hbs'
+				templateFile: 'plop-templates/route/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -47,7 +47,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/_standalone/{{componentName}}/index.svelte',
-				templateFile: __dirname + '/plop-templates/{{svelteType}}.hbs'
+				templateFile: 'plop-templates/{{svelteType}}.hbs'
 			}
 		]
 	});

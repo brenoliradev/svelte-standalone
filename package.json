@@ -1,6 +1,6 @@
 {
 	"name": "svelte-standalone",
-	"version": "1.2.8-beta",
+	"version": "1.2.10-beta",
 	"description": "Transform Svelte components in standalone scripts!",
 	"bin": {
 		"standalone": "dist/src/cli/cli.js"
@@ -12,7 +12,8 @@
 		}
 	},
 	"files": [
-		"dist"
+		"dist",
+		"plop-templates"
 	],
 	"devDependencies": {
 		"@tsconfig/svelte": "^5.0.4",
