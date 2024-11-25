@@ -1,6 +1,8 @@
 import { rootDir } from './cli/utils/rootdir';
 const path = require('path');
 
+const templates = __dirname.replace('/dist/src', '')
+
 module.exports = function (plop) {
 	plop.setGenerator('story', {
 		description: 'Generate a Storybook story',
@@ -8,7 +10,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.ts'),
-				templateFile: path.resolve(rootDir, 'src/plop-templates/story/{{strategy}}.hbs')
+				templateFile: path.resolve(templates, 'src/plop-templates/story/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -19,7 +21,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
-				templateFile: path.resolve(rootDir, 'src/plop-templates/embed/{{strategy}}.hbs')
+				templateFile: path.resolve(templates, 'src/plop-templates/embed/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -30,7 +32,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/types.ts'),
-				templateFile: path.resolve(rootDir, 'src/plop-templates/types/{{strategy}}.hbs')
+				templateFile: path.resolve(templates, 'src/plop-templates/types/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -41,7 +43,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/routes/{{componentName}}/+page.svelte'),
-				templateFile: path.resolve(rootDir, 'src/plop-templates/route/{{strategy}}.hbs')
+				templateFile: path.resolve(templates, 'src/plop-templates/route/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -52,7 +54,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
-				templateFile: path.resolve(rootDir, 'src/plop-templates/{{svelteType}}.hbs')
+				templateFile: path.resolve(templates, 'src/plop-templates/{{svelteType}}.hbs')
 			}
 		]
 	});
