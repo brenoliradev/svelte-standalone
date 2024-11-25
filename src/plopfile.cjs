@@ -7,7 +7,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/stories/{{componentName}}.stories.ts',
-				templateFile: 'plop-templates/story/{{strategy}}.hbs'
+				templateFile: 'src/plop-templates/story/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -17,7 +17,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/_standalone/{{componentName}}/embed.ts',
-				templateFile: 'plop-templates/embed/{{strategy}}.hbs'
+				templateFile: 'src/plop-templates/embed/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -27,7 +27,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/_standalone/{{componentName}}/types.ts',
-				templateFile: 'plop-templates/types/{{strategy}}.hbs'
+				templateFile: 'src/plop-templates/types/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -37,7 +37,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/routes/{{componentName}}/+page.svelte',
-				templateFile: 'plop-templates/route/{{strategy}}.hbs'
+				templateFile: 'src/plop-templates/route/{{strategy}}.hbs'
 			}
 		]
 	});
@@ -47,7 +47,7 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: rootDir + '/src/_standalone/{{componentName}}/index.svelte',
-				templateFile: 'plop-templates/{{svelteType}}.hbs'
+				templateFile: 'src/plop-templates/{{svelteType}}.hbs'
 			}
 		]
 	});
