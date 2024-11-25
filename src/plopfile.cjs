@@ -1,5 +1,5 @@
+import { rootDir } from './cli/utils/rootdir';
 const path = require('path');
-const rootDir = process.cwd();
 
 module.exports = function (plop) {
 	plop.setGenerator('story', {
@@ -8,47 +8,51 @@ module.exports = function (plop) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.ts'),
-				templateFile: 'src/plop-templates/story/{{strategy}}.hbs'
+				templateFile: path.resolve(rootDir, 'src/plop-templates/story/{{strategy}}.hbs')
 			}
 		]
 	});
+
 	plop.setGenerator('embed files', {
 		description: 'Generate a embed.ts default file',
 		actions: [
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
-				templateFile: 'src/plop-templates/embed/{{strategy}}.hbs'
+				templateFile: path.resolve(rootDir, 'src/plop-templates/embed/{{strategy}}.hbs')
 			}
 		]
 	});
+
 	plop.setGenerator('types files', {
 		description: 'Generate a types.ts default file',
 		actions: [
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/types.ts'),
-				templateFile: 'src/plop-templates/types/{{strategy}}.hbs'
+				templateFile: path.resolve(rootDir, 'src/plop-templates/types/{{strategy}}.hbs')
 			}
 		]
 	});
+
 	plop.setGenerator('routes files', {
 		description: 'Generate a default route handler that imports the script',
 		actions: [
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/routes/{{componentName}}/+page.svelte'),
-				templateFile: 'src/plop-templates/route/{{strategy}}.hbs'
+				templateFile: path.resolve(rootDir, 'src/plop-templates/route/{{strategy}}.hbs')
 			}
 		]
 	});
+
 	plop.setGenerator('svelte files', {
 		description: 'Generate a default svelte component to be embedded',
 		actions: [
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
-				templateFile: 'src/plop-templates/{{svelteType}}.hbs'
+				templateFile: path.resolve(rootDir, 'src/plop-templates/{{svelteType}}.hbs')
 			}
 		]
 	});

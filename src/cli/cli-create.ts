@@ -1,9 +1,10 @@
-import inquirer from 'inquirer';
+import path from 'path';
 import fs from 'fs';
 
-import { create } from './methods/create.js';
+import { rootDir } from './utils/rootdir.js';
+import inquirer from 'inquirer';
 
-const rootDir = process.cwd()
+import { create } from './methods/create.js';
 
 const embeddableName = {
 	type: 'input',
@@ -15,7 +16,8 @@ const embeddableName = {
 			console.error('Invalid component name. Please use only alphanumeric characters.');
 			return false;
 		}
-		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
+		const embeddablePath = path.resolve(rootDir, `src/_standalone/${input}/index.svelte`);
+		if (fs.existsSync(embeddablePath)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}
@@ -35,7 +37,8 @@ const webComponentName = {
 			);
 			return false;
 		}
-		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
+		const webComponentPath = path.resolve(rootDir, `src/_standalone/${input}/index.svelte`);
+		if (fs.existsSync(webComponentPath)) {
 			console.error(`Invalid name. ${input} already exists.`);
 			return false;
 		}

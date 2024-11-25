@@ -1,3 +1,3 @@
-import { embed, autoEmbedOnBody, autoEmbedWithTarget, embedMultiple } from "./embed"
+import { embed, autoEmbedOnBody, autoEmbedWithTarget, embedMultiple } from './embed';
 
-export { embed, autoEmbedOnBody, autoEmbedWithTarget, embedMultiple }
+export { embed, autoEmbedOnBody, autoEmbedWithTarget, embedMultiple };

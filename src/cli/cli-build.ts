@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import { glob } from 'glob';
 import { buildStandalone } from './methods/index.js';
 
-const rootDir = process.cwd()
+const rootDir = process.cwd();
 
 const components = glob
 	.sync(`${rootDir}/src/_standalone/**/embed.{js,ts}`) // Matches both .js and .ts

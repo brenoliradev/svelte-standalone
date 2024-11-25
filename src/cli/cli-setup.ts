@@ -18,16 +18,16 @@ const shouldInclude = {
 			value: 'routes',
 			short: 'Routes'
 		},
-        {
-            name: 'Tailwind',
-            value: 'tailwind',
-            short: 'Tailwind'
-        },
-        {
-            name: 'Vitest',
-            value: 'vitest',
-            short: 'Vitest'
-        }
+		{
+			name: 'Tailwind',
+			value: 'tailwind',
+			short: 'Tailwind'
+		},
+		{
+			name: 'Vitest',
+			value: 'vitest',
+			short: 'Vitest'
+		}
 	]
 } as const;
 

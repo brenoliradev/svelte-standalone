@@ -1,3 +1,3 @@
-import { Support } from "../cli-create";
+import { Support } from '../cli-create';
 
-export const handleSetup = (support: Support) => {}
+export const handleSetup = (support: Support) => {};

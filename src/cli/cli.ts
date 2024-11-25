@@ -19,10 +19,7 @@ program
 	.description('Generate code for start your standalone components')
 	.action(generate);
 
-program
-	.command('add')
-	.description('Setup your components')
-	.action(setup)
+program.command('add').description('Setup your components').action(setup);
 
 program.command('build').description('Build your standalone components').action(build);
 
