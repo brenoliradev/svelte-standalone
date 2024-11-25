@@ -77,7 +77,6 @@ const embeddableStrategy = {
 	]
 } as const;
 
-
 export type EmbeddableStrageies = (typeof embeddableStrategy.choices)[number]['value'];
 
 export async function generate() {

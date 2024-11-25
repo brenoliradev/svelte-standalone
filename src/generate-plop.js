@@ -152,9 +152,7 @@ export async function generateRoutesFile(componentName, strategy) {
 export async function generateSvelteFile(componentName) {
 	const svelteGenerator = plop.getGenerator('svelte files');
 
-	console.log(componentName)
-
-	const isWebComponent = testWebComponent(componentName)
+	const isWebComponent = testWebComponent(componentName);
 
 	try {
 		await svelteGenerator.runActions({

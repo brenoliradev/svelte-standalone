@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import { Command } from 'commander';
 
-import packageJson from '../../package.json';
+import v from '../../v.json';
 
 import { generate } from './cli-create.js';
 import { build } from './cli-build.js';
@@ -12,7 +12,7 @@ const program = new Command();
 program
 	.name('standalone')
 	.description('Generate standalone components with delightful developer experience')
-	.version(packageJson.version, '-v, --version', 'output the current version');
+	.version(v, '-v, --version', 'output the current version');
 
 program
 	.command('create')
