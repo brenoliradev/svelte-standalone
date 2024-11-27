@@ -95,13 +95,14 @@ export function embed<T extends SvelteComponent>(mount: ComponentType<T>, id: st
  */
 export function embedMultiple<T extends SvelteComponent>(mount: ComponentType<T>, id: string) {
 	(window as unknown as MultipleEmbedWindow<T>)[id] = {
-		start: (props, target) => ({
-			stop: () =>
-				new mount({
-					target: document.getElementById(target!) ?? document.body,
-					props: props
-				}).$destroy()
-		})
+		start: (props, target) => {
+			const c = new mount({
+				target: document.getElementById(target!) ?? document.body,
+				props: props
+			});
+
+			return { stop: c.$destroy };
+		}
 	};
 }
 
@@ -114,13 +115,14 @@ export function embedMultiple<T extends SvelteComponent>(mount: ComponentType<T>
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  */
 export const autoEmbedWithTarget = <T extends SvelteComponent>(mount: ComponentType<T>) => {
-	const t = window.location.search.split('target=')[1].split('&')[0]!;
+	const t = window.location.search.split('target=')[1].split('&')[0];
+
+	const c = new mount({
+		target: document.getElementById(t) ?? document.body
+	});
 
 	(window as unknown as TargetEmbeddedWindow<typeof t>)[t] = {
-		stop: () =>
-			new mount({
-				target: document.getElementById(t) ?? document.body
-			}).$destroy()
+		stop: c.$destroy
 	};
 };
 
@@ -131,10 +133,12 @@ export const autoEmbedWithTarget = <T extends SvelteComponent>(mount: ComponentT
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  * @param {string} id - The name of the embedding instance. Will define `window[id].stop`.
  */
-export const autoEmbedOnBody = <T extends SvelteComponent>(mount: ComponentType<T>, id: string) =>
-	((window as unknown as TargetEmbeddedWindow<typeof id>)[id] = {
-		stop: () =>
-			new mount({
-				target: document.body
-			}).$destroy()
+export const autoEmbedOnBody = <T extends SvelteComponent>(mount: ComponentType<T>, id: string) => {
+	const c = new mount({
+		target: document.body
 	});
+
+	(window as unknown as TargetEmbeddedWindow<typeof id>)[id] = {
+		stop: c.$destroy
+	};
+};

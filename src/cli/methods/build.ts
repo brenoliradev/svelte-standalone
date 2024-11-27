@@ -6,7 +6,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
-import { libInjectCss } from 'vite-plugin-lib-inject-css'; 
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
 import strip from 'rollup-plugin-strip';
 
@@ -57,9 +57,9 @@ const handleBuild = (files: string[]) =>
 		const purgeDir = path.dirname(file).replace('embed.ts', '');
 
 		if (!componentName) {
-			console.error("Invalid fileName: ", file)
+			console.error('Invalid fileName: ', file);
 
-			return
+			return;
 		}
 
 		const isWebComponent = testWebComponent(componentName);
@@ -120,27 +120,33 @@ export const buildStandalone = async (files: string[]) => {
 			configs.map(async (config) => {
 				try {
 					const result = await build({ ...config, configFile: false });
-			
+
 					if (Array.isArray(result)) {
-					  result.forEach((output) => {
-						if (output.output && output.output[0]?.fileName) {
-						  const filePath = path.resolve(rootDir, `static/dist/standalone/${output.output[0].fileName}`);
-						  const fileName = output.output[0].fileName.split('.min.js')[0];
+						result.forEach((output) => {
+							if (output.output && output.output[0]?.fileName) {
+								const filePath = path.resolve(
+									rootDir,
+									`static/dist/standalone/${output.output[0].fileName}`
+								);
+								const fileName = output.output[0].fileName.split('.min.js')[0];
 
-						  if (testWebComponent(fileName)) injectCSSWebComponent(filePath, fileName);
-						}
-					  });
+								if (testWebComponent(fileName)) injectCSSWebComponent(filePath, fileName);
+							}
+						});
 					} else if ('output' in result) {
-					  if (result.output && result.output[0]?.fileName) {
-						const filePath = path.resolve(rootDir, `static/dist/standalone/${result.output[0].fileName}`);
-						const fileName = result.output[0].fileName.split('.min.js')[0];
+						if (result.output && result.output[0]?.fileName) {
+							const filePath = path.resolve(
+								rootDir,
+								`static/dist/standalone/${result.output[0].fileName}`
+							);
+							const fileName = result.output[0].fileName.split('.min.js')[0];
 
-						if (testWebComponent(fileName)) await injectCSSWebComponent(filePath, fileName);
+							if (testWebComponent(fileName)) await injectCSSWebComponent(filePath, fileName);
+						}
 					}
-					}
-				  } catch (buildError) {
+				} catch (buildError) {
 					console.error('Error during build:', buildError);
-				  }
+				}
 			})
 		);
 	} catch (handleBuildError) {
