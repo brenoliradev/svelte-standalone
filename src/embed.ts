@@ -101,7 +101,7 @@ export function embedMultiple<T extends SvelteComponent>(mount: ComponentType<T>
 				props: props
 			});
 
-			return { stop: c.$destroy };
+			return { stop: () => c.$destroy() };
 		}
 	};
 }
@@ -115,14 +115,14 @@ export function embedMultiple<T extends SvelteComponent>(mount: ComponentType<T>
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  */
 export const autoEmbedWithTarget = <T extends SvelteComponent>(mount: ComponentType<T>) => {
-	const t = window.location.search.split('target=')[1].split('&')[0];
+	const t = (document.currentScript as HTMLScriptElement).src.split('target=')[1].split('&')[0];
 
 	const c = new mount({
 		target: document.getElementById(t) ?? document.body
 	});
 
 	(window as unknown as TargetEmbeddedWindow<typeof t>)[t] = {
-		stop: c.$destroy
+		stop: () => c.$destroy()
 	};
 };
 
@@ -138,7 +138,8 @@ export const autoEmbedOnBody = <T extends SvelteComponent>(mount: ComponentType<
 		target: document.body
 	});
 
+
 	(window as unknown as TargetEmbeddedWindow<typeof id>)[id] = {
-		stop: c.$destroy
+		stop: () => c.$destroy()
 	};
 };

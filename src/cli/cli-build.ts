@@ -42,7 +42,7 @@ export const buildStrategy = {
 
 export type BuildStrageies = (typeof buildStrategy.choices)[number]['value'];
 
-export async function build() {
+export async function build(prod: boolean) {
 	if (buildStrategy.choices.length === 0) {
 		console.warn(
 			"You don't have any standalone component. Generate them using bun standalone generate."
@@ -52,5 +52,6 @@ export async function build() {
 	}
 
 	const answers = await inquirer.prompt(buildStrategy);
-	buildStandalone(answers.components);
+
+	buildStandalone(answers.components, prod);
 }

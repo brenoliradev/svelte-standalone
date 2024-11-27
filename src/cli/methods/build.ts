@@ -47,7 +47,7 @@ const commonPlugins = (componentName: string, visualizerDir: string, isWebCompon
 	libInjectCss()
 ];
 
-const handleBuild = (files: string[]) =>
+const handleBuild = (files: string[], prod: boolean) =>
 	files.map((file) => {
 		const componentName = path.dirname(file).split('/').at(-1);
 		const visualizerDir = path
@@ -88,10 +88,10 @@ const handleBuild = (files: string[]) =>
 					},
 					plugins: [
 						resolve({ browser: true, dedupe: ['svelte'] }),
-						strip({
+						prod && strip({
 							functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
 						}),
-						terser({
+						prod && terser({
 							compress: {
 								drop_console: true,
 								unused: true,
@@ -113,9 +113,9 @@ const handleBuild = (files: string[]) =>
 		});
 	});
 
-export const buildStandalone = async (files: string[]) => {
+export const buildStandalone = async (files: string[], prod: boolean) => {
 	try {
-		const configs = handleBuild(files);
+		const configs = handleBuild(files, prod);
 		await Promise.all(
 			configs.map(async (config) => {
 				try {
@@ -128,7 +128,9 @@ export const buildStandalone = async (files: string[]) => {
 									rootDir,
 									`static/dist/standalone/${output.output[0].fileName}`
 								);
-								const fileName = output.output[0].fileName.split('.min.js')[0];
+								const fileName = output.output[0].fileName.replace('.min.js', '');
+
+								console.log(fileName)
 
 								if (testWebComponent(fileName)) injectCSSWebComponent(filePath, fileName);
 							}
@@ -139,7 +141,9 @@ export const buildStandalone = async (files: string[]) => {
 								rootDir,
 								`static/dist/standalone/${result.output[0].fileName}`
 							);
-							const fileName = result.output[0].fileName.split('.min.js')[0];
+							const fileName = result.output[0].fileName.replace('.min.js', '');
+
+							console.log(fileName)
 
 							if (testWebComponent(fileName)) await injectCSSWebComponent(filePath, fileName);
 						}

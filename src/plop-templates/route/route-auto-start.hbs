@@ -12,7 +12,7 @@
 		document.head.removeChild(script);
 
 		// also cleanup from body
-		document.getElementById('{{componentName}}').remove();
+		window[{{componentName}}].stop();
 	  };
 	});
 </script>

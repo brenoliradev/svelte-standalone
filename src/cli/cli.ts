@@ -21,7 +21,14 @@ program
 
 program.command('add').description('Setup your components').action(setup);
 
-program.command('build').description('Build your standalone components').action(build);
+program.command('build').description('Build your standalone components').option('--production', 'Build for production')
+.action((cmd) => {
+  if (cmd.production) {
+	build(true)
+  } else {
+	build(false)
+  }
+});
 
 if (process.argv.length < 3) {
 	program.help();
