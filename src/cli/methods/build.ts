@@ -30,8 +30,7 @@ const getPostCSSPlugins = (purgeDir: string) => [
 
 const getProd = (prod: boolean) =>
 	prod
-		? undefined
-		: [
+		? [
 				strip({
 					functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
 				}),
@@ -46,7 +45,8 @@ const getProd = (prod: boolean) =>
 						comments: false
 					}
 				})
-			];
+			]
+		: [];
 
 const getConfig = (isWebComponent: boolean) => {
 	return isWebComponent
@@ -106,7 +106,7 @@ const handleBuild = (files: string[], prod: boolean) =>
 						assetFileNames: 'assets/[name][extname]',
 						entryFileNames: `${componentName}.min.js`
 					},
-					plugins: [resolve({ browser: true, dedupe: ['svelte'] }), getProd(prod)]
+					plugins: [resolve({ browser: true, dedupe: ['svelte'] }), ...getProd(prod)]
 				}
 			},
 			resolve: {
