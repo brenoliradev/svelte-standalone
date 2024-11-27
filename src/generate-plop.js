@@ -118,8 +118,10 @@ export async function generateRoutesFile(componentName, strategy) {
 		// Append link to routes page
 		const pageFilePath = path.join(routesDir, '+page.svelte');
 
+		console.log(pageFilePath)
+
 		fs.readFile(pageFilePath, 'utf8', (err, data) => {
-			if (err.code !== 'ENOENT') {
+			if (err && err.code !== 'ENOENT') {
 				console.error(`Error reading ${pageFilePath}:`, err);
 				return;
 			}
