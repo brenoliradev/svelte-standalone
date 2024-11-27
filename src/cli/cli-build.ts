@@ -1,8 +1,8 @@
 import inquirer from 'inquirer';
 
 import { glob } from 'glob';
-import { buildStandalone } from './methods/index.js';
-import { testWebComponent } from './utils/isWebComponent.js';
+import { buildStandalone } from './methods';
+import { testWebComponent } from './utils/isWebComponent';
 
 const rootDir = process.cwd();
 

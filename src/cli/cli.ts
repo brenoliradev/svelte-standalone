@@ -3,9 +3,9 @@ import { Command } from 'commander';
 
 import v from '../../v.json';
 
-import { generate } from './cli-create.js';
-import { build } from './cli-build.js';
-import { setup } from './cli-setup.js';
+import { generate } from './cli-create';
+import { build } from './cli-build';
+import { setup } from './cli-setup';
 
 const program = new Command();
 

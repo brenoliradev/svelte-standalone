@@ -1,4 +1,4 @@
-import { EmbeddableStrageies } from '../cli-create.js';
+import { EmbeddableStrageies } from '../cli-create';
 
 const TYPE_TO_ROUTE: { [key in EmbeddableStrageies]: string } = {
 	autoEmbedOnBody: 'route-auto-start',
@@ -17,8 +17,8 @@ const TYPE_TO_STORY: { [key in EmbeddableStrageies]: string } = {
 } as const;
 
 const TYPE_TO_TYPESCRIPT: { [key in EmbeddableStrageies]?: string } = {
-	autoEmbedOnBody: undefined,
-	autoEmbedWithTarget: undefined,
+	autoEmbedOnBody: 'types-auto',
+	autoEmbedWithTarget: 'types-auto',
 	embed: 'types',
 	embedMultiple: 'types-multiple',
 	webcomponent: 'types-web-component'

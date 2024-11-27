@@ -113,12 +113,13 @@ export const buildStandalone = (files) =>
 			(f) =>
 				testWebComponent(config.build.lib.name) &&
 				injectCSSWebComponent(
-					path.resolve(rootDir, `static/dist/standalone/${f[0].output[0].fileName}`)
+					path.resolve(rootDir, `static/dist/standalone/${f[0].output[0].fileName}`),
+					f[0].output[0].fileName
 				)
 		);
 	});
 
-function injectCSSWebComponent(file) {
+function injectCSSWebComponent(file, n) {
 	fs.readFile(file, 'utf8', (err, data) => {
 		if (err) {
 			console.error('Error reading file:', err);
@@ -127,7 +128,7 @@ function injectCSSWebComponent(file) {
 
 		const modifiedContent = data.replace(
 			/document\.head\.appendChild\(([^)]+)\)/g,
-			"Array.from(document.getElementsByTagName('my-component')).forEach((el) => el.shadowRoot.appendChild($1))"
+			`Array.from(document.getElementsByTagName(${n})).forEach((el) => el.shadowRoot.appendChild($1))`
 		);
 
 		fs.writeFile(file, modifiedContent, 'utf8', (err) => {

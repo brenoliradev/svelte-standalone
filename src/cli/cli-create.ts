@@ -1,10 +1,9 @@
-import path from 'path';
 import fs from 'fs';
 
-import { rootDir } from './utils/rootdir.js';
+import { rootDir } from './utils/rootdir';
 import inquirer from 'inquirer';
 
-import { create } from './methods/create.js';
+import { create } from './methods/create';
 
 const embeddableName = {
 	type: 'input',

@@ -1,25 +1,26 @@
 import fs from 'fs';
-import nodePlop from 'node-plop';
+import nodePlop, { NodePlopAPI, PlopGenerator } from 'node-plop';
 import path from 'path';
 
 import { rootDir } from './cli/utils/rootdir';
+import { testWebComponent } from './cli/utils/isWebComponent';
+import { EmbeddableStrageies } from './cli/cli-create';
+import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils';
 
 const routesDir = path.resolve(rootDir, 'src/routes');
 
-import { testWebComponent } from './cli/utils/isWebComponent';
-
 const initialContent = `<div class="flex flex-col items-start gap-2 p-2"></div>`;
-const newLink = (componentName) =>
+const newLink = (componentName: string) =>
 	`<a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
 // Initialize Plop
-const plop = await nodePlop(`${__dirname}/plopfile.cjs`);
+const plop: NodePlopAPI = await nodePlop(`${__dirname}/plopfile.cjs`);
 
-function capitalizeFirstLetter(string) {
+function capitalizeFirstLetter(string: string): string {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function parseToPascalCase(componentName) {
+function parseToPascalCase(componentName: string): string {
 	return componentName
 		.split('-')
 		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -28,12 +29,9 @@ function parseToPascalCase(componentName) {
 
 /**
  * Generates a Storybook story file for a given component.
- *
- * @param {string} componentName - The name of the component.
- * @param {string} strategy - The strategy for generating the file.
  */
-export async function generateStoryFile(componentName, strategy) {
-	const storyGenerator = plop.getGenerator('story');
+export async function generateStoryFile(componentName: string, strategy: typeof TYPE_TO_STORY[EmbeddableStrageies]): Promise<void> {
+	const storyGenerator: PlopGenerator = plop.getGenerator('story');
 
 	try {
 		await storyGenerator.runActions({
@@ -51,13 +49,13 @@ export async function generateStoryFile(componentName, strategy) {
 
 /**
  * Generates embed files for a given component.
- *
- * @param {string} componentName - The name of the component.
- * @param {string} embedType - The type of embed (e.g., inline, script).
- * @param {string | undefined} strategy - The strategy for generating the file.
  */
-export async function generateEmbedFiles(componentName, embedType, strategy) {
-	const embedGenerator = plop.getGenerator('embed files');
+export async function generateEmbedFiles(
+	componentName: string,
+	embedType: EmbeddableStrageies,
+	strategy?: typeof TYPE_TO_EMBED[EmbeddableStrageies]
+): Promise<void> {
+	const embedGenerator: PlopGenerator = plop.getGenerator('embed files');
 
 	try {
 		await embedGenerator.runActions({
@@ -76,12 +74,9 @@ export async function generateEmbedFiles(componentName, embedType, strategy) {
 
 /**
  * Generates type declaration files for a given component.
- *
- * @param {string} componentName - The name of the component.
- * @param {string | undefined} strategy - The type of embed (e.g., inline, script).
  */
-export async function generateTypesFile(componentName, strategy) {
-	const typesGenerator = plop.getGenerator('types files');
+export async function generateTypesFile(componentName: string, strategy?: typeof TYPE_TO_TYPESCRIPT[EmbeddableStrageies]): Promise<void> {
+	const typesGenerator: PlopGenerator = plop.getGenerator('types files');
 
 	try {
 		await typesGenerator.runActions({
@@ -99,12 +94,9 @@ export async function generateTypesFile(componentName, strategy) {
 
 /**
  * Generates route files for a given component and appends a link to the routes page.
- *
- * @param {string} componentName - The name of the component.
- * @param {string} strategy - The strategy for generating the file.
  */
-export async function generateRoutesFile(componentName, strategy) {
-	const routesGenerator = plop.getGenerator('routes files');
+export async function generateRoutesFile(componentName: string, strategy: typeof TYPE_TO_ROUTE[EmbeddableStrageies]): Promise<void> {
+	const routesGenerator: PlopGenerator = plop.getGenerator('routes files');
 
 	try {
 		await routesGenerator.runActions({
@@ -118,8 +110,6 @@ export async function generateRoutesFile(componentName, strategy) {
 		// Append link to routes page
 		const pageFilePath = path.join(routesDir, '+page.svelte');
 
-		console.log(pageFilePath)
-
 		fs.readFile(pageFilePath, 'utf8', (err, data) => {
 			if (err && err.code !== 'ENOENT') {
 				console.error(`Error reading ${pageFilePath}:`, err);
@@ -127,12 +117,12 @@ export async function generateRoutesFile(componentName, strategy) {
 			}
 
 			// Insert before the closing </div> tag
-			const updatedData = (data ? data : initialContent).replace(
+			const updatedData = (data || initialContent).replace(
 				/(<\/div>)/g,
 				`${newLink(componentName)}$1`
 			);
 
-			fs.appendFile(pageFilePath, updatedData, 'utf8', (err) => {
+			fs.writeFile(pageFilePath, updatedData, 'utf8', (err) => {
 				if (err) {
 					console.error(`Error writing ${pageFilePath}:`, err);
 				} else {
@@ -148,11 +138,9 @@ export async function generateRoutesFile(componentName, strategy) {
 
 /**
  * Generates a Svelte file for a given component.
- *
- * @param {string} componentName - The name of the component.
  */
-export async function generateSvelteFile(componentName) {
-	const svelteGenerator = plop.getGenerator('svelte files');
+export async function generateSvelteFile(componentName: string): Promise<void> {
+	const svelteGenerator: PlopGenerator = plop.getGenerator('svelte files');
 
 	const isWebComponent = testWebComponent(componentName);
 

@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 
-import { handleSetup } from './methods/setup.js';
+import { handleSetup } from './methods/setup';
 
 const shouldInclude = {
 	type: 'checkbox',
