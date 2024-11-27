@@ -138,7 +138,6 @@ export const autoEmbedOnBody = <T extends SvelteComponent>(mount: ComponentType<
 		target: document.body
 	});
 
-
 	(window as unknown as TargetEmbeddedWindow<typeof id>)[id] = {
 		stop: () => c.$destroy()
 	};

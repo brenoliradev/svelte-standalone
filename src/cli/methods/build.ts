@@ -28,6 +28,26 @@ const getPostCSSPlugins = (purgeDir: string) => [
 	cssnanoPlugin()
 ];
 
+const getProd = (prod: boolean) =>
+	prod
+		? undefined
+		: [
+				strip({
+					functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
+				}),
+				terser({
+					compress: {
+						drop_console: true,
+						unused: true,
+						reduce_vars: true,
+						pure_funcs: ['console.debug', 'debug']
+					},
+					output: {
+						comments: false
+					}
+				})
+			];
+
 const getConfig = (isWebComponent: boolean) => {
 	return isWebComponent
 		? {
@@ -86,23 +106,7 @@ const handleBuild = (files: string[], prod: boolean) =>
 						assetFileNames: 'assets/[name][extname]',
 						entryFileNames: `${componentName}.min.js`
 					},
-					plugins: [
-						resolve({ browser: true, dedupe: ['svelte'] }),
-						prod && strip({
-							functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
-						}),
-						prod && terser({
-							compress: {
-								drop_console: true,
-								unused: true,
-								reduce_vars: true,
-								pure_funcs: ['console.debug', 'debug']
-							},
-							output: {
-								comments: false
-							}
-						})
-					]
+					plugins: [resolve({ browser: true, dedupe: ['svelte'] }), getProd(prod)]
 				}
 			},
 			resolve: {
@@ -130,7 +134,7 @@ export const buildStandalone = async (files: string[], prod: boolean) => {
 								);
 								const fileName = output.output[0].fileName.replace('.min.js', '');
 
-								console.log(fileName)
+								console.log(fileName);
 
 								if (testWebComponent(fileName)) injectCSSWebComponent(filePath, fileName);
 							}
@@ -143,7 +147,7 @@ export const buildStandalone = async (files: string[], prod: boolean) => {
 							);
 							const fileName = result.output[0].fileName.replace('.min.js', '');
 
-							console.log(fileName)
+							console.log(fileName);
 
 							if (testWebComponent(fileName)) await injectCSSWebComponent(filePath, fileName);
 						}

@@ -16,7 +16,7 @@ const TYPE_TO_STORY: { [key in EmbeddableStrageies]: string } = {
 	webcomponent: 'story-with-config'
 } as const;
 
-const TYPE_TO_TYPESCRIPT: { [key in EmbeddableStrageies]?: string } = {
+const TYPE_TO_TYPESCRIPT: { [key in EmbeddableStrageies]: string } = {
 	autoEmbedOnBody: 'types-auto',
 	autoEmbedWithTarget: 'types-auto',
 	embed: 'types',
@@ -29,7 +29,7 @@ const TYPE_TO_EMBED: { [key in EmbeddableStrageies]?: string } = {
 	autoEmbedWithTarget: 'embed-with-target',
 	embed: 'embed',
 	embedMultiple: 'embed',
-	webcomponent: 'embed-web-component'
+	webcomponent: undefined
 } as const;
 
 export { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_TYPESCRIPT, TYPE_TO_STORY };
