@@ -1,20 +1,36 @@
 /* eslint-disable */
-import type { ComponentProps, SvelteComponent } from 'svelte';
+import type { ComponentProps, ComponentType, SvelteComponent } from 'svelte';
 
-declare global {
-	interface Window {
-		[key: string]: any;
-	}
-}
+export type EmbedWindow<T extends SvelteComponent> = Window & {
+	[key: string]: {
+		start: (props: ComponentProps<T>) => void;
+		stop: () => void;
+	};
+};
 
-// default with import/export
-export function embed<T>(m: T, n: string) {
-	var c: any;
+export type MultipleEmbedWindow<T extends SvelteComponent> = Window & {
+	[key: string]: {
+		start: (
+			props: ComponentProps<T>,
+			target?: string
+		) => {
+			stop: () => void;
+		};
+	};
+};
 
-	window[n] = {
-		start: (props: ComponentProps<T extends SvelteComponent ? T : never>) => {
+export type TargetEmbeddedWindow<R extends string> = Window & {
+	[key in R]: {
+		stop: () => void;
+	};
+};
+
+export function embed<T extends SvelteComponent>(m: ComponentType<T>, n: string) {
+	var c: InstanceType<ComponentType> | null;
+
+	(window as unknown as EmbedWindow<T>)[n] = {
+		start: (props) => {
 			if (!c) {
-				// @ts-expect-error
 				c = new m({
 					target: document.body,
 					props: {
@@ -24,43 +40,37 @@ export function embed<T>(m: T, n: string) {
 				});
 			}
 		},
-		stop: () => (c.$destroy(), (c = false))
+		stop: () => (c?.$destroy(), (c = null))
 	};
 }
 
-export function embedMultiple(m: any, n: string) {
-	window[n] = {
-		start: <T>(props: T, target?: string) => {
-			const c = new m({
-				target: !target ? document.body : document.getElementById(target),
-				props: props
-			});
-
-			return {
-				stop: () => c.$destroy()
-			};
-		}
+export function embedMultiple<T extends SvelteComponent>(m: ComponentType<T>, n: string) {
+	(window as unknown as MultipleEmbedWindow<T>)[n] = {
+		start: (props, target) => ({
+			stop: () =>
+				new m({
+					target: document.getElementById(target!) ?? document.body,
+					props: props
+				}).$destroy()
+		})
 	};
 }
 
-export const autoEmbedWithTarget = (mount: any) => {
-	const t = new URL((document.currentScript as HTMLScriptElement).src).searchParams.get('target')!;
+export const autoEmbedWithTarget = <T extends SvelteComponent>(m: ComponentType<T>) => {
+	const t = window.location.search.split('target=')[1].split('&')[0]!;
 
-	const c = new mount({
-		target: document.getElementById(t)
-	});
-
-	window[t] = {
-		stop: () => c.$destroy()
+	(window as unknown as TargetEmbeddedWindow<typeof t>)[t] = {
+		stop: () =>
+			new m({
+				target: document.getElementById(t) ?? document.body
+			}).$destroy()
 	};
 };
 
-export const autoEmbedOnBody = (m: any, n: string) => {
-	const c = new m({
-		target: document.body
+export const autoEmbedOnBody = <T extends SvelteComponent>(m: ComponentType<T>, n: string) =>
+	((window as unknown as TargetEmbeddedWindow<typeof n>)[n] = {
+		stop: () =>
+			new m({
+				target: document.body
+			}).$destroy()
 	});
-
-	window[n] = {
-		stop: () => c.$destroy()
-	};
-};

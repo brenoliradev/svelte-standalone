@@ -15,17 +15,13 @@ import {
 } from '../utils/hashmaps.js';
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
-	// if ([support].includes('storybook')) {
-	// 	generateStoryFile(componentName, TYPE_TO_STORY[type]);
-	// }
-
+	generateStoryFile(componentName, TYPE_TO_STORY[type]);
+	
 	generateEmbedFiles(componentName, type, TYPE_TO_EMBED[type]);
 
 	generateTypesFile(componentName, TYPE_TO_TYPESCRIPT[type]);
-
-	// if ([support].includes('routes')) {
-	// 	generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
-	// }
+	
+	generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
 
 	generateSvelteFile(componentName);
 };
