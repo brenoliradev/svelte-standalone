@@ -44,7 +44,8 @@
 		"vite-plugin-lib-inject-css": "^2.1.1"
 	},
 	"scripts": {
-		"build": "bun version.js && tsc",
+		"pre:publish": "bun version.js && tsc",
+		"build": "tsc",
 		"format": "prettier --write .",
 		"lint": "prettier --write . && eslint ."
 	},
