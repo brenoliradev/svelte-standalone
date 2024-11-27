@@ -6,7 +6,8 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
-import { libInjectCss } from 'vite-plugin-lib-inject-css';
+import { libInjectCss } from 'vite-plugin-lib-inject-css'; 
+
 import strip from 'rollup-plugin-strip';
 
 import { terser } from 'rollup-plugin-terser';
@@ -16,7 +17,7 @@ import { rootDir } from '../utils/rootdir';
 
 import { testWebComponent } from '../utils/isWebComponent';
 
-const getPostCSSPlugins = (purgeDir) => [
+const getPostCSSPlugins = (purgeDir: string) => [
 	tailwindcss({
 		content: [
 			path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
@@ -27,7 +28,7 @@ const getPostCSSPlugins = (purgeDir) => [
 	cssnanoPlugin()
 ];
 
-const getConfig = (isWebComponent) => {
+const getConfig = (isWebComponent: boolean) => {
 	return isWebComponent
 		? {
 				compilerOptions: {
@@ -37,7 +38,7 @@ const getConfig = (isWebComponent) => {
 		: undefined;
 };
 
-const commonPlugins = (componentName, visualizerDir, isWebComponent) => [
+const commonPlugins = (componentName: string, visualizerDir: string, isWebComponent: boolean) => [
 	svelte({ ...getConfig(isWebComponent), configFile: false }),
 	visualizer({
 		filename: `${visualizerDir}.status.html`,
@@ -46,15 +47,20 @@ const commonPlugins = (componentName, visualizerDir, isWebComponent) => [
 	libInjectCss()
 ];
 
-const handleBuild = (files) =>
+const handleBuild = (files: string[]) =>
 	files.map((file) => {
 		const componentName = path.dirname(file).split('/').at(-1);
-		console.log(componentName, path.dirname(file));
 		const visualizerDir = path
 			.dirname(file)
 			.replace('src', 'static')
 			.replace('_standalone', 'dist/visualizer');
 		const purgeDir = path.dirname(file).replace('embed.ts', '');
+
+		if (!componentName) {
+			console.error("Invalid fileName: ", file)
+
+			return
+		}
 
 		const isWebComponent = testWebComponent(componentName);
 
@@ -107,36 +113,63 @@ const handleBuild = (files) =>
 		});
 	});
 
-export const buildStandalone = (files) =>
-	handleBuild(files).map((config) => {
-		build({ ...config, configFile: false }).then(
-			(f) =>
-				testWebComponent(config.build.lib.name) &&
-				injectCSSWebComponent(
-					path.resolve(rootDir, `static/dist/standalone/${f[0].output[0].fileName}`),
-					f[0].output[0].fileName
-				)
+export const buildStandalone = async (files: string[]) => {
+	try {
+		const configs = handleBuild(files);
+		await Promise.all(
+			configs.map(async (config) => {
+				try {
+					const result = await build({ ...config, configFile: false });
+			
+					if (Array.isArray(result)) {
+					  result.forEach((output) => {
+						if (output.output && output.output[0]?.fileName) {
+						  const filePath = path.resolve(rootDir, `static/dist/standalone/${output.output[0].fileName}`);
+						  const fileName = output.output[0].fileName.split('.min.js')[0];
+
+						  if (testWebComponent(fileName)) injectCSSWebComponent(filePath, fileName);
+						}
+					  });
+					} else if ('output' in result) {
+					  if (result.output && result.output[0]?.fileName) {
+						const filePath = path.resolve(rootDir, `static/dist/standalone/${result.output[0].fileName}`);
+						const fileName = result.output[0].fileName.split('.min.js')[0];
+
+						if (testWebComponent(fileName)) await injectCSSWebComponent(filePath, fileName);
+					}
+					}
+				  } catch (buildError) {
+					console.error('Error during build:', buildError);
+				  }
+			})
 		);
-	});
+	} catch (handleBuildError) {
+		console.error('Error during handleBuild:', handleBuildError);
+	}
+};
 
-function injectCSSWebComponent(file, n) {
-	fs.readFile(file, 'utf8', (err, data) => {
-		if (err) {
-			console.error('Error reading file:', err);
-			return;
-		}
-
-		const modifiedContent = data.replace(
-			/document\.head\.appendChild\(([^)]+)\)/g,
-			`Array.from(document.getElementsByTagName(${n})).forEach((el) => el.shadowRoot.appendChild($1))`
-		);
-
-		fs.writeFile(file, modifiedContent, 'utf8', (err) => {
+function injectCSSWebComponent(file: string, n: string): Promise<void> {
+	return new Promise((resolve, reject) => {
+		fs.readFile(file, 'utf8', (err, data) => {
 			if (err) {
-				console.error('Error writing file:', err);
-			} else {
-				console.log('File modified successfully.');
+				console.error('Error reading file:', err);
+				return reject(err);
 			}
+
+			const modifiedContent = data.replace(
+				/document\.head\.appendChild\(([^)]+)\)/g,
+				`Array.from(document.getElementsByTagName(${n})).forEach((el) => el.shadowRoot.appendChild($1))`
+			);
+
+			fs.writeFile(file, modifiedContent, 'utf8', (err) => {
+				if (err) {
+					console.error('Error writing file:', err);
+					return reject(err);
+				} else {
+					console.log('File modified successfully.');
+					resolve();
+				}
+			});
 		});
 	});
 }

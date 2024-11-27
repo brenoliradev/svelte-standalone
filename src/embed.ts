@@ -1,8 +1,8 @@
 import type { ComponentProps, ComponentType, SvelteComponent } from 'svelte';
 
 /**
- * Provides definition for `window[id].start` and `window[id].stop` works while embedding with {@link embed}. 
- * 
+ * Provides definition for `window[id].start` and `window[id].stop` works while embedding with {@link embed}.
+ *
  * @template T - The Svelte component type being embedded.
  */
 export type EmbedWindow<T extends SvelteComponent> = {
@@ -22,7 +22,7 @@ export type EmbedWindow<T extends SvelteComponent> = {
 };
 
 /**
- *  * Provides definition for `window[id].start` works while embedding with {@link embedMultiple}. 
+ *  * Provides definition for `window[id].start` works while embedding with {@link embedMultiple}.
  *
  * @template T - The Svelte component type being embedded.
  */
@@ -46,11 +46,11 @@ export type MultipleEmbedWindow<T extends SvelteComponent> = {
 
 /**
  * Provides definition for `window[id].stop` works while embedding with {@link autoEmbedOnBody} or {@link autoEmbedWithTarget}.
- * 
- * * For {@link autoEmbedOnBody} `id` will be the embeddable name. 
+ *
+ * * For {@link autoEmbedOnBody} `id` will be the embeddable name.
  * * For {@link autoEmbedWithTarget} `id` will be the target.
- * 
- * @template R - A string type used as embeddable `id`. 
+ *
+ * @template R - A string type used as embeddable `id`.
  */
 export type TargetEmbeddedWindow<R extends string> = {
 	[id in R]: {
@@ -63,7 +63,7 @@ export type TargetEmbeddedWindow<R extends string> = {
 
 /**
  * Embeds a Svelte component as a singleton.
- * 
+ *
  * @template T - The Svelte component type.
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  * @param {string} id - The id of the embedding instance. Will define `window[id].start` to programmatically start the embeddable and `window[id].stop` to programmatically stop it.
@@ -108,8 +108,8 @@ export function embedMultiple<T extends SvelteComponent>(mount: ComponentType<T>
 /**
  * Automatically embeds a Svelte component in a specific DOM target based on the URL query string.
  *
- * * Should provide a `target` search param to URL. Will define `window[target].stop to programmatically stop the embeddable`. 
- * 
+ * * Should provide a `target` search param to URL. Will define `window[target].stop to programmatically stop the embeddable`.
+ *
  * @template T - The Svelte component type.
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  */

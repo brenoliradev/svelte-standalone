@@ -14,7 +14,7 @@ const newLink = (componentName: string) =>
 	`<a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
 // Initialize Plop
-const plop: NodePlopAPI = await nodePlop(`${__dirname}/plopfile.cjs`);
+const plop: NodePlopAPI = await nodePlop(`${__dirname}/plopfile.cts`);
 
 function capitalizeFirstLetter(string: string): string {
 	return string.charAt(0).toUpperCase() + string.slice(1);
@@ -30,7 +30,10 @@ function parseToPascalCase(componentName: string): string {
 /**
  * Generates a Storybook story file for a given component.
  */
-export async function generateStoryFile(componentName: string, strategy: typeof TYPE_TO_STORY[EmbeddableStrageies]): Promise<void> {
+export async function generateStoryFile(
+	componentName: string,
+	strategy: (typeof TYPE_TO_STORY)[EmbeddableStrageies]
+): Promise<void> {
 	const storyGenerator: PlopGenerator = plop.getGenerator('story');
 
 	try {
@@ -53,7 +56,7 @@ export async function generateStoryFile(componentName: string, strategy: typeof 
 export async function generateEmbedFiles(
 	componentName: string,
 	embedType: EmbeddableStrageies,
-	strategy?: typeof TYPE_TO_EMBED[EmbeddableStrageies]
+	strategy?: (typeof TYPE_TO_EMBED)[EmbeddableStrageies]
 ): Promise<void> {
 	const embedGenerator: PlopGenerator = plop.getGenerator('embed files');
 
@@ -75,7 +78,10 @@ export async function generateEmbedFiles(
 /**
  * Generates type declaration files for a given component.
  */
-export async function generateTypesFile(componentName: string, strategy?: typeof TYPE_TO_TYPESCRIPT[EmbeddableStrageies]): Promise<void> {
+export async function generateTypesFile(
+	componentName: string,
+	strategy?: (typeof TYPE_TO_TYPESCRIPT)[EmbeddableStrageies]
+): Promise<void> {
 	const typesGenerator: PlopGenerator = plop.getGenerator('types files');
 
 	try {
@@ -95,8 +101,14 @@ export async function generateTypesFile(componentName: string, strategy?: typeof
 /**
  * Generates route files for a given component and appends a link to the routes page.
  */
-export async function generateRoutesFile(componentName: string, strategy: typeof TYPE_TO_ROUTE[EmbeddableStrageies]): Promise<void> {
+export async function generateRoutesFile(
+	componentName: string,
+	strategy: (typeof TYPE_TO_ROUTE)[EmbeddableStrageies]
+): Promise<void> {
 	const routesGenerator: PlopGenerator = plop.getGenerator('routes files');
+	const layoutGenerator: PlopGenerator = plop.getGenerator('layout files');
+
+	await layoutGenerator.runActions({});
 
 	try {
 		await routesGenerator.runActions({
