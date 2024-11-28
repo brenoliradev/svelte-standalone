@@ -48,11 +48,11 @@ const embeddableStrategy = {
 	name: 'type',
 	message: 'When should your embeddable be triggered?',
 	choices: [
-		{
-			name: 'Should bundle as a Web Component',
-			value: 'webcomponent',
-			short: 'Web component'
-		},
+		// {
+		// 	name: 'Should bundle as a Web Component',
+		// 	value: 'webcomponent',
+		// 	short: 'Web component'
+		// },
 		{
 			name: 'On explicit call can be mounted only once',
 			value: 'embed',
@@ -80,9 +80,7 @@ export type EmbeddableStrageies = (typeof embeddableStrategy.choices)[number]['v
 
 export async function generate() {
 	const a1 = await inquirer.prompt(embeddableStrategy);
-	const a2 = await inquirer.prompt(
-		(a1.type as EmbeddableStrageies) === 'webcomponent' ? webComponentName : embeddableName
-	);
+	const a2 = await inquirer.prompt(embeddableName);
 
 	create(a2.name, a1.type);
 }

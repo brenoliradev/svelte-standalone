@@ -1,4 +1,4 @@
-import { build, defineConfig } from 'vite';
+import { build, defineConfig, type PluginOption } from 'vite';
 import path from 'path';
 
 import tailwindcss from 'tailwindcss';
@@ -17,20 +17,23 @@ import { rootDir } from '../utils/rootdir';
 
 import { testWebComponent } from '../utils/isWebComponent';
 
-const getPostCSSPlugins = (purgeDir: string) => [
-	tailwindcss({
-		content: [
-			path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
-			path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
-			path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
-		]
-	}),
-	cssnanoPlugin()
-];
+import postcss from 'postcss';
+
+const getPostCSSPlugins = (purgeDir: string) =>
+	[
+		tailwindcss({
+			content: [
+				path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
+				path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
+				path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
+			]
+		}),
+		cssnanoPlugin()
+	] as unknown as postcss.AcceptedPlugin[];
 
 const getProd = (prod: boolean) =>
 	prod
-		? [
+		? ([
 				strip({
 					functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
 				}),
@@ -45,7 +48,7 @@ const getProd = (prod: boolean) =>
 						comments: false
 					}
 				})
-			]
+			] as unknown as PluginOption[])
 		: [];
 
 const getConfig = (isWebComponent: boolean) => {

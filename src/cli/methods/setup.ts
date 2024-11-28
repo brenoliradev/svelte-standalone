@@ -1,1 +1,3 @@
-export const handleSetup = () => {};
+import { Tool } from '../cli-setup';
+
+export const handleSetup = (tool: Tool) => {};

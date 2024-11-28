@@ -72,4 +72,15 @@ module.exports = function (plop: NodePlopAPI) {
 			}
 		]
 	});
+
+	plop.setGenerator('tool files', {
+		description: 'Implement a default tooling',
+		actions: [
+			{
+				type: 'add',
+				path: path.resolve(rootDir, 'src'),
+				templateFile: path.resolve(templates, 'src/plop-templates/tool/{{tool}}.hbs')
+			}
+		]
+	});
 };

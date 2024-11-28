@@ -30,10 +30,10 @@ const shouldInclude = {
 	]
 } as const;
 
-export type Support = (typeof shouldInclude.choices)[number]['value'];
+export type Tool = (typeof shouldInclude.choices)[number]['value'];
 
 export async function setup() {
 	const answers = await inquirer.prompt(shouldInclude);
 
-	handleSetup();
+	handleSetup(answers.support);
 }
