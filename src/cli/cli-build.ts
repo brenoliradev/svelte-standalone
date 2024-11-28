@@ -57,7 +57,7 @@ export async function build(prod: boolean, all: boolean) {
 		return;
 	}
 
-	if (!all) {
+	if (all) {
 		buildStandalone(
 			c.map((c) => c.value),
 			prod

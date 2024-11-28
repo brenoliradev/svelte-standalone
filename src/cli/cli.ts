@@ -8,8 +8,6 @@ import { generate } from './cli-create';
 
 import { build } from './cli-build';
 
-import { setup } from './cli-setup';
-
 const program = new Command();
 
 program
@@ -21,8 +19,6 @@ program
 	.command('create')
 	.description('Generate code for start your standalone components')
 	.action(generate);
-
-program.command('add').description('Setup your components').action(setup);
 
 program
 	.command('build')
