@@ -31,7 +31,7 @@ export const create = (componentName: string, type: EmbeddableStrageies) => {
 	}
 
 	generateEmbedFiles(componentName, type, TYPE_TO_EMBED[type]);
-	
+
 	generateTypesFile(componentName, TYPE_TO_TYPESCRIPT[type]);
 
 	generateSvelteFile(componentName, includesTailwind);
