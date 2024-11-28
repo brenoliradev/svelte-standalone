@@ -151,7 +151,7 @@ export async function generateRoutesFile(
 /**
  * Generates a Svelte file for a given component.
  */
-export async function generateSvelteFile(componentName: string): Promise<void> {
+export async function generateSvelteFile(componentName: string, tailwind: boolean): Promise<void> {
 	const svelteGenerator: PlopGenerator = plop.getGenerator('svelte files');
 
 	const isWebComponent = testWebComponent(componentName);
@@ -162,7 +162,8 @@ export async function generateSvelteFile(componentName: string): Promise<void> {
 			capitalizeName: isWebComponent
 				? parseToPascalCase(componentName)
 				: capitalizeFirstLetter(componentName),
-			svelteType: isWebComponent ? 'web-component' : 'component'
+			svelteType: isWebComponent ? 'web-component' : 'component',
+			tailwind
 		});
 		console.log(`Svelte file for ${componentName} generated successfully.`);
 	} catch (err) {

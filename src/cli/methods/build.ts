@@ -1,7 +1,7 @@
 import { build, defineConfig, type PluginOption } from 'vite';
 import path from 'path';
 
-import tailwindcss from 'tailwindcss';
+import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
@@ -18,16 +18,31 @@ import { rootDir } from '../utils/rootdir';
 import { testWebComponent } from '../utils/isWebComponent';
 
 import postcss from 'postcss';
+import purgecss from '@fullhuman/postcss-purgecss';
+
+const tailwindConfig = fs.readFileSync(
+	path.resolve(rootDir, 'tailwind.config.js')
+) as unknown as Config;
 
 const getPostCSSPlugins = (purgeDir: string) =>
 	[
-		tailwindcss({
-			content: [
-				path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
-				path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
-				path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
-			]
-		}),
+		tailwindConfig &&
+			tailwindcss({
+				...tailwindConfig,
+				content: [
+					path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
+					path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
+					path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
+				]
+			}),
+		!tailwindConfig &&
+			purgecss({
+				content: [
+					path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
+					path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
+					path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
+				]
+			}),
 		cssnanoPlugin()
 	] as unknown as postcss.AcceptedPlugin[];
 

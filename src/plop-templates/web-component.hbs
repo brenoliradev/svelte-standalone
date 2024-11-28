@@ -1,8 +1,10 @@
 <svelte:options customElement="{{componentName}}" />
 
 <script lang="ts">
-    import '@/css/tailwind-utils.css'
+    {{#if tailwind}}
+    import 'svelte-standalone/css/tailwind-utils.css';
 
+    {{/if}}
     const greeting = () => {
         alert('thank you for using svelte-standalone!')
     }
