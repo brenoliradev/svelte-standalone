@@ -14,7 +14,7 @@ import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from 
 import { rootDir } from '../utils/rootdir';
 
 const storybookPath = path.resolve(rootDir, '.storybook');
-const svelteKitPath = path.resolve(rootDir, '.svelte-kit') || path.resolve(rootDir, 'node_modules/@sveltejs/kit');
+const svelteKitPath = path.resolve(rootDir, 'node_modules/@sveltejs/kit');
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
     if (fs.existsSync(storybookPath)) {
