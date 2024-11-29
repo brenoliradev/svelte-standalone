@@ -145,7 +145,6 @@ export async function generateRoutesFile(
 export async function generateSvelteFile(componentName: string, tailwind: boolean): Promise<void> {
 	const svelteGenerator: PlopGenerator = plop.getGenerator('svelte files');
 
-
 	try {
 		await svelteGenerator.runActions({
 			componentName,
