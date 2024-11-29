@@ -123,7 +123,7 @@ const handleBuild = (files: string[], prod: boolean) =>
 
 export const buildStandalone = async (files: string[], prod: boolean) => {
 	try {
-		const configs = handleBuild(files, prod);
+		handleBuild(files, prod);
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
 	}
