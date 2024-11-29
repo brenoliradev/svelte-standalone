@@ -13,9 +13,9 @@ import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from 
 
 import { rootDir } from '../utils/rootdir';
 
-const storybookPath = path.resolve(rootDir, '.storybook');
-const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
-const svelteKitPath = path.resolve(rootDir, 'node_modules/@sveltejs/kit');
+const storybookPath = path.join(rootDir, '.storybook');
+const tailwindPath = path.join(rootDir, 'tailwind.config.js');
+const svelteKitPath = path.join(rootDir, 'node_modules/@sveltejs/kit');
 
 const includesKit = fs.existsSync(svelteKitPath);
 const includesStorybook = fs.existsSync(storybookPath);

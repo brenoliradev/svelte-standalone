@@ -17,9 +17,11 @@ import { rootDir } from '../utils/rootdir';
 
 import postcss from 'postcss';
 
-const tailwindConfig = fs.readFileSync(
-	path.resolve(rootDir, 'tailwind.config.js')
-) as unknown as Config;
+const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
+
+const tailwindConfig = fs.existsSync(tailwindPath)
+	? (fs.readFileSync(tailwindPath) as unknown as Config)
+	: undefined;
 
 const getPostCSSPlugins = (purgeDir: string) =>
 	[
