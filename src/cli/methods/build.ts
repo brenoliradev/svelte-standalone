@@ -16,7 +16,6 @@ import fs from 'fs';
 import { rootDir } from '../utils/rootdir';
 
 import postcss from 'postcss';
-import purgecss from '@fullhuman/postcss-purgecss';
 
 const tailwindConfig = fs.readFileSync(
 	path.resolve(rootDir, 'tailwind.config.js')
@@ -27,14 +26,6 @@ const getPostCSSPlugins = (purgeDir: string) =>
 		tailwindConfig &&
 			tailwindcss({
 				...tailwindConfig,
-				content: [
-					path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
-					path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
-					path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
-				]
-			}),
-		!tailwindConfig &&
-			purgecss({
 				content: [
 					path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
 					path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
@@ -123,7 +114,9 @@ const handleBuild = (files: string[], prod: boolean) =>
 
 export const buildStandalone = async (files: string[], prod: boolean) => {
 	try {
-		handleBuild(files, prod);
+		const configs = handleBuild(files, prod);
+
+		configs.forEach((c) => build({ ...c, configFile: false }));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
 	}
