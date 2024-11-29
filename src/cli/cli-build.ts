@@ -2,7 +2,6 @@ import inquirer from 'inquirer';
 
 import { glob } from 'glob';
 import { buildStandalone } from './methods';
-import { testWebComponent } from './utils/isWebComponent';
 
 const rootDir = process.cwd();
 
@@ -20,20 +19,7 @@ const components = glob
 		checked: true
 	}));
 
-const webComponents = glob
-	.sync(`${rootDir}/src/_standalone/**/index.svelte`)
-	.map((path) => {
-		const match = path.match(/src\/_standalone\/(.*?)\/index\.svelte/);
-		return match ? { match: match[1], path } : null;
-	})
-	.filter((w) => w && testWebComponent(w.match))
-	.map((c) => ({
-		name: c?.match ?? undefined,
-		value: c?.path ?? undefined,
-		checked: true
-	}));
-
-const c = [...webComponents, ...components].filter((c) => c.value && c.name) as {
+const c = components.filter((c) => c.value && c.name) as {
 	name: string;
 	value: string;
 	checked: boolean;

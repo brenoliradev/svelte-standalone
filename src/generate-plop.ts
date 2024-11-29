@@ -3,7 +3,6 @@ import nodePlop, { NodePlopAPI, PlopGenerator } from 'node-plop';
 import path from 'path';
 
 import { rootDir } from './cli/utils/rootdir';
-import { testWebComponent } from './cli/utils/isWebComponent';
 import { EmbeddableStrageies } from './cli/cli-create';
 import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils';
 
@@ -39,9 +38,7 @@ export async function generateStoryFile(
 	try {
 		await storyGenerator.runActions({
 			componentName,
-			capitalizeName: testWebComponent(componentName)
-				? parseToPascalCase(componentName)
-				: capitalizeFirstLetter(componentName),
+			capitalizeName: capitalizeFirstLetter(componentName),
 			strategy
 		});
 		console.log(`Story for ${componentName} generated successfully.`);
@@ -63,9 +60,7 @@ export async function generateEmbedFiles(
 	try {
 		await embedGenerator.runActions({
 			componentName,
-			capitalizeName: testWebComponent(componentName)
-				? parseToPascalCase(componentName)
-				: capitalizeFirstLetter(componentName),
+			capitalizeName: capitalizeFirstLetter(componentName),
 			embedType,
 			strategy
 		});
@@ -87,9 +82,7 @@ export async function generateTypesFile(
 	try {
 		await typesGenerator.runActions({
 			componentName,
-			capitalizeName: testWebComponent(componentName)
-				? parseToPascalCase(componentName)
-				: capitalizeFirstLetter(componentName),
+			capitalizeName: capitalizeFirstLetter(componentName),
 			strategy
 		});
 		console.log(`Types file for ${componentName} generated successfully.`);
@@ -113,9 +106,7 @@ export async function generateRoutesFile(
 	try {
 		await routesGenerator.runActions({
 			componentName,
-			capitalizeName: testWebComponent(componentName)
-				? parseToPascalCase(componentName)
-				: capitalizeFirstLetter(componentName),
+			capitalizeName: capitalizeFirstLetter(componentName),
 			strategy
 		});
 
@@ -154,15 +145,11 @@ export async function generateRoutesFile(
 export async function generateSvelteFile(componentName: string, tailwind: boolean): Promise<void> {
 	const svelteGenerator: PlopGenerator = plop.getGenerator('svelte files');
 
-	const isWebComponent = testWebComponent(componentName);
 
 	try {
 		await svelteGenerator.runActions({
 			componentName,
-			capitalizeName: isWebComponent
-				? parseToPascalCase(componentName)
-				: capitalizeFirstLetter(componentName),
-			svelteType: isWebComponent ? 'web-component' : 'component',
+			capitalizeName: capitalizeFirstLetter(componentName),
 			tailwind
 		});
 		console.log(`Svelte file for ${componentName} generated successfully.`);
