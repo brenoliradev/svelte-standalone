@@ -68,7 +68,7 @@ module.exports = function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
-				templateFile: path.resolve(templates, 'src/plop-templates/{{svelteType}}.hbs')
+				templateFile: path.resolve(templates, 'src/plop-templates/component.hbs')
 			}
 		]
 	});
