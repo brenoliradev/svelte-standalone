@@ -10,7 +10,7 @@ import { includesTailwind, includesTypeScript } from './cli/utils/isDependency';
 
 const routesDir = path.resolve(rootDir, 'src/routes');
 
-const initialContent = `<div class="home-flex"></div>`;
+const initialContent = `<div></div>`;
 const newLink = (componentName: string) =>
 	`<a class="home-button" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
