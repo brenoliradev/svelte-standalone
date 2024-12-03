@@ -13,13 +13,11 @@ import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from 
 
 import { rootDir } from '../utils/rootdir';
 
-const storybookPath = path.join(rootDir, '.storybook');
-const tailwindPath = path.join(rootDir, 'tailwind.config.js');
+const storybookPath = path.join(rootDir, 'node_modules/@storybook');
 const svelteKitPath = path.join(rootDir, 'node_modules/@sveltejs/kit');
 
 const includesKit = fs.existsSync(svelteKitPath);
 const includesStorybook = fs.existsSync(storybookPath);
-const includesTailwind = fs.existsSync(tailwindPath);
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
 	if (includesStorybook) {
@@ -34,5 +32,5 @@ export const create = (componentName: string, type: EmbeddableStrageies) => {
 
 	generateTypesFile(componentName, TYPE_TO_TYPESCRIPT[type]);
 
-	generateSvelteFile(componentName, includesTailwind);
+	generateSvelteFile(componentName);
 };

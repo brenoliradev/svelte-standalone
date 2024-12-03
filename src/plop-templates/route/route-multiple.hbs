@@ -1,7 +1,8 @@
-<script lang="ts">
+<script {{#if typescript}}lang="ts"{{/if}}>
+	import { onDestroy } from 'svelte';
 	import { defaultConfig } from '@/_standalone/{{componentName}}/types';
 
-	let validInstances: Map<number, () => void> = new Map();
+	let validInstances{{#if typescript}}: Map<number, () => void>{{/if}} = new Map();
 
 	const generateInstance = () => {
 		const { stop } = window.{{componentName}}.start(defaultConfig);
@@ -9,12 +10,19 @@
 		validInstances = validInstances.set(Math.random() * 100, stop);
 	};
 
-	const removeInstance = (instance: () => void, i: number) => {
+	const removeInstance = (instance{{#if typescript}}: () => void, i: number{{/if}}) => {
 		instance();
 
 		validInstances.delete(i);
 		validInstances = validInstances;
 	};
+
+	onDestroy(() => {
+		validInstances.forEach((v) => {
+			v();
+		})
+		validInstances = [];
+	})
 </script>
 
 <svelte:head>

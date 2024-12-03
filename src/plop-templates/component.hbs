@@ -1,4 +1,4 @@
-<script lang="ts">
+<script {{#if typescript}}lang="ts"{{/if}}>
     {{#if tailwind}}
     import 'svelte-standalone/css/tailwind-utils.css';
 
@@ -8,4 +8,35 @@
     }
 </script>
 
-<button on:click|preventDefault={greeting} class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Hello world</button>    
+<button 
+    on:click|preventDefault={greeting} 
+    {{#if tailwind}}
+        class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    {{/if}}
+    {{#if !tailwind}}
+        class="btn"
+    {{/if}}
+>
+    Hello world
+</button>    
+
+{{#if !tailwind}}
+<style>
+    .btn {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem; 
+        padding-left: 1.25rem;
+        padding-right: 1.25rem; 
+        border-radius: 0.5rem; 
+        font-size: 0.875rem;
+        line-height: 1.25rem; 
+        font-weight: 500; 
+        color: #ffffff; 
+        background-color: #1D4ED8; 
+    }
+
+    .btn:hover {
+        background-color: #1E40AF; 
+     }
+</style>
+{{/if}}

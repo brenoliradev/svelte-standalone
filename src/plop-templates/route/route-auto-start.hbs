@@ -1,4 +1,4 @@
-<script lang="ts">
+<script {{#if typescript}}lang="ts"{{/if}}>
 	import { onMount } from 'svelte';
   
 	onMount(() => {
@@ -10,9 +10,7 @@
   
 	  return () => {
 		document.head.removeChild(script);
-
-		// also cleanup from body
-		window[{{componentName}}].stop();
+		window.{{componentName}}.stop();
 	  };
 	});
 </script>
