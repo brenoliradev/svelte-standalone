@@ -5,6 +5,7 @@ import path from 'path';
 import { rootDir } from './cli/utils/rootdir';
 import { EmbeddableStrageies } from './cli/cli-create';
 import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils';
+import { includesTailwind, includesTypeScript } from './cli/utils/isDependency';
 
 const routesDir = path.resolve(rootDir, 'src/routes');
 
@@ -12,11 +13,8 @@ const initialContent = `<div class="flex flex-col items-start gap-2 p-2"></div>`
 const newLink = (componentName: string) =>
 	`<a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
-const typescriptPath = path.join(rootDir, 'node_modules/typescript');
-const typescript = fs.existsSync(typescriptPath);
-
-const tailwindPath = path.join(rootDir, 'node_modules/tailwindcss');
-const tailwind = fs.existsSync(tailwindPath);
+const typescript = includesTypeScript();
+const tailwind = includesTailwind();
 
 // Initialize Plop
 const plop: NodePlopAPI = await nodePlop(

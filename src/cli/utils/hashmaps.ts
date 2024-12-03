@@ -1,5 +1,3 @@
-import { EmbeddableStrageies } from '../cli-create';
-
 const TYPE_TO_ROUTE = {
 	autoEmbedOnBody: 'route-auto-start',
 	autoEmbedWithTarget: 'route-with-target',
