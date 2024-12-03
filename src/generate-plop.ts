@@ -84,7 +84,7 @@ export async function generateTypesFile(
 		await typesGenerator.runActions({
 			componentName,
 			capitalizeName: capitalizeFirstLetter(componentName),
-			strategy,
+			strategy: typescript ? strategy : 'no-typescript',
 			typescript
 		});
 		console.log(`Config file for ${componentName} generated successfully.`);
