@@ -1,0 +1,13 @@
+{{#if typescript}} 
+import type { Meta, StoryObj } from '@storybook/svelte';
+{{/if}}
+import {{capitalizeName}} from '@/_standalone/{{componentName}}/index.svelte';
+
+export default {
+	title: 'Standalone/{{capitalizeName}}',
+	component: {{capitalizeName}}
+}{{#if typescript}} satisfies Meta<{{capitalizeName}}>{{/if}};
+
+export const {{capitalizeName}}Story{{#if typescript}}: StoryObj<{{capitalizeName}}>{{/if}} = {
+	args: {} // don't have args since auto-embeddable
+};
