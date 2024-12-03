@@ -1,6 +1,11 @@
 <script {{#if typescript}}lang="ts"{{/if}}>
 	import { onDestroy } from 'svelte';
-	import { defaultConfig } from '@/_standalone/{{componentName}}/types';
+	
+	{{#if typescript}}
+	import { defaultConfig } from '@/_standalone/{{componentName}}/config';
+	{{/else}}
+	import { defaultConfig } from '@/_standalone/{{componentName}}/config.js';
+	{{/if}}
 
 	let validInstances{{#if typescript}}: Map<number, () => void>{{/if}} = new Map();
 

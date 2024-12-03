@@ -1,7 +1,11 @@
 <script {{#if typescript}}lang="ts"{{/if}}>
 	import { browser } from '$app/environment';
 
-	import { defaultConfig } from '@/_standalone/{{componentName}}/types';
+	{{#if typescript}}
+	import { defaultConfig } from '@/_standalone/{{componentName}}/config';
+	{{/else}}
+	import { defaultConfig } from '@/_standalone/{{componentName}}/config.js';
+	{{/if}}
 
 	const initScript = () => {
 		if (browser) {

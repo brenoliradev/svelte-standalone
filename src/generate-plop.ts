@@ -5,13 +5,14 @@ import path from 'path';
 import { rootDir } from './cli/utils/rootdir';
 import { EmbeddableStrageies } from './cli/cli-create';
 import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils';
+
 import { includesTailwind, includesTypeScript } from './cli/utils/isDependency';
 
 const routesDir = path.resolve(rootDir, 'src/routes');
 
-const initialContent = `<div class="flex flex-col items-start gap-2 p-2"></div>`;
+const initialContent = `<div class="home-flex"></div>`;
 const newLink = (componentName: string) =>
-	`<a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
+	`<a class="home-button" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
 const typescript = includesTypeScript();
 const tailwind = includesTailwind();
@@ -77,7 +78,7 @@ export async function generateTypesFile(
 	componentName: string,
 	strategy?: (typeof TYPE_TO_TYPESCRIPT)[EmbeddableStrageies]
 ): Promise<void> {
-	const typesGenerator: PlopGenerator = plop.getGenerator('types files');
+	const typesGenerator: PlopGenerator = plop.getGenerator('config files');
 
 	try {
 		await typesGenerator.runActions({
@@ -86,9 +87,9 @@ export async function generateTypesFile(
 			strategy,
 			typescript
 		});
-		console.log(`Types file for ${componentName} generated successfully.`);
+		console.log(`Config file for ${componentName} generated successfully.`);
 	} catch (err) {
-		console.error(`Error generating types file for ${componentName}:`, err);
+		console.error(`Error generating config file for ${componentName}:`, err);
 	}
 }
 

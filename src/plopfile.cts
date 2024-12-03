@@ -29,13 +29,13 @@ module.exports = function (plop: NodePlopAPI) {
 		]
 	});
 
-	plop.setGenerator('types files', {
-		description: 'Generate a types.ts default file',
+	plop.setGenerator('config files', {
+		description: 'Generate a config.ts default file',
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/types.ts'),
-				templateFile: path.resolve(templates, 'plop-templates/types/{{strategy}}.hbs')
+				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/config.ts'),
+				templateFile: path.resolve(templates, 'plop-templates/config/{{strategy}}.hbs')
 			}
 		]
 	});

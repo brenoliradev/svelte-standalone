@@ -3,7 +3,12 @@ import type { Meta, StoryObj } from '@storybook/svelte';
 {{/if}}
 
 import {{capitalizeName}} from '@/_standalone/{{componentName}}/index.svelte';
-import { defaultConfig } from '@/_standalone/{{componentName}}/types';
+
+{{#if typescript}}
+import { defaultConfig } from '@/_standalone/{{componentName}}/config';
+{{/else}}
+import { defaultConfig } from '@/_standalone/{{componentName}}/config.js';
+{{/if}}
 
 export default {
 	title: 'Standalone/{{capitalizeName}}',
