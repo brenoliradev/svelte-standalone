@@ -12,29 +12,29 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.ts'),
+				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.js'),
 				templateFile: path.resolve(templates, 'src/plop-templates/story/{{strategy}}.hbs')
 			}
 		]
 	});
 
 	plop.setGenerator('embed files', {
-		description: 'Generate a embed.ts default file',
+		description: 'Generate a embed.js default file',
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
+				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.js'),
 				templateFile: path.resolve(templates, 'src/plop-templates/embed/{{strategy}}.hbs'),
 			}
 		]
 	});
 
 	plop.setGenerator('types files', {
-		description: 'Generate a types.ts default file',
+		description: 'Generate a types.js default file',
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/types.ts'),
+				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/types.js'),
 				templateFile: path.resolve(templates, 'src/plop-templates/types/{{strategy}}.hbs')
 			}
 		]

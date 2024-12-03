@@ -19,7 +19,7 @@ const tailwindPath = path.join(rootDir, 'node_modules/tailwindcss');
 const tailwind = fs.existsSync(tailwindPath);
 
 // Initialize Plop
-const plop: NodePlopAPI = await nodePlop(`${__dirname}/plopfile.cjs`);
+const plop: NodePlopAPI = await nodePlop(`${__dirname}/${typescript ? 'plopfile.cjs' : 'plopfile-with-js.cjs'}`);
 
 function capitalizeFirstLetter(string: string): string {
 	return string.charAt(0).toUpperCase() + string.slice(1);
