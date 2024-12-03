@@ -24,7 +24,7 @@ module.exports = function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.js'),
-				templateFile: path.resolve(templates, 'plop-templates/embed/{{strategy}}.hbs'),
+				templateFile: path.resolve(templates, 'plop-templates/embed/{{strategy}}.hbs')
 			}
 		]
 	});
