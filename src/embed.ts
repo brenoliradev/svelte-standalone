@@ -37,10 +37,7 @@ export type MultipleEmbedWindow<T extends SvelteComponent, R extends string> = {
 		 * @param {string} [target] - Optional target element ID to embed the component into.
 		 * @returns {Object} An object containing a `stop` method to destroy the component.
 		 */
-		start: (
-			props: ComponentProps<T>,
-			target?: string
-		) => InstanceType<ComponentType<T>>;
+		start: (props: ComponentProps<T>, target?: string) => InstanceType<ComponentType<T>>;
 	};
 };
 
@@ -53,7 +50,7 @@ export type MultipleEmbedWindow<T extends SvelteComponent, R extends string> = {
  * @template R - A string type used as embeddable `id`.
  */
 export type TargetEmbeddedWindow<R extends string> = {
-	[id in R]: InstanceType<ComponentType>
+	[id in R]: InstanceType<ComponentType>;
 };
 
 /**
@@ -78,10 +75,10 @@ export function embed<T extends SvelteComponent, R extends string>(mount: Compon
 			}
 		},
 		stop: () => (c?.$destroy(), (c = null)),
-		
+
 		get instance() {
-            return c;
-        }
+			return c;
+		}
 	};
 }
 
@@ -92,12 +89,16 @@ export function embed<T extends SvelteComponent, R extends string>(mount: Compon
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  * @param {string} id - The name of the embedding instance. Will define `window[id].start` to programmatically start the embeddable.
  */
-export function embedMultiple<T extends SvelteComponent, R extends string>(mount: ComponentType<T>, id: R) {
+export function embedMultiple<T extends SvelteComponent, R extends string>(
+	mount: ComponentType<T>,
+	id: R
+) {
 	(window as unknown as MultipleEmbedWindow<T, R>)[id] = {
-		start: (props, target) => new mount({
-			target: document.getElementById(target!) ?? document.body,
-			props: props
-		})
+		start: (props, target) =>
+			new mount({
+				target: document.getElementById(target!) ?? document.body,
+				props: props
+			})
 	};
 }
 
@@ -126,7 +127,10 @@ export const autoEmbedWithTarget = <T extends SvelteComponent>(mount: ComponentT
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  * @param {string} id - The name of the embedding instance. Will define `window[id].stop`.
  */
-export const autoEmbedOnBody = <T extends SvelteComponent, R extends string>(mount: ComponentType<T>, id: R) => 
-	(window as unknown as TargetEmbeddedWindow<R>)[id] = new mount({
+export const autoEmbedOnBody = <T extends SvelteComponent, R extends string>(
+	mount: ComponentType<T>,
+	id: R
+) =>
+	((window as unknown as TargetEmbeddedWindow<R>)[id] = new mount({
 		target: document.body
-	});
+	}));
