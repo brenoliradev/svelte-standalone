@@ -1,6 +1,11 @@
 import type { ComponentProps, ComponentType, SvelteComponent } from 'svelte';
 
 /**
+ * Limits instance to only public props from `SvelteComponent`
+ */
+type StandaloneInstance<T extends SvelteComponent> = Pick<T, '$destroy' | '$on' | '$set'>;
+
+/**
  * Provides definition for `window[id].start` and `window[id].stop` works while embedding with {@link embed}.
  *
  * @template T - The Svelte component type being embedded.
@@ -19,7 +24,7 @@ export type EmbedWindow<T extends SvelteComponent, R extends string> = {
 		 */
 		stop: () => void;
 
-		instance: InstanceType<ComponentType<T>> | null;
+		instance: StandaloneInstance<T> | null;
 	};
 };
 
@@ -37,7 +42,7 @@ export type MultipleEmbedWindow<T extends SvelteComponent, R extends string> = {
 		 * @param {string} [target] - Optional target element ID to embed the component into.
 		 * @returns {Object} An object containing a `stop` method to destroy the component.
 		 */
-		start: (props: ComponentProps<T>, target?: string) => InstanceType<ComponentType<T>>;
+		start: (props: ComponentProps<T>, target?: string) => StandaloneInstance<T>;
 	};
 };
 
@@ -50,7 +55,7 @@ export type MultipleEmbedWindow<T extends SvelteComponent, R extends string> = {
  * @template R - A string type used as embeddable `id`.
  */
 export type TargetEmbeddedWindow<T extends SvelteComponent, R extends string> = {
-	[id in R]: InstanceType<ComponentType<T>>;
+	[id in R]: StandaloneInstance<T>;
 };
 
 /**
@@ -61,7 +66,7 @@ export type TargetEmbeddedWindow<T extends SvelteComponent, R extends string> = 
  * @param {string} id - The id of the embedding instance. Will define `window[id].start` to programmatically start the embeddable and `window[id].stop` to programmatically stop it.
  */
 export function embed<T extends SvelteComponent, R extends string>(mount: ComponentType<T>, id: R) {
-	let c: InstanceType<ComponentType<T>> | null;
+	let c: StandaloneInstance<T> | null;
 
 	(window as unknown as EmbedWindow<T, R>)[id] = {
 		start: (props) => {
