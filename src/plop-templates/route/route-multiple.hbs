@@ -12,7 +12,7 @@
 	const generateInstance = () => {
 		const i = window.{{componentName}}.start(defaultConfig);
 
-		validInstances = validInstances.set(Math.random() * 100, i.$destroy);
+		validInstances = validInstances.set(Math.random() * 100, () => i.$destroy());
 	};
 
 	const removeInstance = (instance{{#if typescript}}: () => void, i: number{{/if}}) => {
