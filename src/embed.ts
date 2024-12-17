@@ -52,8 +52,8 @@ export type MultipleEmbedWindow<T extends SvelteComponent, R extends string> = {
  *
  * @template R - A string type used as embeddable `id`.
  */
-export type TargetEmbeddedWindow<R extends string> = {
-	[id in R]: InstanceType<ComponentType>
+export type TargetEmbeddedWindow<T extends SvelteComponent, R extends string> = {
+	[id in R]: InstanceType<ComponentType<T>>
 };
 
 /**
@@ -109,14 +109,14 @@ export function embedMultiple<T extends SvelteComponent, R extends string>(mount
  * @template T - The Svelte component type.
  * @param {ComponentType<T>} mount - The Svelte component to embed.
  */
-export const autoEmbedWithTarget = <T extends SvelteComponent>(mount: ComponentType<T>) => {
-	const t = (document.currentScript as HTMLScriptElement).src.split('target=')[1].split('&')[0];
+export const autoEmbedWithTarget = <T extends SvelteComponent, R extends string>(mount: ComponentType<T>) => {
+	const t = (document.currentScript as HTMLScriptElement).src.split('target=')[1].split('&')[0] as R;
 
 	const c = new mount({
 		target: document.getElementById(t) ?? document.body
 	});
 
-	(window as unknown as TargetEmbeddedWindow<typeof t>)[t] = c;
+	(window as unknown as TargetEmbeddedWindow<T, R>)[t] = c;
 };
 
 /**
@@ -127,6 +127,6 @@ export const autoEmbedWithTarget = <T extends SvelteComponent>(mount: ComponentT
  * @param {string} id - The name of the embedding instance. Will define `window[id].stop`.
  */
 export const autoEmbedOnBody = <T extends SvelteComponent, R extends string>(mount: ComponentType<T>, id: R) => 
-	(window as unknown as TargetEmbeddedWindow<R>)[id] = new mount({
+	(window as unknown as TargetEmbeddedWindow<T, R>)[id] = new mount({
 		target: document.body
 	});

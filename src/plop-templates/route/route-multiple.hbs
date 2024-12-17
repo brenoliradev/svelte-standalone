@@ -10,9 +10,9 @@
 	let validInstances{{#if typescript}}: Map<number, () => void>{{/if}} = new Map();
 
 	const generateInstance = () => {
-		const { stop } = window.{{componentName}}.start(defaultConfig);
+		const i = window.{{componentName}}.start(defaultConfig);
 
-		validInstances = validInstances.set(Math.random() * 100, stop);
+		validInstances = validInstances.set(Math.random() * 100, i.$destroy);
 	};
 
 	const removeInstance = (instance{{#if typescript}}: () => void, i: number{{/if}}) => {
@@ -26,7 +26,7 @@
 		validInstances.forEach((v) => {
 			v();
 		})
-		validInstances = [];
+		validInstances.clear();
 	})
 </script>
 
