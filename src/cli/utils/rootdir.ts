@@ -1,5 +1,8 @@
 import { findUpSync } from 'find-up';
+import path from 'path';
 
-const root = findUpSync('package.json')?.replace('/package.json', '');
+const p = findUpSync('package.json');
+
+const root = p ? path.dirname(p) : null;
 
 export const rootDir = root ?? process.cwd();

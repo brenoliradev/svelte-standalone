@@ -1,10 +1,8 @@
 import { rootDir } from './cli/utils/rootdir';
-
 import path from 'path';
-
 import { NodePlopAPI } from 'node-plop';
 
-const templates = __dirname.replace('/dist', '');
+const templates = path.dirname(__filename);
 
 module.exports = function (plop: NodePlopAPI) {
 	plop.setGenerator('story', {
@@ -19,7 +17,7 @@ module.exports = function (plop: NodePlopAPI) {
 	});
 
 	plop.setGenerator('embed files', {
-		description: 'Generate a embed.js default file',
+		description: 'Generate an embed.js default file',
 		actions: [
 			{
 				type: 'add',
@@ -63,7 +61,7 @@ module.exports = function (plop: NodePlopAPI) {
 	});
 
 	plop.setGenerator('svelte files', {
-		description: 'Generate a default svelte component to be embedded',
+		description: 'Generate a default Svelte component to be embedded',
 		actions: [
 			{
 				type: 'add',

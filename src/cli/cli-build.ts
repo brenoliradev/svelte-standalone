@@ -2,20 +2,22 @@ import inquirer from 'inquirer';
 
 import { glob } from 'glob';
 import { buildStandalone } from './methods';
+import path from 'path';
 
 const rootDir = process.cwd();
 
 const components = glob
 	.sync(`${rootDir}/src/_standalone/**/embed.{js,ts}`) // Matches both .js and .ts
-	.map((path) => {
-		const match = path.match(/src\/_standalone\/(.*?)\/embed\.(js|ts)/);
-		return match ? { match: match[1], path } : null;
+	.map((file) => {
+		const normalizedPath = path.normalize(file);
+		const match = normalizedPath.match(/src[\\/]_standalone[\\/](.*?)\/embed\.(js|ts)/);
+		return match ? { match: match[1], file } : null;
 	})
 	.filter(Boolean)
 
 	.map((c) => ({
 		name: c?.match ?? undefined,
-		value: c?.path ?? undefined,
+		value: c?.file ?? undefined,
 		checked: true
 	}));
 

@@ -1,38 +1,40 @@
 import fs from 'fs';
 import path from 'path';
-
 import { rootDir } from './rootdir';
 
-function checkDependency(dependency: string): boolean {
-	const packageJsonPath = path.join(rootDir, 'package.json');
+function getPack(): Record<string, { dependencies: unknown; devDependencies: unknown }> | null {
+	const packPath = path.join(rootDir, 'package.json');
 
 	try {
-		const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf-8');
-		const packageJson = JSON.parse(packageJsonContent) as {
-			dependencies?: Record<string, string>;
-			devDependencies?: Record<string, string>;
-		};
-
-		const allDependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
-
-		return dependency in allDependencies;
+		const p = fs.readFileSync(packPath, 'utf-8');
+		return JSON.parse(p);
 	} catch {
-		return false;
+		return null;
 	}
 }
 
+function includes(dependency: string): boolean {
+	const pack = getPack();
+
+	if (!pack) return false;
+
+	const { dependencies = {}, devDependencies = {} } = pack;
+	const allDependencies = { ...dependencies, ...devDependencies };
+	return dependency in allDependencies;
+}
+
 export function includesStorybook(): boolean {
-	return checkDependency('@storybook/react') || checkDependency('@storybook/svelte');
+	return includes('@storybook/react') || includes('@storybook/svelte') || includes('storybook');
 }
 
 export function includesSvelteKit(): boolean {
-	return checkDependency('@sveltejs/kit');
+	return includes('@sveltejs/kit');
 }
 
 export function includesTypeScript(): boolean {
-	return checkDependency('typescript');
+	return includes('typescript');
 }
 
 export function includesTailwind(): boolean {
-	return checkDependency('tailwindcss');
+	return includes('tailwindcss');
 }
