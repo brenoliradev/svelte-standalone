@@ -57,14 +57,15 @@ const getProd = (prod: boolean) =>
 			] as unknown as PluginOption[])
 		: [];
 
-const commonPlugins = (componentName: string, visualizerDir: string) => [
-	svelte({ configFile: false }),
-	visualizer({
-		filename: `${visualizerDir}.status.html`,
-		title: `${componentName} status`
-	}),
-	libInjectCss()
-] as PluginOption[];
+const commonPlugins = (componentName: string, visualizerDir: string) =>
+	[
+		svelte({ configFile: false }),
+		visualizer({
+			filename: `${visualizerDir}.status.html`,
+			title: `${componentName} status`
+		}),
+		libInjectCss()
+	] as PluginOption[];
 
 const handleBuild = (files: string[], prod: boolean) =>
 	files.map((file) => {
@@ -103,7 +104,10 @@ const handleBuild = (files: string[], prod: boolean) =>
 						assetFileNames: 'assets/[name][extname]',
 						entryFileNames: `${componentName}.min.js`
 					},
-					plugins: [resolve({ browser: true, dedupe: ['svelte'] }) as PluginOption, ...getProd(prod)]
+					plugins: [
+						resolve({ browser: true, dedupe: ['svelte'] }) as PluginOption,
+						...getProd(prod)
+					]
 				}
 			},
 			resolve: {
