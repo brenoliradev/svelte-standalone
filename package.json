@@ -5,7 +5,7 @@
 	"bin": {
 		"standalone": "dist/src/cli/cli.js"
 	},
-	"main": "dist/src/cli/cli.js",
+	"main": "./dist/src/index.js",
 	"exports": {
 		".": {
 			"import": "./dist/src/index.js"

@@ -23,8 +23,8 @@ program
 program
 	.command('build')
 	.description('Build your standalone components')
-	.option('--production, -p', 'Build for production')
-	.option('--all, -a', 'Build all Standalone components')
+	.option('-p, --production', 'Build for production')
+	.option('-a, --all', 'Build all Standalone components')
 	.action((cmd) => {
 		build(cmd.production, cmd.all);
 	});
