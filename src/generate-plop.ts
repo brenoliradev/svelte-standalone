@@ -17,7 +17,7 @@ const typescript = includesTypeScript();
 const tailwind = includesTailwind();
 
 const plop: NodePlopAPI = await nodePlop(
-	path.resolve(distDir, typescript ? 'plopfile.cjs' : 'plopfile-with-js.cjs')
+	path.resolve(distDir, typescript ? 'plopfile.js' : 'plopfile-with-js.js')
 );
 
 function capitalizeFirstLetter(string: string): string {

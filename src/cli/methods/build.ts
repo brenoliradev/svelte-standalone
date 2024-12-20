@@ -12,7 +12,7 @@ import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
 
 import fs from 'fs';
-import { rootDir } from '../../dir';
+import { rootDir } from '../../dir.js';
 import { AcceptedPlugin } from 'postcss';
 
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
