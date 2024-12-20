@@ -1,6 +1,6 @@
 {
 	"name": "svelte-standalone",
-	"version": "0.6.15-rc",
+	"version": "0.6.16-rc",
 	"description": "Transform Svelte components in standalone scripts!",
 	"bin": {
 		"standalone": "dist/cli/cli.js"

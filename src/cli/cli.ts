@@ -10,7 +10,7 @@ const program = new Command();
 program
 	.name('standalone')
 	.description('Generate standalone components with delightful developer experience')
-	.version("0.6.14-rc", '-v, --version', 'output the current version');
+	.version("0.6.16-rc", '-v, --version', 'output the current version');
 
 program
 	.command('create')
