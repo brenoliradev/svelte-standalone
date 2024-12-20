@@ -13,7 +13,7 @@ import strip from 'rollup-plugin-strip';
 import { terser } from 'rollup-plugin-terser';
 
 import fs from 'fs';
-import { rootDir } from '../utils/rootdir';
+import { rootDir } from '../../dir';
 
 import postcss from 'postcss';
 

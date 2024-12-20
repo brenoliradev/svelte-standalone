@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { rootDir } from './rootdir';
+import { rootDir } from '../../dir';
 
 function getPack(): Record<string, { dependencies: unknown; devDependencies: unknown }> | null {
 	const packPath = path.join(rootDir, 'package.json');

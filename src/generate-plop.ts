@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import nodePlop, { NodePlopAPI, PlopGenerator } from 'node-plop';
 import path from 'path';
 
-import { rootDir } from './cli/utils/rootdir';
+import { rootDir } from './dir';
 import { EmbeddableStrageies } from './cli/cli-create';
 import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils';
 

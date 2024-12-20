@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { rootDir } from './utils/rootdir';
+import { rootDir } from '../dir';
 import inquirer from 'inquirer';
 
 import { create } from './methods/create';

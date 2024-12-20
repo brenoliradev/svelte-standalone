@@ -1,4 +1,4 @@
-import { moduleDir, rootDir } from './cli/utils/rootdir';
+import { moduleDir, rootDir } from './dir';
 import path from 'path';
 import { NodePlopAPI } from 'node-plop';
 
