@@ -8,15 +8,12 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
-import postcss from 'postcss';
-import strip from 'rollup-plugin-strip';
+import strip from '@rollup/plugin-strip';
+import terser from '@rollup/plugin-terser';
+
 import fs from 'fs';
-import { terser } from 'rollup-plugin-terser';
-
-
-
-import { rootDir } from '../../dir.js';
-
+import { rootDir } from '../../dir';
+import { AcceptedPlugin } from 'postcss';
 
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 
@@ -25,22 +22,23 @@ const tailwindConfig = fs.existsSync(tailwindPath)
 	: undefined;
 
 const getPostCSSPlugins = (purgeDir: string) =>
-	[
-		tailwindConfig &&
-			tailwindcss({
-				...tailwindConfig,
-				content: [
-					path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
-					path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
-					path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
-				]
-			}),
-		cssnanoPlugin()
-	] as unknown as postcss.AcceptedPlugin[];
+	tailwindConfig
+		? ([
+				tailwindcss({
+					...tailwindConfig,
+					content: [
+						path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
+						path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
+						path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
+					]
+				}),
+				cssnanoPlugin()
+			] as AcceptedPlugin[])
+		: ([cssnanoPlugin()] as AcceptedPlugin[]);
 
 const getProd = (prod: boolean) =>
 	prod
-		? ([
+		? [
 				strip({
 					functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
 				}),
@@ -55,7 +53,7 @@ const getProd = (prod: boolean) =>
 						comments: false
 					}
 				})
-			] as unknown as PluginOption[])
+			]
 		: [];
 
 const commonPlugins = (componentName: string, visualizerDir: string) =>
@@ -105,10 +103,7 @@ const handleBuild = (files: string[], prod: boolean) =>
 						assetFileNames: 'assets/[name][extname]',
 						entryFileNames: `${componentName}.min.js`
 					},
-					plugins: [
-						resolve({ browser: true, dedupe: ['svelte'] }) as PluginOption,
-						...getProd(prod)
-					]
+					plugins: [resolve({ browser: true, dedupe: ['svelte'] }), ...getProd(prod)]
 				}
 			},
 			resolve: {
