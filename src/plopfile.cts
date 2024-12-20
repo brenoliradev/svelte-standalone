@@ -2,7 +2,7 @@ import { rootDir } from './cli/utils/rootdir';
 import path from 'path';
 import { NodePlopAPI } from 'node-plop';
 
-const templates = path.dirname(__filename);
+const templates = __dirname.replace(path.sep + 'dist', '');
 
 module.exports = function (plop: NodePlopAPI) {
 	plop.setGenerator('story', {
@@ -10,8 +10,8 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.ts'),
-				templateFile: path.resolve(templates, 'plop-templates/story/{{strategy}}.hbs')
+				path: path.join(rootDir, 'src/stories/{{componentName}}.stories.ts'),
+				templateFile: path.join(templates, 'plop-templates/story/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -21,8 +21,8 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
-				templateFile: path.resolve(templates, 'plop-templates/embed/{{strategy}}.hbs')
+				path: path.join(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
+				templateFile: path.join(templates, 'plop-templates/embed/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -32,8 +32,8 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/config.ts'),
-				templateFile: path.resolve(templates, 'plop-templates/config/{{strategy}}.hbs')
+				path: path.join(rootDir, 'src/_standalone/{{componentName}}/config.ts'),
+				templateFile: path.join(templates, 'plop-templates/config/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -43,8 +43,8 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/routes/{{componentName}}/+page.svelte'),
-				templateFile: path.resolve(templates, 'plop-templates/route/{{strategy}}.hbs')
+				path: path.join(rootDir, 'src/routes/{{componentName}}/+page.svelte'),
+				templateFile: path.join(templates, 'plop-templates/route/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -54,8 +54,8 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/routes/+layout.svelte'),
-				templateFile: path.resolve(templates, 'plop-templates/route/layout.hbs')
+				path: path.join(rootDir, 'src/routes/+layout.svelte'),
+				templateFile: path.join(templates, 'plop-templates/route/layout.hbs')
 			}
 		]
 	});
@@ -65,8 +65,8 @@ module.exports = function (plop: NodePlopAPI) {
 		actions: [
 			{
 				type: 'add',
-				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
-				templateFile: path.resolve(templates, 'plop-templates/structure/component.hbs')
+				path: path.join(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
+				templateFile: path.join(templates, 'plop-templates/structure/component.hbs')
 			}
 		]
 	});
