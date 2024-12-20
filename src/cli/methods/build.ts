@@ -8,14 +8,15 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
+import postcss from 'postcss';
 import strip from 'rollup-plugin-strip';
-
+import fs from 'fs';
 import { terser } from 'rollup-plugin-terser';
 
-import fs from 'fs';
-import { rootDir } from '../../dir';
 
-import postcss from 'postcss';
+
+import { rootDir } from '../../dir.js';
+
 
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 

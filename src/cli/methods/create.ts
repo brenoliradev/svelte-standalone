@@ -1,4 +1,4 @@
-import { EmbeddableStrageies } from '../cli-create';
+import { EmbeddableStrageies } from '../cli-create.js';
 import {
 	generateEmbedFiles,
 	generateRoutesFile,
@@ -7,8 +7,8 @@ import {
 	generateTypesFile
 } from '../../generate-plop.js';
 
-import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from '../utils/hashmaps';
-import { includesStorybook, includesSvelteKit } from '../utils/isDependency';
+import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from '../utils/hashmaps.js';
+import { includesStorybook, includesSvelteKit } from '../utils/isDependency.js';
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
 	if (includesStorybook()) {

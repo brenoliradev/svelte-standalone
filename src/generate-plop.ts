@@ -2,11 +2,11 @@ import fs from 'fs/promises';
 import nodePlop, { NodePlopAPI, PlopGenerator } from 'node-plop';
 import path from 'path';
 
-import { rootDir } from './dir';
-import { EmbeddableStrageies } from './cli/cli-create';
-import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils';
+import { distDir, rootDir } from './dir.js';
+import { EmbeddableStrageies } from './cli/cli-create.js';
+import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils/hashmaps.js';
 
-import { includesTailwind, includesTypeScript } from './cli/utils/isDependency';
+import { includesTailwind, includesTypeScript } from './cli/utils/isDependency.js';
 
 const routesDir = path.resolve(rootDir, 'src', 'routes');
 const initialContent = `<div></div>`;
@@ -17,7 +17,7 @@ const typescript = includesTypeScript();
 const tailwind = includesTailwind();
 
 const plop: NodePlopAPI = await nodePlop(
-	path.resolve(__dirname, typescript ? 'plopfile.cjs' : 'plopfile-with-js.cjs')
+	path.resolve(distDir, typescript ? 'plopfile.cjs' : 'plopfile-with-js.cjs')
 );
 
 function capitalizeFirstLetter(string: string): string {

@@ -1,9 +1,9 @@
 import fs from 'fs';
 
-import { rootDir } from '../dir';
+import { rootDir } from '../dir.js';
 import inquirer from 'inquirer';
 
-import { create } from './methods/create';
+import { create } from './methods/create.js';
 
 const embeddableName = {
 	type: 'input',

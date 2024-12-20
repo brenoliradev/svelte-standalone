@@ -1,19 +1,16 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 import { Command } from 'commander';
 
-import v from '../../v.json';
-
-import { generate } from './cli-create';
-
-import { build } from './cli-build';
+import { generate } from './cli-create.js';
+import { build } from './cli-build.js';
 
 const program = new Command();
 
 program
 	.name('standalone')
 	.description('Generate standalone components with delightful developer experience')
-	.version(v, '-v, --version', 'output the current version');
+	.version("0.6.14-rc", '-v, --version', 'output the current version');
 
 program
 	.command('create')

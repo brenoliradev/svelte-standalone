@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 
 import { glob } from 'glob';
-import { buildStandalone } from './methods';
+import { buildStandalone } from './methods/index.js';
 import path from 'path';
 
 const rootDir = process.cwd();
