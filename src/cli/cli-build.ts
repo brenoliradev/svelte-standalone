@@ -10,7 +10,7 @@ const components = glob
 	.sync(`${rootDir}/src/_standalone/**/embed.{js,ts}`) // Matches both .js and .ts
 	.map((file) => {
 		const normalizedPath = path.normalize(file);
-		const match = normalizedPath.match(/src[\\/]_standalone[\\/](.*?)\/embed\.(js|ts)/);
+		const match = normalizedPath.match(/src[\\/]_standalone[\\/](.*?)[\\/]embed\.(js|ts)/);
 		return match ? { match: match[1], file } : null;
 	})
 	.filter(Boolean)
