@@ -39,7 +39,7 @@ export type BuildStrageies = (typeof buildStrategy.choices)[number]['value'];
 export async function build(prod: boolean, all: boolean) {
 	if (buildStrategy.choices.length === 0) {
 		console.warn(
-			"You don't have any standalone component. Generate them using bun standalone generate."
+			"You don't have any standalone component. Create them running: standalone create."
 		);
 
 		return;

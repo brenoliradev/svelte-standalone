@@ -29,22 +29,22 @@ const embeddableStrategy = {
 	message: 'When should your embeddable be triggered?',
 	choices: [
 		{
-			name: 'On explicit call can be mounted only once',
+			name: 'On explicit call (can only be mounted once)',
 			value: 'embed',
 			short: 'Explicit call'
 		},
 		{
-			name: 'On explicit call can be mounted as much time as needed',
+			name: 'On explicit call (can be mounted multiple times)',
 			value: 'embedMultiple',
 			short: 'Explicit call w/ instances'
 		},
 		{
-			name: 'When downloaded automatically append it to target <div>',
+			name: 'Automatically append to the target <div> when downloaded',
 			value: 'autoEmbedWithTarget',
 			short: 'Auto-embed with target'
 		},
 		{
-			name: 'When downloaded automatically append to the <body>',
+			name: 'Automatically append to the <body> when downloaded',
 			value: 'autoEmbedOnBody',
 			short: 'Auto-embed on body'
 		}

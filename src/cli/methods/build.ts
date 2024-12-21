@@ -91,6 +91,7 @@ const handleBuild = (files: string[], prod: boolean) =>
 			},
 			plugins: commonPlugins(componentName, visualizerDir),
 			build: {
+				minify: prod,
 				emptyOutDir: false,
 				lib: {
 					formats: ['umd'],
