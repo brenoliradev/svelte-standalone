@@ -8,8 +8,8 @@ Svelte Standalone is an adaptive CLI that simplifies bundling Svelte components 
 
 Svelte Standalone streamlines the process of transforming your Svelte code into standalone scripts. With it, you can:
 
-- **Bundle all of your Svelte components**: It uses `Vite` and `@sveltejs/vite-plugin-svelte` to bundle *every component*, compatible with both Svelte 4 and earlier versions.
-- **Fully type-safe (or not)**: If you want full TypeScript support, Svelte Standalone is ready for that. If TypeScript isn't necessary, it works without it — *it'll just work*.
+- **Bundle all of your Svelte components**: It uses `Vite` and `@sveltejs/vite-plugin-svelte` to bundle _every component_, compatible with both Svelte 4 and earlier versions.
+- **Fully type-safe (or not)**: If you want full TypeScript support, Svelte Standalone is ready for that. If TypeScript isn't necessary, it works without it — _it'll just work_.
 - **No complicated tweaks**: Focus on writing your Svelte components, and let `svelte-standalone` handle the bundling. No need for complex setup or tweaks.
 - **Create reactive components**: `svelte-standalone` includes Svelte reactive and also leverages [svelte component api](https://v4.svelte.dev/docs/client-side-component-api).
 - **Broad support**: Works seamlessly with any node package manager.
@@ -25,10 +25,11 @@ Install it with `npm install svelte-standalone` and that's it. Create components
 - Run `npx standalone create`, and you'll be prompted with:
 
 **When should your embeddable be triggered? (Use arrow keys)**
-1. **On explicit call (can only be mounted once)** – It starts programmatically when you run `window.{{componentName}}.start();`. The `start` function accepts initial props, but only *one* instance can be mounted.
+
+1. **On explicit call (can only be mounted once)** – It starts programmatically when you run `window.{{componentName}}.start();`. The `start` function accepts initial props, but only _one_ instance can be mounted.
 2. **On explicit call (can be mounted multiple times)** – It starts programmatically when you run `window.{{componentName}}.start();`. The `start` function accepts initial props and allows for mounting multiple instances.
-3. **Automatically append to the target `<div>` when downloaded** – This option does *not* include props. The embeddable starts automatically once downloaded, but it can be stopped programmatically.
-4. **Automatically append to the `<body>` when downloaded** – This option does *not* include props. The embeddable starts automatically once downloaded, but it can be stopped programmatically.
+3. **Automatically append to the target `<div>` when downloaded** – This option does _not_ include props. The embeddable starts automatically once downloaded, but it can be stopped programmatically.
+4. **Automatically append to the `<body>` when downloaded** – This option does _not_ include props. The embeddable starts automatically once downloaded, but it can be stopped programmatically.
 
 # How to build my components?
 
@@ -39,8 +40,8 @@ Install it with `npm install svelte-standalone` and that's it. Create components
 
 Grabs all of `src/_standalone/<componentName>/index.svelte` and let you select which one of them you want to build will generate a separate build for each component.
 
- - If you're using Tailwind, it dynamically adjusts `tailwind.content` to focus on `src/_standalone/<component name>` and `src/shared`, ensuring CSS purging for each component separately. If you're not using Tailwind, it'll rely on Svelte to handle your css files.
+- If you're using Tailwind, it dynamically adjusts `tailwind.content` to focus on `src/_standalone/<component name>` and `src/shared`, ensuring CSS purging for each component separately. If you're not using Tailwind, it'll rely on Svelte to handle your css files.
 
 Ouputs:
 
-- Outputs `<component name>.min.js` and `<component name>.status.html` in `/static/dist/standalone`. 
+- Outputs `<component name>.min.js` and `<component name>.status.html` in `/static/dist/standalone`.
