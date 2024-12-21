@@ -21,6 +21,8 @@ const tailwindConfig = fs.existsSync(tailwindPath)
 	? (fs.readFileSync(tailwindPath) as unknown as Config)
 	: undefined;
 
+const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
+
 const getPostCSSPlugins = (purgeDir: string) =>
 	tailwindConfig
 		? ([
@@ -58,7 +60,7 @@ const getProd = (prod: boolean) =>
 
 const commonPlugins = (componentName: string, visualizerDir: string) =>
 	[
-		svelte({ configFile: false }),
+		svelte({ configFile: svelteConfig }),
 		visualizer({
 			filename: `${visualizerDir}.status.html`,
 			title: `${componentName} status`

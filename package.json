@@ -1,6 +1,6 @@
 {
 	"name": "svelte-standalone",
-	"version": "0.7.0-rc",
+	"version": "0.7.1-rc",
 	"description": "Transform Svelte components in standalone scripts!",
 	"bin": {
 		"standalone": "dist/cli/cli.js"
@@ -34,6 +34,7 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-strip": "^3.0.4",
 		"@rollup/plugin-terser": "^0.4.4",
+		"@rollup/plugin-typescript": "^12.1.2",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
 		"commander": "^12.1.0",
 		"cssnano": "^7.0.6",
@@ -68,4 +69,4 @@
 	},
 	"homepage": "https://github.com/brenoliradev/svelte-standalone#readme",
 	"type": "module"
-	}
+}

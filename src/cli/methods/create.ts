@@ -7,7 +7,12 @@ import {
 	generateTypesFile
 } from '../../generate-plop.js';
 
-import { TYPE_TO_EMBED, TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from '../utils/hashmaps.js';
+import {
+	TYPE_TO_EMBED,
+	TYPE_TO_ROUTE,
+	TYPE_TO_STORY,
+	TYPE_TO_TYPESCRIPT
+} from '../utils/hashmaps.js';
 import { includesStorybook, includesSvelteKit } from '../utils/isDependency.js';
 
 export const create = (componentName: string, type: EmbeddableStrageies) => {
