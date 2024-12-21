@@ -1,5 +1,5 @@
 <script>
-	import '@/css/tailwind-full.css';
+	import 'svelte-standalone/css/tailwind-full.css';
 </script>
 
 <slot></slot>

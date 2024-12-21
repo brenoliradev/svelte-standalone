@@ -1,22 +1,21 @@
 {
-    "headers": [
-      {
-        "source": "/dist/*",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "https://svelte-standalone-shared.vercel.app/"
-          },
-          {
-            "key": "Access-Control-Allow-Methods",
-            "value": "GET"
-          },
-          {
-            "key": "Access-Control-Allow-Headers",
-            "value": "Content-Type"
-          }
-        ]
-      }
-    ]
-  }
-  
+  "headers": [
+    {
+      "source": "/static/dist/standalone/example.min.js",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://svelte-standalone-beyonk.vercel.app/"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type"
+        }
+      ]
+    }
+  ]
+}
