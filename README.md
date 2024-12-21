@@ -14,7 +14,7 @@ Svelte Standalone streamlines the process of transforming your Svelte code into 
 - **Create reactive components**: `svelte-standalone` includes Svelte reactive and also leverages [svelte component api](https://v4.svelte.dev/docs/client-side-component-api).
 - **Broad support**: Works seamlessly with any node package manager.
 - **Adaptive features**: If `svelte/kit` is included, `svelte-standalone` will generate a route for your bundled components. If `storybook` is included, `svelte-standalone` will generate stories for you. Use it however you like.
-- **Shareable components**: Have multiple Standalone components? Why not share your Svelte components between them? `svelte-standalone` can handle it. [Learn more here!](https://github.com/brenoliradev/svelte-standalone/blob/main/SHARED.md)
+- **Shareable components**: Have multiple Standalone components? Why not share your Svelte components between them? `svelte-standalone` can handle it. [Learn more here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
 
 # How to use it?
 
