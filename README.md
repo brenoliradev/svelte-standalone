@@ -1,39 +1,17 @@
-# What is "svelte-standalone"?
+# What's this?
 
-Svelte Standalone is a complete end-to-end service to transform `Svelte` components into standalone scripts. Supporting `tailwindcss` and `TypeScript` and unit/e2e tests with `vitest` and `@testing-library/svelte`.
+- This is the https://github.com/beyonk-group/svelte-notifications repository - which includes an "lib" structure and javascript - being bundled in with `svelte-standalone`. 
 
-Svelte Standalone features codegen using `bun generate`. Components created with Svelte Standalone CLI will have an dedicated route using `sveltejs/kit` and a `storybook` story.
+I did a quick video doing it, see it below: (It also has detailed steps below)
 
-_See "example" component on: https://svelte-standalone.vercel.app/._
+https://github.com/user-attachments/assets/22fbd243-2b94-4a10-a905-b4910dcb95d3
 
-# How to create a new componet?
+As you can see. Even though `svelte-notifications` uses "svelte": "^3.47.0", it just work.
 
-It's designed to be simple, with the CLI you'll have all the structure handled and will only need to write the Svelte Component itself.
+# How this work?
 
-- Inside the root directory of your Svelte Standalone instance, you'll run: `bun generate`.
-- After inserting a `component name` you'll be able to choice how your Standalone Component will be bundled:
-  - On explicit call - component props would be parsed as types.ts => This would generate theses files: #TODO explict.md
-  - When downloaded automatically append it to target <div> => This would generate theses files: #TODO target.md
-  - When downloaded automatically append to the <body> => This would generate theses files: #TODO body.md
-
-And that's it! You'll see the following file: `/src/_standalone/<component name/index.svelte`. You will just need code your desired Svelte Component on it, import your desired code/npm packages and Svelte Standalone will transform it into an script.min.js for you.
-
-# How to build my components?
-
-Just run `bun run build` and select which components you want to build - by default all of them will be bundled.
-
-# Shared folder
-
-Svelte Standalone can have a `/src/shared` folder. Everything added to `/src/shared` will have their `tailwindcss` included to all components i.e.:
-
-- [shared example](https://github.com/brenoliradev/svelte-standalone/tree/main/src/shared/toast) - css will be included in `all` Standalone Components but the toast javascript will only be bundled when imported because of tree-shaking.
-
-# Bundling Process
-
-Programatically runs `vite` for building each component included in `src/_standalone/<component name>/index.svelte`. Generates a separate build for each component.
-
-- Dynamically adjusts `tailwind.content` to focus on `src/_standalone/<component name>` and `src/shared`. Ensures CSS purging for each component separatedly.
-
-Ouputs:
-
-- Outputs `<component name>.min.js` and `<component name>.status.html` in `/static/dist/standalone`. Handles minification, Svelte preprocessing, parses TypeScript to JavaScript, and includes `tailwindcss` used utils on `<component name>.min.js`.
+1. I downloaded `svelte-notifications` code.
+2. I created a standalone component with `standalone create`.
+3. I pasted the code of `svelte-notifications` on my `beyonk` component that I just created.
+4. I swaped `$lib` to `lib` since it was the new folder.
+5. I just builded with it `standalone build`. 
