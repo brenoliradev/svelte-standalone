@@ -21,9 +21,11 @@
 	};
 
 	onDestroy(() => {
-		if (window) {
-			if (window?.once_javascript) {
-				window.once_javascript.stop();
+		if (browser) {
+			if (window) {
+				if (window?.once_javascript) {
+					window.once_javascript.stop();
+				}
 			}
 		}
 	})
