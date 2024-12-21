@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 
-	import { defaultConfig } from '@/_standalone/example/types';
+	import { defaultConfig } from '@/_standalone/example/config';
 
 	const initScript = () => {
 		if (browser) {
@@ -18,6 +19,24 @@
 			}
 		}
 	};
+
+	onDestroy(() => {
+		if (browser && window?.example) {
+			window.example.stop();
+		}
+	});
+
+	let config = defaultConfig;
+
+	const handleChange = (config: typeof defaultConfig) => {
+		if (browser && window) {
+			window?.example?.instance?.$set({
+				...config
+			});
+		}
+	};
+
+	$: handleChange(config);
 </script>
 
 <svelte:head>
@@ -35,3 +54,7 @@
 	>
 	<p class="pt-2">defaultConfig: {JSON.stringify(defaultConfig)}</p>
 </main>
+
+<input bind:value={config.success} placeholder="Update success message" class="border-2" />
+<input bind:value={config.error} placeholder="Update error message" class="border-2" />
+<input bind:value={config.info} placeholder="Update info message" class="border-2" />

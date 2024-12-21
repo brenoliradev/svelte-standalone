@@ -1,4 +1,6 @@
 import type { ComponentProps } from 'svelte';
+import type { EmbedWindow } from 'svelte-standalone';
+
 import Example from './index.svelte';
 
 export type ExampleProps = ComponentProps<Example>;
@@ -10,10 +12,5 @@ export const defaultConfig: ExampleProps = {
 };
 
 declare global {
-	interface Window {
-		example: {
-			start(config: ExampleProps): void;
-			stop(): void;
-		};
-	}
+	interface Window extends EmbedWindow<Example, 'example'> {}
 }
