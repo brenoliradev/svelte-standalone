@@ -21,8 +21,10 @@
 	};
 
 	onDestroy(() => {
-		if (window.once_javascript) {
-			window.once_javascript.stop();
+		if (window) {
+			if (window?.once_javascript) {
+				window.once_javascript.stop();
+			}
 		}
 	})
 </script>

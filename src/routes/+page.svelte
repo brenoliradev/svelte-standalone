@@ -10,4 +10,5 @@
 <a class="home-button" href="/much_javascript">Redirect to much_javascript script</a>
 <a class="home-button" href="/target_javascript">Redirect to target_javascript script</a>
 <a class="home-button" href="/body_javascirpt">Redirect to body_javascirpt script</a>
+<a class="home-button" href="/update_prop_with_window">Redirect to update_prop_with_window script</a>
 </div>
