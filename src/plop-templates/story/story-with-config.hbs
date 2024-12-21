@@ -1,0 +1,16 @@
+{{#if typescript}}
+import type { Meta, StoryObj } from '@storybook/svelte';
+import { defaultConfig } from '@/_standalone/{{componentName}}/config';
+{{else}}
+import { defaultConfig } from '@/_standalone/{{componentName}}/config.js';
+{{/if}}
+import {{capitalizeName}} from '@/_standalone/{{componentName}}/index.svelte';
+
+export default {
+	title: 'Standalone/{{capitalizeName}}',
+	component: {{capitalizeName}}
+}{{#if typescript}} satisfies Meta<{{capitalizeName}}>{{/if}};
+
+export const {{capitalizeName}}Story{{#if typescript}}: StoryObj<{{capitalizeName}}>{{/if}} = {
+	args: defaultConfig
+};

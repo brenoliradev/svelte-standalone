@@ -1,0 +1,18 @@
+<script{{#if typescript}} lang="ts"{{/if}}>
+	import { onMount } from 'svelte';
+  
+	onMount(() => {
+	  const script = document.createElement('script');
+	  script.src = '/dist/standalone/{{componentName}}.min.js?target={{componentName}}';
+	  script.async = true;
+  
+	  document.head.appendChild(script);
+  
+	  return () => {
+		document.head.removeChild(script);
+		window.{{componentName}}.$destroy();
+	  };
+	});
+</script>
+
+<div id="{{componentName}}" class="p-2 w-full h-screen"></div>
