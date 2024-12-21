@@ -1,4 +1,4 @@
-# What's this?
+# What is this?
 
 This is the [svelte-notifications](https://github.com/beyonk-group/svelte-notifications) repository, which includes a "lib" structure and JavaScript, bundled with `svelte-standalone`.
 
