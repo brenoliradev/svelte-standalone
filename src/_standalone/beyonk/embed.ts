@@ -1,4 +1,4 @@
-import { embed } from 'standalone/embed';
+import { embed } from 'svelte-standalone';
 
 import Beyonk from './index.svelte';
 
