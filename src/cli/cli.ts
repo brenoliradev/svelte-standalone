@@ -9,8 +9,9 @@ const program = new Command();
 
 program
 	.name('standalone')
-	.description('Generate standalone components with delightful developer experience')
-	.version('1.0.0', '-v, --version', 'output the current version');
+	.description('Transform Svelte components in standalone scripts!')
+	.showHelpAfterError('(add --help for additional information)')
+	.version('1.2.4-rc', '-v, --version', 'output the current version');
 
 program
 	.command('create')

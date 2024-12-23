@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import { checkbox } from '@inquirer/prompts';
 
 import { glob } from 'glob';
 import { buildStandalone } from './methods/index.js';
@@ -28,13 +28,10 @@ const c = components.filter((c) => c.value && c.name) as {
 }[];
 
 export const buildStrategy = {
-	type: 'checkbox',
 	name: 'components',
 	message: 'Which components should be builded?',
 	choices: c
-} as const satisfies Parameters<typeof inquirer.prompt>[0];
-
-export type BuildStrageies = (typeof buildStrategy.choices)[number]['value'];
+} as const;
 
 export async function build(prod: boolean, all: boolean) {
 	if (buildStrategy.choices.length === 0) {
@@ -54,7 +51,15 @@ export async function build(prod: boolean, all: boolean) {
 		return;
 	}
 
-	const answers = await inquirer.prompt(buildStrategy);
+	const answers = await checkbox(buildStrategy);
 
-	buildStandalone(answers.components, prod);
+	try {
+		buildStandalone(answers, prod);
+	} catch (error) {
+		if (error instanceof Error && error.name === 'ExitPromptError') {
+			// noop; silence this error
+		} else {
+			throw error;
+		}
+	}
 }

@@ -1,16 +1,13 @@
 import { build, defineConfig, type PluginOption } from 'vite';
 import path from 'path';
-
 import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
-
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
-
 import fs from 'fs';
 import { rootDir } from '../../dir.js';
 import { AcceptedPlugin } from 'postcss';
@@ -23,16 +20,27 @@ const tailwindConfig = fs.existsSync(tailwindPath)
 
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 
-const getPostCSSPlugins = (purgeDir: string) =>
+const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
+
+const isRuntime = (componentName: string) =>
+	componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
+
+const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
+	if (hasRuntime && isRuntime(componentName)) {
+		return [`./${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
+	}
+
+	const sharedContent = hasRuntime ? [] : ['./src/shared/**/*.{svelte,ts,js}'];
+
+	return [`./${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
+};
+
+const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) =>
 	tailwindConfig
 		? ([
 				tailwindcss({
 					...tailwindConfig,
-					content: [
-						path.resolve(rootDir, `${purgeDir}/*.{svelte,ts,js}`),
-						path.resolve(rootDir, `${purgeDir}/*/*.{svelte,ts,js}`),
-						path.resolve(rootDir, 'src/shared/*/*.{svelte,ts,js}')
-					]
+					content: getContent(purgeDir, componentName, hasRuntime)
 				}),
 				cssnanoPlugin()
 			] as AcceptedPlugin[])
@@ -68,9 +76,10 @@ const commonPlugins = (componentName: string, visualizerDir: string) =>
 		libInjectCss()
 	] as PluginOption[];
 
-const handleBuild = (files: string[], prod: boolean) =>
-	files.map((file) => {
-		const componentName = path.dirname(file).split('/').at(-1);
+const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
+	return files.map((file) => {
+		const rawComponentName = path.dirname(file).split(path.sep).at(-1) || '';
+		const componentName = normalizeComponentName(rawComponentName);
 		const visualizerDir = path
 			.dirname(file)
 			.replace('src', 'static')
@@ -79,14 +88,13 @@ const handleBuild = (files: string[], prod: boolean) =>
 
 		if (!componentName) {
 			console.error('Invalid fileName: ', file);
-
 			return;
 		}
 
 		return defineConfig({
 			css: {
 				postcss: {
-					plugins: getPostCSSPlugins(purgeDir)
+					plugins: getPostCSSPlugins(purgeDir, componentName, hasRuntime)
 				}
 			},
 			plugins: commonPlugins(componentName, visualizerDir),
@@ -116,11 +124,13 @@ const handleBuild = (files: string[], prod: boolean) =>
 			}
 		});
 	});
+};
 
 export const buildStandalone = async (files: string[], prod: boolean) => {
 	try {
-		const configs = handleBuild(files, prod);
+		const hasRuntime = files.some((file) => /(\$runtime|\+runtime|runtime)/.test(file));
 
+		const configs = handleBuild(files, prod, hasRuntime);
 		configs.forEach((c) => build({ ...c, configFile: false }));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);

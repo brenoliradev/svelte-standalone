@@ -3,7 +3,7 @@ import nodePlop, { NodePlopAPI, PlopGenerator } from 'node-plop';
 import path from 'path';
 
 import { distDir, rootDir } from './dir.js';
-import { EmbeddableStrageies } from './cli/cli-create.js';
+import { EmbeddableStrategies } from './cli/cli-create.js';
 import {
 	TYPE_TO_EMBED,
 	TYPE_TO_ROUTE,
@@ -29,12 +29,12 @@ function capitalizeFirstLetter(string: string): string {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function generateFile<T extends Record<EmbeddableStrageies, string>>(
+async function generateFile<T extends Record<EmbeddableStrategies, string>>(
 	generatorName: string,
 	componentName: string,
 	additionalArgs: {
-		embedType?: EmbeddableStrageies;
-		strategy?: T[EmbeddableStrageies];
+		embedType?: EmbeddableStrategies;
+		strategy?: T[EmbeddableStrategies];
 		tailwind?: boolean;
 	}
 ): Promise<void> {
@@ -60,7 +60,7 @@ async function generateFile<T extends Record<EmbeddableStrageies, string>>(
  */
 export async function generateStoryFile(
 	componentName: string,
-	strategy: (typeof TYPE_TO_STORY)[EmbeddableStrageies]
+	strategy: (typeof TYPE_TO_STORY)[EmbeddableStrategies]
 ): Promise<void> {
 	await generateFile('story', componentName, { strategy });
 }
@@ -70,8 +70,8 @@ export async function generateStoryFile(
  */
 export async function generateEmbedFiles(
 	componentName: string,
-	embedType: EmbeddableStrageies,
-	strategy?: (typeof TYPE_TO_EMBED)[EmbeddableStrageies]
+	embedType: EmbeddableStrategies,
+	strategy?: (typeof TYPE_TO_EMBED)[EmbeddableStrategies]
 ): Promise<void> {
 	await generateFile('embed files', componentName, { embedType, strategy });
 }
@@ -81,7 +81,7 @@ export async function generateEmbedFiles(
  */
 export async function generateTypesFile(
 	componentName: string,
-	strategy?: (typeof TYPE_TO_TYPESCRIPT)[EmbeddableStrageies]
+	strategy?: (typeof TYPE_TO_TYPESCRIPT)[EmbeddableStrategies]
 ): Promise<void> {
 	await generateFile('config files', componentName, {
 		strategy: typescript ? strategy : 'no-typescript'
@@ -93,7 +93,7 @@ export async function generateTypesFile(
  */
 export async function generateRoutesFile(
 	componentName: string,
-	strategy: (typeof TYPE_TO_ROUTE)[EmbeddableStrageies]
+	strategy: (typeof TYPE_TO_ROUTE)[EmbeddableStrategies]
 ): Promise<void> {
 	const layoutGenerator: PlopGenerator = plop.getGenerator('layout files');
 
