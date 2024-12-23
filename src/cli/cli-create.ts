@@ -12,22 +12,23 @@ const embeddableName = {
 	name: 'name',
 	message: 'Name your embeddable:',
 	validate: (input: string) => {
-		const notRuntime = /^[+$](?!runtime)/.test(input);
+		const runtimePattern = /^[+$](?!runtime)/;
+		const isRuntime = input.startsWith('$') || input.startsWith('+');
 
-		if (notRuntime) {
+		if (runtimePattern.test(input)) {
 			console.error(
 				`Invalid name. "${input}" cannot start with "$" or "+", unless it's a runtime component.`
 			);
 			return false;
 		}
 
-		if (!notRuntime && dynamicPaths.some((path) => fs.existsSync(path))) {
-			console.error(`Invalid name. You can define only one runtime`);
-
+		if (isRuntime && dynamicPaths.some((path) => fs.existsSync(path))) {
+			console.error(`Invalid name. You can define only one runtime.`);
 			return false;
 		}
 
-		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
+		const componentPath = `${rootDir}/src/_standalone/${input}/index.svelte`;
+		if (fs.existsSync(componentPath)) {
 			console.error(`Invalid name. "${input}" already exists.`);
 			return false;
 		}
