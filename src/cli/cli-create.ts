@@ -1,27 +1,41 @@
 import fs from 'fs';
-
 import { rootDir } from '../dir.js';
-import inquirer from 'inquirer';
-
+import { input, select } from '@inquirer/prompts';
 import { create } from './methods/create.js';
+
+const dynamicPaths = [`runtime`, `+runtime`, `$runtime`].map(
+	(suffix) => `${rootDir}/src/_standalone/${suffix}/index.svelte`
+);
 
 const embeddableName = {
 	type: 'input',
 	name: 'name',
 	message: 'Name your embeddable:',
-	required: true,
 	validate: (input: string) => {
-		if (!/^[a-zA-Z0-9_]+$/.test(input)) {
-			console.error('Invalid component name. Please use only alphanumeric characters.');
+		const runtimePattern = /^[+$](?!runtime)/;
+		const isRuntime = input.startsWith('$') || input.startsWith('+');
+
+		if (runtimePattern.test(input)) {
+			console.error(
+				`Invalid name. "${input}" cannot start with "$" or "+", unless it's a runtime component.`
+			);
 			return false;
 		}
-		if (fs.existsSync(`${rootDir}/src/_standalone/${input}/index.svelte`)) {
-			console.error(`Invalid name. ${input} already exists.`);
+
+		if (isRuntime && dynamicPaths.some((path) => fs.existsSync(path))) {
+			console.error(`Invalid name. You can define only one runtime.`);
 			return false;
 		}
+
+		const componentPath = `${rootDir}/src/_standalone/${input}/index.svelte`;
+		if (fs.existsSync(componentPath)) {
+			console.error(`Invalid name. "${input}" already exists.`);
+			return false;
+		}
+
 		return true;
 	}
-} as const satisfies Parameters<typeof inquirer.prompt>[0];
+};
 
 const embeddableStrategy = {
 	type: 'list',
@@ -51,11 +65,19 @@ const embeddableStrategy = {
 	]
 } as const;
 
-export type EmbeddableStrageies = (typeof embeddableStrategy.choices)[number]['value'];
+export type EmbeddableStrategies = (typeof embeddableStrategy.choices)[number]['value'];
 
 export async function generate() {
-	const a1 = await inquirer.prompt(embeddableStrategy);
-	const a2 = await inquirer.prompt(embeddableName);
+	try {
+		const a1 = await select(embeddableStrategy);
+		const a2 = await input(embeddableName);
 
-	create(a2.name, a1.type);
+		create(a2, a1);
+	} catch (error) {
+		if (error instanceof Error && error.name === 'ExitPromptError') {
+			// noop; silence this error
+		} else {
+			throw error;
+		}
+	}
 }

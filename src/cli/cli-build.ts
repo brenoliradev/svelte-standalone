@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import { checkbox } from '@inquirer/prompts';
 
 import { glob } from 'glob';
 import { buildStandalone } from './methods/index.js';
@@ -6,37 +6,26 @@ import path from 'path';
 
 const rootDir = process.cwd();
 
-const components = glob
+const c = glob
 	.sync(`${rootDir}/src/_standalone/**/embed.{js,ts}`) // Matches both .js and .ts
 	.map((file) => {
 		const normalizedPath = path.normalize(file);
 		const match = normalizedPath.match(/src[\\/]_standalone[\\/](.*?)[\\/]embed\.(js|ts)/);
-		return match ? { match: match[1], file } : null;
+		return match ? { name: match[1], value: file, checked: true } : null;
 	})
-	.filter(Boolean)
-
-	.map((c) => ({
-		name: c?.match ?? undefined,
-		value: c?.file ?? undefined,
-		checked: true
-	}));
-
-const c = components.filter((c) => c.value && c.name) as {
+	.filter(Boolean) as {
 	name: string;
 	value: string;
 	checked: boolean;
 }[];
 
 export const buildStrategy = {
-	type: 'checkbox',
 	name: 'components',
 	message: 'Which components should be builded?',
 	choices: c
-} as const satisfies Parameters<typeof inquirer.prompt>[0];
+} as const;
 
-export type BuildStrageies = (typeof buildStrategy.choices)[number]['value'];
-
-export async function build(prod: boolean, all: boolean) {
+export async function build(prod: boolean, all: boolean, stripRuntime: boolean) {
 	if (buildStrategy.choices.length === 0) {
 		console.warn(
 			"You don't have any standalone component. Create them running: standalone create."
@@ -45,16 +34,29 @@ export async function build(prod: boolean, all: boolean) {
 		return;
 	}
 
+	const hasRuntime = stripRuntime
+		? false
+		: c.some(({ name }) => /(\$runtime|\+runtime|runtime)/.test(name ?? ''));
+
 	if (all) {
 		buildStandalone(
-			c.map((c) => c.value),
-			prod
+			c.map((co) => co.value),
+			prod,
+			hasRuntime
 		);
 
 		return;
 	}
 
-	const answers = await inquirer.prompt(buildStrategy);
+	const answers = await checkbox(buildStrategy);
 
-	buildStandalone(answers.components, prod);
+	try {
+		buildStandalone(answers, prod, hasRuntime);
+	} catch (error) {
+		if (error instanceof Error && error.name === 'ExitPromptError') {
+			// noop; silence this error
+		} else {
+			throw error;
+		}
+	}
 }

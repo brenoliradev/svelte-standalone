@@ -9,8 +9,9 @@ const program = new Command();
 
 program
 	.name('standalone')
-	.description('Generate standalone components with delightful developer experience')
-	.version('1.0.0', '-v, --version', 'output the current version');
+	.description('Transform Svelte components in standalone scripts!')
+	.showHelpAfterError('(add --help for additional information)')
+	.version('1.3.3', '-v, --version', 'output the current version');
 
 program
 	.command('create')
@@ -22,8 +23,15 @@ program
 	.description('Build your standalone components')
 	.option('-p, --production', 'Build for production')
 	.option('-a, --all', 'Build all Standalone components')
+	.option(
+		'--strip-runtime',
+		'Exclude "runtime" styles sharing and bundle shared styles directly into the selected components'
+	)
 	.action((cmd) => {
-		build(cmd.production, cmd.all);
+		if (cmd.stripRuntime) {
+			console.log('Including shared styles in all components');
+		}
+		build(cmd.production, cmd.all, cmd.stripRuntime);
 	});
 
 if (process.argv.length < 3) {

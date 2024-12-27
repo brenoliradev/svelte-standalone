@@ -1,4 +1,4 @@
-import { EmbeddableStrageies } from '../cli-create.js';
+import { EmbeddableStrategies } from '../cli-create.js';
 import {
 	generateEmbedFiles,
 	generateRoutesFile,
@@ -15,12 +15,15 @@ import {
 } from '../utils/hashmaps.js';
 import { includesStorybook, includesSvelteKit } from '../utils/isDependency.js';
 
-export const create = (componentName: string, type: EmbeddableStrageies) => {
-	if (includesStorybook()) {
+export const create = (componentName: string, type: EmbeddableStrategies) => {
+	const isRuntime =
+		componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
+
+	if (includesStorybook() && !isRuntime) {
 		generateStoryFile(componentName, TYPE_TO_STORY[type]);
 	}
 
-	if (includesSvelteKit()) {
+	if (includesSvelteKit() && !isRuntime) {
 		generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
 	}
 
