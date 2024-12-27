@@ -25,7 +25,7 @@ export const buildStrategy = {
 	choices: c
 } as const;
 
-export async function build(prod: boolean, all: boolean) {
+export async function build(prod: boolean, all: boolean, stripRuntime: boolean) {
 	if (buildStrategy.choices.length === 0) {
 		console.warn(
 			"You don't have any standalone component. Create them running: standalone create."
@@ -34,7 +34,7 @@ export async function build(prod: boolean, all: boolean) {
 		return;
 	}
 
-	const hasRuntime = c.some(({ name }) => /(\$runtime|\+runtime|runtime)/.test(name ?? ''));
+	const hasRuntime = stripRuntime ? false : c.some(({ name }) => /(\$runtime|\+runtime|runtime)/.test(name ?? ''));
 
 	if (all) {
 		buildStandalone(
