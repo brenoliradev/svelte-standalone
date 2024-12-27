@@ -13,12 +13,11 @@ import { rootDir } from '../../dir.js';
 import { AcceptedPlugin } from 'postcss';
 
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
+const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 
 const tailwindConfig = fs.existsSync(tailwindPath)
-	? (fs.readFileSync(tailwindPath) as unknown as Config)
+	? ((await import(tailwindPath)) as { default: Config }).default
 	: undefined;
-
-const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -83,7 +82,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 		const visualizerDir = path
 			.dirname(file)
 			.replace('src', 'static')
-			.replace('_standalone', 'dist/visualizer');
+			.replace('_standalone', `dist${path.sep}visualizer`);
 		const purgeDir = path.dirname(file).replace('embed.ts', '');
 
 		if (!componentName) {
@@ -94,7 +93,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 		return defineConfig({
 			css: {
 				postcss: {
-					plugins: getPostCSSPlugins(purgeDir, componentName, hasRuntime)
+					plugins: getPostCSSPlugins(purgeDir, rawComponentName, hasRuntime)
 				}
 			},
 			plugins: commonPlugins(componentName, visualizerDir),
@@ -126,10 +125,8 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 	});
 };
 
-export const buildStandalone = async (files: string[], prod: boolean) => {
+export const buildStandalone = async (files: string[], prod: boolean, hasRuntime: boolean) => {
 	try {
-		const hasRuntime = files.some((file) => /(\$runtime|\+runtime|runtime)/.test(file));
-
 		const configs = handleBuild(files, prod, hasRuntime);
 		configs.forEach((c) => build({ ...c, configFile: false }));
 	} catch (handleBuildError) {
