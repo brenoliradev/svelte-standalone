@@ -36,6 +36,13 @@ Install it with `npm install svelte-standalone` and that's it. Create components
 - Run `npx standalone build` – The CLI will pop up with your created standalone components.
 - You can include the `--production, -p` flag for minification and stripping, and the `--all, -a` flag to build all components.
 
+# Shareable components
+
+[See a demo here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
+
+- You can create a `src/_standalone/shared` directory to store reusable Tailwind styles. If a component named `runtime` is included, it will bundle all the shared styles into that component. If no such component is present, Tailwind will distribute the shared styles across all builds using the content configuration.
+- While building, you can pass the `--strip-runtime` flag to the `standalone build` command. This will include the shared styles directly in all the components you are bundling, rather than relying on a separate `runtime` component to bundle them.
+  
 # Bundling Process
 
 Grabs all of `src/_standalone/<componentName>/index.svelte` and let you select which one of them you want to build will generate a separate build for each component.
