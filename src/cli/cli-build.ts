@@ -34,7 +34,9 @@ export async function build(prod: boolean, all: boolean, stripRuntime: boolean) 
 		return;
 	}
 
-	const hasRuntime = stripRuntime ? false : c.some(({ name }) => /(\$runtime|\+runtime|runtime)/.test(name ?? ''));
+	const hasRuntime = stripRuntime
+		? false
+		: c.some(({ name }) => /(\$runtime|\+runtime|runtime)/.test(name ?? ''));
 
 	if (all) {
 		buildStandalone(

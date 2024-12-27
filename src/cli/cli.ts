@@ -23,7 +23,10 @@ program
 	.description('Build your standalone components')
 	.option('-p, --production', 'Build for production')
 	.option('-a, --all', 'Build all Standalone components')
-	.option('--strip-runtime', 'Exclude "runtime" styles sharing and bundle shared styles directly into the selected components')
+	.option(
+		'--strip-runtime',
+		'Exclude "runtime" styles sharing and bundle shared styles directly into the selected components'
+	)
 	.action((cmd) => {
 		if (cmd.stripRuntime) {
 			console.log('Including shared styles in all components');
