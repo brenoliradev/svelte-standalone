@@ -1,6 +1,6 @@
 # What is Svelte Standalone?
 
-Svelte Standalone is an adaptive CLI that simplifies bundling Svelte components into standalone JavaScript files. It provides comprehensive support for `Tailwind`, `TypeScript`, and `Storybook`, making it easier to integrate them into your projects.
+Svelte Standalone is an adaptive CLI that simplifies bundling Svelte components into standalone JavaScript files. It provides on demand support for `Tailwind`, `TypeScript` or `Storybook`, making it easier to integrate into your currently workflow.
 
 [Check out a demo to see it in action!](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
 
