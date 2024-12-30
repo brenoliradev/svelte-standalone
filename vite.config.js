@@ -15,7 +15,9 @@ export default defineConfig(({ mode }) => {
 		},
 		define: {
 			process: {
-				env
+				env: {
+					NODE_ENV: JSON.stringify("production")
+				}
 			},
 			'import.meta.env': env
 		},
