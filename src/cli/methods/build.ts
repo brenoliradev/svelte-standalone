@@ -65,7 +65,7 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 
 									return c.match(/[A-Za-z0-9-_:/\.]+/g) || [];
 								},
-								extensions: ['svelte']
+								extensions: ['svelte', 'js', 'ts', 'css']
 							}
 						],
 						safelist: {
