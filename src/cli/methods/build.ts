@@ -4,7 +4,7 @@ import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import purgecss from '@fullhuman/postcss-purgecss';
+import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
@@ -14,10 +14,14 @@ import { rootDir } from '../../dir.js';
 import { AcceptedPlugin } from 'postcss';
 
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
-const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
+const sveltePath = path.resolve(rootDir, 'svelte.config.js');
 
 const tailwindConfig = fs.existsSync(tailwindPath)
 	? ((await import(tailwindPath)) as { default: Config }).default
+	: undefined;
+
+const svelteConfig = fs.existsSync(sveltePath)
+	? sveltePath
 	: undefined;
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
@@ -27,16 +31,18 @@ const isRuntime = (componentName: string) =>
 
 const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
 	if (hasRuntime && isRuntime(componentName)) {
-		return [`./${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
+		return [`.${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
 	}
 
 	const sharedContent = hasRuntime ? [] : ['./src/shared/**/*.{svelte,ts,js}'];
 
-	return [`./${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
+	return [`.${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
 };
 
 const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
 	const content = getContent(purgeDir, componentName, hasRuntime);
+
+	console.log("content -> ", content)
 
 	return [
 		...(tailwindConfig
@@ -46,11 +52,10 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 						content
 					})
 				] as AcceptedPlugin[])
-			: []),
+			: [purgeCSSPlugin({
+				content
+			})]),
 		cssnanoPlugin(),
-		purgecss({
-			content
-		})
 	];
 };
 
