@@ -14,6 +14,7 @@ import {
 import { includesTailwind, includesTypeScript } from './cli/utils/isDependency.js';
 
 const routesDir = path.resolve(rootDir, 'src', 'routes');
+
 const initialContent = `<div></div>`;
 const newLink = (componentName: string) =>
 	`<a class="home-button" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
@@ -102,9 +103,13 @@ export async function generateRoutesFile(
 
 	const pageFilePath = path.join(routesDir, '+page.svelte');
 
-	fs.readFile(pageFilePath, 'utf8')
-		.then((data) => {
-			fs.writeFile(pageFilePath, data, 'utf8')
+	await fs
+		.readFile(pageFilePath, 'utf8')
+		.then(async (data) => {
+			console.log('ARQUIVO EXISTE');
+
+			await fs
+				.writeFile(pageFilePath, data.replace(/(<\/div>)/g, `${newLink(componentName)}$1`), 'utf8')
 				.then(() => {
 					console.log(`Link added for ${componentName} successfully.`);
 				})
@@ -112,14 +117,18 @@ export async function generateRoutesFile(
 					console.error(`Error updating ${pageFilePath}:`, err);
 				});
 		})
-		.catch((err) => {
+		.catch(async (err) => {
 			if (err && typeof err === 'object' && 'code' in err && err.code === 'ENOENT') {
-				const initialData = `<div>\n</div>`;
-
-				fs.writeFile(pageFilePath, initialData, 'utf8').then(() => {
-					console.log(`Created ${pageFilePath} with initial content.`);
-					return initialData;
-				});
+				await fs
+					.writeFile(
+						pageFilePath,
+						initialContent.replace(/(<\/div>)/g, `${newLink(componentName)}$1`),
+						'utf8'
+					)
+					.then(() => {
+						console.log(`Created ${pageFilePath} with initial content.`);
+					});
+				return;
 			}
 
 			throw err;

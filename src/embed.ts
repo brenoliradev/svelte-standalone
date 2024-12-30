@@ -117,14 +117,14 @@ export function embedMultiple<T extends SvelteComponent, R extends string>(
  */
 export const autoEmbedWithTarget = <T extends SvelteComponent, R extends string>(
 	mount: ComponentType<T>,
-	_id: R
+	id: R
 ) => {
 	const t = (document.currentScript as HTMLScriptElement).src
 		.split('target=')[1]
 		.split('&')[0] as R;
 
 	const c = new mount({
-		target: document.getElementById(t) ?? document.body
+		target: document.getElementById(t ?? id) ?? document.body
 	});
 
 	(window as unknown as TargetEmbeddedWindow<T, R>)[t] = c;
