@@ -101,15 +101,29 @@ export async function generateRoutesFile(
 	await generateFile('routes files', componentName, { strategy });
 
 	const pageFilePath = path.join(routesDir, '+page.svelte');
-	try {
-		let data = await fs.readFile(pageFilePath, 'utf8');
-		data = (data || initialContent).replace(/(<\/div>)/g, `${newLink(componentName)}$1`);
 
-		await fs.writeFile(pageFilePath, data, 'utf8');
-		console.log(`Link added for ${componentName} successfully.`);
-	} catch (err) {
-		console.error(`Error updating ${pageFilePath}:`, err);
-	}
+	fs.readFile(pageFilePath, 'utf8')
+		.then((data) => {
+			fs.writeFile(pageFilePath, data, 'utf8')
+				.then(() => {
+					console.log(`Link added for ${componentName} successfully.`);
+				})
+				.catch((err) => {
+					console.error(`Error updating ${pageFilePath}:`, err);
+				});
+		})
+		.catch((err) => {
+			if (err && typeof err === 'object' && 'code' in err && err.code === 'ENOENT') {
+				const initialData = `<div>\n</div>`;
+
+				fs.writeFile(pageFilePath, initialData, 'utf8').then(() => {
+					console.log(`Created ${pageFilePath} with initial content.`);
+					return initialData;
+				});
+			}
+
+			throw err;
+		});
 }
 
 /**
