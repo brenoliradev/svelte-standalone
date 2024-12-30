@@ -30,14 +30,14 @@ const isRuntime = (componentName: string) =>
 const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
 	if (hasRuntime && isRuntime(componentName)) {
 		return [
-			path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js}`),
-			path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js}')
+			path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`),
+			path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}')
 		];
 	}
 	const sharedContent = hasRuntime
 		? []
-		: [path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js}')];
-	return [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js}`), ...sharedContent];
+		: [path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}')];
+	return [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`), ...sharedContent];
 };
 
 const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
