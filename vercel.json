@@ -1,0 +1,21 @@
+{
+    "headers": [
+      {
+        "source": "/static/dist/standalone/tipex.min.js",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "https://svelte-standalone-tipex.vercel.app/"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type"
+          }
+        ]
+      }
+    ]
+  }
