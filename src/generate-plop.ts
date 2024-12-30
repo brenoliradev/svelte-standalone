@@ -103,11 +103,13 @@ export async function generateRoutesFile(
 
 	const pageFilePath = path.join(routesDir, '+page.svelte');
 
-	await fs.readFile(pageFilePath, 'utf8')
+	await fs
+		.readFile(pageFilePath, 'utf8')
 		.then(async (data) => {
-			console.log('ARQUIVO EXISTE')
+			console.log('ARQUIVO EXISTE');
 
-			await fs.writeFile(pageFilePath, data.replace(/(<\/div>)/g, `${newLink(componentName)}$1`), 'utf8')
+			await fs
+				.writeFile(pageFilePath, data.replace(/(<\/div>)/g, `${newLink(componentName)}$1`), 'utf8')
 				.then(() => {
 					console.log(`Link added for ${componentName} successfully.`);
 				})
@@ -117,9 +119,15 @@ export async function generateRoutesFile(
 		})
 		.catch(async (err) => {
 			if (err && typeof err === 'object' && 'code' in err && err.code === 'ENOENT') {
-				await fs.writeFile(pageFilePath, initialContent.replace(/(<\/div>)/g, `${newLink(componentName)}$1`), 'utf8').then(() => {
-					console.log(`Created ${pageFilePath} with initial content.`);
-				});
+				await fs
+					.writeFile(
+						pageFilePath,
+						initialContent.replace(/(<\/div>)/g, `${newLink(componentName)}$1`),
+						'utf8'
+					)
+					.then(() => {
+						console.log(`Created ${pageFilePath} with initial content.`);
+					});
 				return;
 			}
 

@@ -4,6 +4,7 @@ import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import purgecss from '@fullhuman/postcss-purgecss';
 import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
@@ -34,16 +35,24 @@ const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean
 	return [`./${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
 };
 
-const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) =>
-	tailwindConfig
-		? ([
-				tailwindcss({
-					...tailwindConfig,
-					content: getContent(purgeDir, componentName, hasRuntime)
-				}),
-				cssnanoPlugin()
-			] as AcceptedPlugin[])
-		: ([cssnanoPlugin()] as AcceptedPlugin[]);
+const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
+	const content = getContent(purgeDir, componentName, hasRuntime);
+
+	return [
+		...(tailwindConfig
+			? ([
+					tailwindcss({
+						...tailwindConfig,
+						content
+					})
+				] as AcceptedPlugin[])
+			: []),
+		cssnanoPlugin(),
+		purgecss({
+			content
+		})
+	];
+};
 
 const getProd = (prod: boolean) =>
 	prod
