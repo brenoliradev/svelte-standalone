@@ -20,9 +20,7 @@ const tailwindConfig = fs.existsSync(tailwindPath)
 	? ((await import(tailwindPath)) as { default: Config }).default
 	: undefined;
 
-const svelteConfig = fs.existsSync(sveltePath)
-	? sveltePath
-	: undefined;
+const svelteConfig = fs.existsSync(sveltePath) ? sveltePath : undefined;
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -31,18 +29,23 @@ const isRuntime = (componentName: string) =>
 
 const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
 	if (hasRuntime && isRuntime(componentName)) {
-		return [`.${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
+		return [
+			path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js}`),
+			path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js}')
+		];
 	}
-
-	const sharedContent = hasRuntime ? [] : ['./src/shared/**/*.{svelte,ts,js}'];
-
-	return [`.${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
+	const sharedContent = hasRuntime
+		? []
+		: [path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js}')];
+	return [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js}`), ...sharedContent];
 };
 
 const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
 	const content = getContent(purgeDir, componentName, hasRuntime);
 
-	console.log("content -> ", content)
+	const s = new RegExp(`s-${componentName}`);
+
+	console.log(s);
 
 	return [
 		...(tailwindConfig
@@ -52,10 +55,25 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 						content
 					})
 				] as AcceptedPlugin[])
-			: [purgeCSSPlugin({
-				content
-			})]),
-		cssnanoPlugin(),
+			: [
+					purgeCSSPlugin({
+						content,
+						extractors: [
+							{
+								extractor: (c) => {
+									console.log('is extracting ? ', c.match(/[A-Za-z0-9-_:/\.]+/g) || []);
+
+									return c.match(/[A-Za-z0-9-_:/\.]+/g) || [];
+								},
+								extensions: ['svelte']
+							}
+						],
+						safelist: {
+							standard: [s]
+						}
+					})
+				]),
+		cssnanoPlugin()
 	];
 };
 
@@ -81,7 +99,12 @@ const getProd = (prod: boolean) =>
 
 const commonPlugins = (componentName: string, visualizerDir: string) =>
 	[
-		svelte({ configFile: svelteConfig }),
+		svelte({
+			configFile: svelteConfig,
+			compilerOptions: {
+				cssHash: ({ name }) => `s-${name?.toLowerCase()}`
+			}
+		}),
 		visualizer({
 			filename: `${visualizerDir}.status.html`,
 			title: `${componentName} status`
