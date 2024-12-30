@@ -20,6 +20,8 @@ Svelte Standalone streamlines the process of transforming your Svelte code into 
 
 Install it with `npm install svelte-standalone` and that's it. Create components with `npx standalone create` and build them with `npx standalone build`.
 
+### For svelte 4: `npm install svelte-standalone@latest` for svelte 5 `npm install svelte-standalone@beta`.
+
 # How to create a new component?
 
 - Run `npx standalone create`, and you'll be prompted with:
