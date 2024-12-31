@@ -44,10 +44,10 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 
 	return [
 		tailwindConfig
-			? tailwindcss({
+			? (tailwindcss({
 					...tailwindConfig,
 					content
-				}) as AcceptedPlugin
+				}) as AcceptedPlugin)
 			: purgeCSSPlugin({
 					content,
 					extractors: [
