@@ -8,19 +8,19 @@ Svelte Standalone is an adaptive CLI that simplifies bundling Svelte components 
 
 Svelte Standalone streamlines the process of transforming your Svelte code into standalone scripts. With it, you can:
 
-- **Bundle all of your Svelte components**: It uses `Vite` and `@sveltejs/vite-plugin-svelte` to bundle _every component_, compatible with both Svelte 4 and earlier versions.
-- **Fully type-safe (or not)**: If you want full TypeScript support, Svelte Standalone is ready for that. If TypeScript isn't necessary, it works without it — _it'll just work_.
-- **No complicated tweaks**: Focus on writing your Svelte components, and let `svelte-standalone` handle the bundling. No need for complex setup or tweaks.
-- **Create reactive components**: `svelte-standalone` includes Svelte reactive and also leverages [svelte component api](https://v4.svelte.dev/docs/client-side-component-api).
-- **Broad support**: Works seamlessly with any node package manager.
-- **Adaptive features**: If `svelte/kit` is included, `svelte-standalone` will generate a route for your bundled components. If `storybook` is included, `svelte-standalone` will generate stories for you. Use it however you like.
-- **Shareable components**: Have multiple Standalone components? Why not share your Svelte components between them? `svelte-standalone` can handle it. [Learn more here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
+- **Bundle all of your Svelte components**: It uses `vite` and `@sveltejs/vite-plugin-svelte` to bundle _every component_. It can support Svelte 5 - with the `npm i svelte-standalone@beta` - and Svelte 4 - with `npm i svelte-standalone`.
+- **Write code as your standard workflow**: If you want full TypeScript support, Svelte Standalone is ready for that. If TypeScript isn't necessary, it works without it — _it'll just work_.
+- **Don't worry about tooling**: Focus on writing your Svelte components, and let `svelte-standalone` handle the tooling - it'll minify/compress your JavaScript, purge your CSS and also provide fully typesafe boilerplate. Leaving to you no need for setup the bundling yourself.
+- **Create reactive components**: `svelte-standalone` includes `svelte` reactivity. _For svelte 4 it also leverages [svelte component api](https://v4.svelte.dev/docs/client-side-component-api)_.
+- **Use your favorite node package manager**: `svelte-standalone` is fully compatible with any node package manager.
+- **Choose your features**: Use what you want. It has **optional** support for **tailwindcss**, **typescript**, **svelte/kit** and **storybook** - if you just want to use plain svelte, you can.
+- **Share components**: If you have multiple standalone components, feel free to share them as you would in any Svelte app. `svelte-standalone` can handle it. [Learn more here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
 
 # How to use it?
 
 Install it with `npm install svelte-standalone` and that's it. Create components with `npx standalone create` and build them with `npx standalone build`.
 
-### For svelte 4: `npm install svelte-standalone@latest` for svelte 5 `npm install svelte-standalone@beta`.
+### For svelte 4: `npm install svelte-standalone` for svelte 5 `npm install svelte-standalone@beta`.
 
 # How to create a new component?
 
@@ -46,14 +46,12 @@ If you're using TypeScript, the `ComponentList` type - exported from `svelte-sta
 
 [See a demo here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
 
-- You can create a `src/_standalone/shared` directory to store reusable Tailwind styles. If a component named `runtime` is included, it will bundle all the shared styles into that component. If no such component is present, Tailwind will distribute the shared styles across all builds using the content configuration.
-- While building, you can pass the `--strip-runtime` flag to the `standalone build` command. This will include the shared styles directly in all the components you are bundling, rather than relying on a separate `runtime` component to bundle them.
-
+- You can create a `src/_standalone/shared` directory to store reusable styles, whether they are Tailwind classes or normal CSS.
+- **If you're using tailwind**: You can include a component named `runtime`. Once included, all the `shared` styles will be added to this component. If no such component is present, the styles will be distributed across all builds based on the content configuration. During the build process, you can pass the `--strip-runtime` flag to the `standalone build` command. *This will directly include the shared styles in all the components you are bundling*.
+  
 # Bundling Process
 
 Grabs all of `src/_standalone/<componentName>/index.svelte` and let you select which one of them you want to build will generate a separate build for each component.
-
-- If you're using Tailwind, it dynamically adjusts `tailwind.content` to focus on `src/_standalone/<component name>` and `src/shared`, ensuring CSS purging for each component separately. If you're not using Tailwind, it'll rely on Svelte to handle your css files.
 
 Ouputs:
 
