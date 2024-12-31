@@ -20,6 +20,8 @@ Svelte Standalone streamlines the process of transforming your Svelte code into 
 
 Install it with `npm install svelte-standalone` and that's it. Create components with `npx standalone create` and build them with `npx standalone build`.
 
+### For svelte 4: `npm install svelte-standalone@latest` for svelte 5 `npm install svelte-standalone@beta`.
+
 # How to create a new component?
 
 - Run `npx standalone create`, and you'll be prompted with:
@@ -35,6 +37,10 @@ Install it with `npm install svelte-standalone` and that's it. Create components
 
 - Run `npx standalone build` – The CLI will pop up with your created standalone components.
 - You can include the `--production, -p` flag for minification and stripping, and the `--all, -a` flag to build all components.
+
+# How to list my components?
+
+If you're using TypeScript, the `ComponentList` type - exported from `svelte-standalone` - automatically lists every Standalone component in your app.
 
 # Shareable components
 
