@@ -47,8 +47,8 @@ If you're using TypeScript, the `ComponentList` type - exported from `svelte-sta
 [See a demo here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
 
 - You can create a `src/_standalone/shared` directory to store reusable styles, whether they are Tailwind classes or normal CSS.
-- **If you're using tailwind**: You can include a component named `runtime`. Once included, all the `shared` styles will be added to this component. If no such component is present, the styles will be distributed across all builds based on the content configuration. During the build process, you can pass the `--strip-runtime` flag to the `standalone build` command. *This will directly include the shared styles in all the components you are bundling*.
-  
+- **If you're using tailwind**: You can include a component named `runtime`. Once included, all the `shared` styles will be added to this component. If no such component is present, the styles will be distributed across all builds based on the content configuration. During the build process, you can pass the `--strip-runtime` flag to the `standalone build` command. _This will directly include the shared styles in all the components you are bundling_.
+
 # Bundling Process
 
 Grabs all of `src/_standalone/<componentName>/index.svelte` and let you select which one of them you want to build will generate a separate build for each component.
