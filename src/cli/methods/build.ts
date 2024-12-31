@@ -28,16 +28,13 @@ const isRuntime = (componentName: string) =>
 	componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
 
 const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
-	if (hasRuntime && isRuntime(componentName)) {
-		return [
-			path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`),
-			path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}')
-		];
+	const content = [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`)];
+
+	if (!hasRuntime || isRuntime(componentName)) {
+		content.push(path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}'));
 	}
-	const sharedContent = hasRuntime
-		? []
-		: [path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}')];
-	return [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`), ...sharedContent];
+
+	return content;
 };
 
 const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
@@ -45,34 +42,24 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 
 	const s = new RegExp(`s-${componentName}`);
 
-	console.log(s);
-
 	return [
-		...(tailwindConfig
-			? ([
-					tailwindcss({
-						...tailwindConfig,
-						content
-					})
-				] as AcceptedPlugin[])
-			: [
-					purgeCSSPlugin({
-						content,
-						extractors: [
-							{
-								extractor: (c) => {
-									console.log('is extracting ? ', c.match(/[A-Za-z0-9-_:/\.]+/g) || []);
-
-									return c.match(/[A-Za-z0-9-_:/\.]+/g) || [];
-								},
-								extensions: ['svelte', 'js', 'ts', 'css']
-							}
-						],
-						safelist: {
-							standard: [s]
+		tailwindConfig
+			? tailwindcss({
+					...tailwindConfig,
+					content
+				}) as AcceptedPlugin
+			: purgeCSSPlugin({
+					content,
+					extractors: [
+						{
+							extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
+							extensions: ['svelte', 'js', 'ts', 'css']
 						}
-					})
-				]),
+					],
+					safelist: {
+						standard: [s]
+					}
+				}),
 		cssnanoPlugin()
 	];
 };
