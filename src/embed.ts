@@ -47,7 +47,7 @@ export type MultipleEmbedWindow<T extends Component, R extends string> = {
  *
  * @template R - A string type used as embeddable `id`.
  */
-export type TargetEmbeddedWindow<T extends Component, R extends string> = {
+export type TargetEmbeddedWindow<R extends string> = {
 	[id in R]: {
 		stop: () => void;
 	};
@@ -61,18 +61,12 @@ export type TargetEmbeddedWindow<T extends Component, R extends string> = {
  * @param {string} id - The id of the embedding instance. Will define `window[id].start` to programmatically start the embeddable and `window[id].stop` to programmatically stop it.
  */
 export function embed<T extends Component, R extends string>(component: Component, id: R) {
-	let c: boolean = false;
-
-	const stop = () => {
-		unmount(component)
-		c = false;
-	};
+	let c: Record<string, unknown> | undefined = undefined;
 
 	(window as unknown as EmbedWindow<T, R>)[id] = {
 		start: (props) => {
 			if (!c) {
-				c = true;
-				mount(component, {
+				c = mount(component, {
 					target: document.body,
 					props: {
 						...props
@@ -80,7 +74,7 @@ export function embed<T extends Component, R extends string>(component: Componen
 				});
 			}
 		},
-		stop
+		stop: () => c && (unmount(c), (c = undefined))
 	};
 }
 
@@ -94,13 +88,13 @@ export function embed<T extends Component, R extends string>(component: Componen
 export function embedMultiple<T extends Component, R extends string>(component: Component, id: R) {
 	(window as unknown as MultipleEmbedWindow<T, R>)[id] = {
 		start: (props, target) => {
-			mount(component, {
+			const c = mount(component, {
 				target: document.getElementById(target!) ?? document.body,
 				props: props
 			});
 
 			return {
-				stop: () => unmount(component)
+				stop: () => unmount(c)
 			};
 		}
 	};
@@ -119,12 +113,12 @@ export const autoEmbedWithTarget = <T extends Component, R extends string>(compo
 		.split('target=')[1]
 		.split('&')[0] as R;
 
-	mount(component, {
+	const c = mount(component, {
 		target: document.getElementById(t ?? id) ?? document.body
 	});
 
-	(window as unknown as TargetEmbeddedWindow<T, R>)[t] = {
-		stop: () => unmount(component)
+	(window as unknown as TargetEmbeddedWindow<R>)[t] = {
+		stop: () => unmount(c)
 	};
 };
 
@@ -136,11 +130,11 @@ export const autoEmbedWithTarget = <T extends Component, R extends string>(compo
  * @param {string} id - The name of the embedding instance. Will define `window[id].stop`.
  */
 export const autoEmbedOnBody = <T extends Component, R extends string>(component: T, id: R) => {
-	mount(component, {
+	const c = mount(component, {
 		target: document.body
 	});
 
-	(window as unknown as TargetEmbeddedWindow<T, R>)[id] = {
-		stop: () => unmount(component)
+	(window as unknown as TargetEmbeddedWindow<R>)[id] = {
+		stop: () => unmount(c)
 	};
 };

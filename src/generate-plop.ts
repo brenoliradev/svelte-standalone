@@ -106,8 +106,6 @@ export async function generateRoutesFile(
 	await fs
 		.readFile(pageFilePath, 'utf8')
 		.then(async (data) => {
-			console.log('ARQUIVO EXISTE');
-
 			await fs
 				.writeFile(pageFilePath, data.replace(/(<\/div>)/g, `${newLink(componentName)}$1`), 'utf8')
 				.then(() => {

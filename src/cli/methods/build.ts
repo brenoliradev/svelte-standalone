@@ -52,6 +52,7 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 					content,
 					extractors: [
 						{
+							// eslint-disable-next-line no-useless-escape
 							extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
 							extensions: ['svelte', 'js', 'ts', 'css']
 						}
