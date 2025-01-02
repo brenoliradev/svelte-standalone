@@ -63,6 +63,11 @@ export type TargetEmbeddedWindow<T extends Component, R extends string> = {
 export function embed<T extends Component, R extends string>(component: Component, id: R) {
 	let c: boolean = false;
 
+	const stop = () => {
+		unmount(component)
+		c = false;
+	};
+
 	(window as unknown as EmbedWindow<T, R>)[id] = {
 		start: (props) => {
 			if (!c) {
@@ -75,7 +80,7 @@ export function embed<T extends Component, R extends string>(component: Componen
 				});
 			}
 		},
-		stop: () => (unmount(component), (c = false))
+		stop
 	};
 }
 

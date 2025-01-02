@@ -25,11 +25,7 @@
 	};
 
 	onDestroy(() => {
-		if (browser) {
-			if (window.{{componentName}}) {
-				window.{{componentName}}.stop();
-			}
-		}
+		stopScript();
 	})
 </script>
 
