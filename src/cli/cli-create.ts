@@ -22,6 +22,11 @@ const embeddableName = {
 			return false;
 		}
 
+		if (!isRuntime && !/^[a-zA-Z0-9_]+$/.test(input)) {
+			console.error('Invalid component name. Please use only alphanumeric characters.');
+			return false;
+		}
+
 		if (isRuntime && dynamicPaths.some((path) => fs.existsSync(path))) {
 			console.error(`Invalid name. You can define only one runtime.`);
 			return false;
