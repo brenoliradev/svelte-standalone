@@ -41,6 +41,7 @@ npx standalone create
 ```
 
 You'll be prompted to:
+
 1. **Name your component** (e.g., `payments`).
 2. **Choose an embedding strategy**:
    - **Explicit Call (Single Instance)**: Start with `window.payments.start()`.
@@ -49,6 +50,7 @@ You'll be prompted to:
    - **Auto-Embed on Body**: Automatically append to the `<body>`.
 
 This will generate the following files in `src/_standalone/payments/`:
+
 - `index.svelte`: The main Svelte component.
 - `embed.ts` (or `embed.js`): Embedding logic based on your chosen strategy.
 - `config.ts` (or `config.js`): Default configuration for the component.
@@ -64,6 +66,7 @@ npx standalone build
 ```
 
 #### Build Options:
+
 - **Production Build**: Minify and optimize for production.
   ```bash
   npx standalone build --production
@@ -78,6 +81,7 @@ npx standalone build
   ```
 
 The output will be saved in `static/dist/standalone/`:
+
 - `payments.min.js`: The standalone JavaScript file.
 - `payments.status.html`: A visualization of the bundle (optional).
 
@@ -92,9 +96,12 @@ Include the generated script in your HTML:
 ```
 
 #### Example Usage:
+
 - For **Explicit Call**:
   ```javascript
-  window.payments.start({ /* props */ });
+  window.payments.start({
+  	/* props */
+  });
   ```
 - For **Auto-Embed**:
   ```html
@@ -109,13 +116,17 @@ Include the generated script in your HTML:
 The **runtime** is a special component (`runtime`, `$runtime`, or `+runtime`) used to share styles or logic across multiple standalone components. It ensures consistency and reduces duplication.
 
 #### Create a Runtime Component:
+
 ```bash
 npx standalone create
 ```
+
 When prompted for the component name, enter `runtime`, `$runtime`, or `+runtime`.
 
 #### Ignore runtime:
+
 By default, the runtime styles are included in all builds. Use the `--strip-runtime` flag to bundle shared styles directly into each component:
+
 ```bash
 npx standalone build --strip-runtime
 ```
