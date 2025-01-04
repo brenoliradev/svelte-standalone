@@ -1,58 +1,131 @@
-# What is Svelte Standalone?
+# Svelte Standalone
 
-Svelte Standalone is an adaptive CLI that simplifies bundling Svelte components into standalone JavaScript files. It provides on demand support for `Tailwind`, `TypeScript` or `Storybook`, making it easier to integrate into your currently workflow.
+**Svelte Standalone** is a CLI tool that simplifies bundling Svelte components into standalone JavaScript files. It supports optional features like **Tailwind**, **TypeScript**, and **Storybook**, making it easy to integrate into your workflow.
 
-[Check out a demo to see it in action!](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo)
+---
 
-# Why use Svelte Standalone?
+## Why Use Svelte Standalone?
 
-Svelte Standalone streamlines the process of transforming your Svelte code into standalone scripts. With it, you can:
+- **Bundle Svelte Components**: Uses Vite and `@sveltejs/vite-plugin-svelte` to bundle components into standalone scripts.
+- **Optional Features**: Choose what you need—Tailwind, TypeScript, or Storybook.
+- **Reactive Components**: Leverages Svelte's reactivity and provides a component API for Svelte 4.
+- **Shareable Components**: Create reusable styles and logic with a special `runtime` component.
+- **No Tooling Hassle**: Handles minification, CSS purging, and boilerplate generation.
 
-- **Bundle all of your Svelte components**: It uses `vite` and `@sveltejs/vite-plugin-svelte` to bundle _every component_. It can support Svelte 5 - with the `npm i svelte-standalone@beta` - and Svelte 4 - with `npm i svelte-standalone`.
-- **Write code as your standard workflow**: If you want full TypeScript support, Svelte Standalone is ready for that. If TypeScript isn't necessary, it works without it — _it'll just work_.
-- **Don't worry about tooling**: Focus on writing your Svelte components, and let `svelte-standalone` handle the tooling - it'll minify/compress your JavaScript, purge your CSS and also provide fully typesafe boilerplate. Leaving to you no need for setup the bundling yourself.
-- **Create reactive components**: `svelte-standalone` includes `svelte` reactivity. _For svelte 4 it also leverages [svelte component api](https://v4.svelte.dev/docs/client-side-component-api)_.
-- **Use your favorite node package manager**: `svelte-standalone` is fully compatible with any node package manager.
-- **Choose your features**: Use what you want. It has **optional** support for **tailwindcss**, **typescript**, **svelte/kit** and **storybook** - if you just want to use plain svelte, you can.
-- **Share components**: If you have multiple standalone components, feel free to share them as you would in any Svelte app. `svelte-standalone` can handle it. [Learn more here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
+---
 
-# How to use it?
+## Installation
 
-Install it with `npm install svelte-standalone` and that's it. Create components with `npx standalone create` and build them with `npx standalone build`.
+Install the CLI globally or locally:
 
-### For svelte 4: `npm install svelte-standalone` for svelte 5 `npm install svelte-standalone@beta`.
+```bash
+npm install svelte-standalone
+```
 
-# How to create a new component?
+For **Svelte 5** (beta):
 
-- Run `npx standalone create`, and you'll be prompted with:
+```bash
+npm install svelte-standalone@beta
+```
 
-**When should your embeddable be triggered? (Use arrow keys)**
+---
 
-1. **On explicit call (can only be mounted once)** – It starts programmatically when you run `window.{{componentName}}.start();`. The `start` function accepts initial props, but only _one_ instance can be mounted.
-2. **On explicit call (can be mounted multiple times)** – It starts programmatically when you run `window.{{componentName}}.start();`. The `start` function accepts initial props and allows for mounting multiple instances.
-3. **Automatically append to the target `<div>` when downloaded** – This option does _not_ include props. The embeddable starts automatically once downloaded, but it can be stopped programmatically.
-4. **Automatically append to the `<body>` when downloaded** – This option does _not_ include props. The embeddable starts automatically once downloaded, but it can be stopped programmatically.
+## Workflow
 
-# How to build my components?
+### 1. Create a Component
 
-- Run `npx standalone build` – The CLI will pop up with your created standalone components.
-- You can include the `--production, -p` flag for minification and stripping, and the `--all, -a` flag to build all components.
+Run the `create` command to generate a new standalone component:
 
-# How to list my components?
+```bash
+npx standalone create
+```
 
-If you're using TypeScript, the `ComponentList` type - exported from `svelte-standalone` - automatically lists every Standalone component in your app.
+You'll be prompted to:
+1. **Name your component** (e.g., `payments`).
+2. **Choose an embedding strategy**:
+   - **Explicit Call (Single Instance)**: Start with `window.payments.start()`.
+   - **Explicit Call (Multiple Instances)**: Start with `window.payments.start()` and mount multiple instances.
+   - **Auto-Embed with Target**: Automatically append to a target `<div>`.
+   - **Auto-Embed on Body**: Automatically append to the `<body>`.
 
-# Shareable components
+This will generate the following files in `src/_standalone/payments/`:
+- `index.svelte`: The main Svelte component.
+- `embed.ts` (or `embed.js`): Embedding logic based on your chosen strategy.
+- `config.ts` (or `config.js`): Default configuration for the component.
 
-[See a demo here!](https://github.com/brenoliradev/svelte-standalone/tree/shared-demo)
+---
 
-- You can create a `src/_standalone/shared` directory to store reusable styles, whether they are Tailwind classes or normal CSS.
-- **If you're using tailwind**: You can include a component named `runtime`. Once included, all the `shared` styles will be added to this component. If no such component is present, the styles will be distributed across all builds based on the content configuration. During the build process, you can pass the `--strip-runtime` flag to the `standalone build` command. _This will directly include the shared styles in all the components you are bundling_.
+### 2. Build the Component
 
-# Bundling Process
+Once your component is created, build it into a standalone script:
 
-Grabs all of `src/_standalone/<componentName>/index.svelte` and let you select which one of them you want to build will generate a separate build for each component.
+```bash
+npx standalone build
+```
 
-Ouputs:
+#### Build Options:
+- **Production Build**: Minify and optimize for production.
+  ```bash
+  npx standalone build --production
+  ```
+- **Build All Components**: Build all standalone components at once.
+  ```bash
+  npx standalone build --all
+  ```
+- **Strip Runtime**: Bundle shared styles directly into components (excludes the runtime component).
+  ```bash
+  npx standalone build --strip-runtime
+  ```
 
-- Outputs `<component name>.min.js` and `<component name>.status.html` in `/static/dist/standalone`.
+The output will be saved in `static/dist/standalone/`:
+- `payments.min.js`: The standalone JavaScript file.
+- `payments.status.html`: A visualization of the bundle (optional).
+
+---
+
+### 3. Use the Component
+
+Include the generated script in your HTML:
+
+```html
+<script src="/path/to/payments.min.js"></script>
+```
+
+#### Example Usage:
+- For **Explicit Call**:
+  ```javascript
+  window.payments.start({ /* props */ });
+  ```
+- For **Auto-Embed**:
+  ```html
+  <div id="payments"></div>
+  <script src="/path/to/payments.min.js?target=payments"></script>
+  ```
+
+---
+
+### Runtime Component
+
+The **runtime** is a special component (`runtime`, `$runtime`, or `+runtime`) used to share styles or logic across multiple standalone components. It ensures consistency and reduces duplication.
+
+#### Create a Runtime Component:
+```bash
+npx standalone create
+```
+When prompted for the component name, enter `runtime`, `$runtime`, or `+runtime`.
+
+#### Ignore runtime:
+By default, the runtime styles are included in all builds. Use the `--strip-runtime` flag to bundle shared styles directly into each component:
+```bash
+npx standalone build --strip-runtime
+```
+
+## Demo
+
+Check out the [demo](https://github.com/brenoliradev/svelte-standalone/tree/beyonk-notifications-demo) to see it in action!
+
+---
+
+## License
+
+MIT © 2024 Breno Lira
