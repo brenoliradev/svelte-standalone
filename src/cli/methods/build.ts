@@ -4,23 +4,20 @@ import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import cssnanoPlugin from 'cssnano';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
 import fs from 'fs';
 import { rootDir } from '../../dir.js';
-import { type AcceptedPlugin } from 'postcss';
+import { AcceptedPlugin } from 'postcss';
 
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
-const sveltePath = path.resolve(rootDir, 'svelte.config.js');
+const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 
 const tailwindConfig = fs.existsSync(tailwindPath)
 	? ((await import(tailwindPath)) as { default: Config }).default
 	: undefined;
-
-const svelteConfig = fs.existsSync(sveltePath) ? sveltePath : undefined;
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -28,41 +25,25 @@ const isRuntime = (componentName: string) =>
 	componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
 
 const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
-	const content = [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`)];
-
-	if (!hasRuntime || isRuntime(componentName)) {
-		content.push(path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}'));
+	if (hasRuntime && isRuntime(componentName)) {
+		return [`./${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
 	}
 
-	return content;
+	const sharedContent = hasRuntime ? [] : ['./src/shared/**/*.{svelte,ts,js}'];
+
+	return [`./${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
 };
 
-const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
-	const content = getContent(purgeDir, componentName, hasRuntime);
-
-	const s = new RegExp(`s-${componentName}`);
-
-	return [
-		tailwindConfig
-			? (tailwindcss({
+const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) =>
+	tailwindConfig
+		? ([
+				tailwindcss({
 					...tailwindConfig,
-					content
-				}) as AcceptedPlugin)
-			: purgeCSSPlugin({
-					content,
-					extractors: [
-						{
-							extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
-							extensions: ['svelte', 'js', 'ts', 'css']
-						}
-					],
-					safelist: {
-						standard: [s]
-					}
+					content: getContent(purgeDir, componentName, hasRuntime)
 				}),
-		cssnanoPlugin()
-	];
-};
+				cssnanoPlugin()
+			] as AcceptedPlugin[])
+		: ([cssnanoPlugin()] as AcceptedPlugin[]);
 
 const getProd = (prod: boolean) =>
 	prod
@@ -86,12 +67,7 @@ const getProd = (prod: boolean) =>
 
 const commonPlugins = (componentName: string, visualizerDir: string) =>
 	[
-		svelte({
-			configFile: svelteConfig,
-			compilerOptions: {
-				cssHash: ({ name }) => `s-${name?.toLowerCase()}`
-			}
-		}),
+		svelte({ configFile: svelteConfig }),
 		visualizer({
 			filename: `${visualizerDir}.status.html`,
 			title: `${componentName} status`

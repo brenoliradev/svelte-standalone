@@ -1,5 +1,5 @@
-import { embed, autoEmbedOnBody, autoEmbedWithTarget, embedMultiple } from './embed';
-import type { EmbedWindow, MultipleEmbedWindow, TargetEmbeddedWindow } from './embed';
+import { embed, autoEmbedOnBody, autoEmbedWithTarget, embedMultiple } from './embed.js';
+import type { EmbedWindow, MultipleEmbedWindow, TargetEmbeddedWindow } from './embed.js';
 
 export type ComponentList = keyof Omit<Window, keyof typeof globalThis | number | 'name'>;
 
