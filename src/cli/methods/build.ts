@@ -13,11 +13,13 @@ import fs from 'fs';
 import { rootDir } from '../../dir.js';
 import { type AcceptedPlugin } from 'postcss';
 
+import { pathToFileURL } from 'url';
+
 const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 const sveltePath = path.resolve(rootDir, 'svelte.config.js');
 
 const tailwindConfig = fs.existsSync(tailwindPath)
-	? ((await import(tailwindPath)) as { default: Config }).default
+	? ((await import(pathToFileURL(tailwindPath).href)) as { default: Config }).default
 	: undefined;
 
 const svelteConfig = fs.existsSync(sveltePath) ? sveltePath : undefined;
