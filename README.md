@@ -11,6 +11,7 @@
 - **Reactive Components**: Leverages Svelte's reactivity and provides a component API for Svelte 4.
 - **Shareable Components**: Create reusable styles and logic with a special `runtime` component.
 - **No Tooling Hassle**: Handles minification, CSS purging, and boilerplate generation.
+- **Cross Plataform Support**: Handles cross plataform support between different OS and node package managers.
 
 ---
 
