@@ -21,7 +21,7 @@ const TYPE_TO_TYPESCRIPT = {
 
 const TYPE_TO_EMBED = {
 	autoEmbedOnBody: 'embed',
-	autoEmbedWithTarget: 'embed-with-target',
+	autoEmbedWithTarget: 'embed',
 	embed: 'embed',
 	embedMultiple: 'embed'
 } as const;
