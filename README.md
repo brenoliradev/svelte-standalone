@@ -1,6 +1,6 @@
 # Svelte Standalone
 
-**Svelte Standalone** is a CLI tool that simplifies bundling Svelte components into standalone JavaScript files. It supports optional features like **Tailwind**, **TypeScript**, and **Storybook**, making it easy to integrate into your workflow.
+**Svelte Standalone** is a CLI tool that simplifies bundling Svelte components into standalone JavaScript files. It has *opt-in* support for **Tailwind**, **TypeScript**, and **Storybook**, making it simple to integrate to your workflow.
 
 ---
 
@@ -8,10 +8,10 @@
 
 - **Bundle Svelte Components**: Uses Vite and `@sveltejs/vite-plugin-svelte` to bundle components into standalone scripts.
 - **Optional Features**: Choose what you need—Tailwind, TypeScript, or Storybook.
-- **Reactive Components**: Leverages Svelte's reactivity and provides a component API for Svelte 4.
-- **Shareable Components**: Create reusable styles and logic with a special `runtime` component.
+- **Reactive Components**: Leverages Svelte's reactivity to create light but powerfull embedabbles.
 - **No Tooling Hassle**: Handles minification, CSS purging, and boilerplate generation.
-- **Cross Plataform Support**: Handles cross plataform support between different OS and node package managers.
+- **Shareable Components**: Reuse styles and logic with a special `runtime` component.
+- **Cross Plataform Support**: Supports your favorite OS or npm package.
 
 ---
 
@@ -84,7 +84,7 @@ npx standalone build
 The output will be saved in `static/dist/standalone/`:
 
 - `payments.min.js`: The standalone JavaScript file.
-- `payments.status.html`: A visualization of the bundle (optional).
+- `payments.status.html`: A visualization of the bundle.
 
 ---
 
@@ -114,7 +114,12 @@ Include the generated script in your HTML:
 
 ### Runtime Component
 
-The **runtime** is a special component (`runtime`, `$runtime`, or `+runtime`) used to share styles or logic across multiple standalone components. It ensures consistency and reduces duplication.
+The **runtime** is a special component (`runtime`, `$runtime`, or `+runtime`) used to encapsulate styles or logic across multiple standalone components.
+
+#### Why should I include a runtime? 
+
+- **Include styles once**: You can include your styles from `src/shared` once within your `runtime` component. 
+- **Setup your embedabbles**: You can run methods required to your cards just at your runtime. *i.e. authenticate once and retrieve at other embedabbles.*
 
 #### Create a Runtime Component:
 
@@ -126,7 +131,7 @@ When prompted for the component name, enter `runtime`, `$runtime`, or `+runtime`
 
 #### Ignore runtime:
 
-By default, the runtime styles are included in all builds. Use the `--strip-runtime` flag to bundle shared styles directly into each component:
+By default, the styles from `src/shared` folder are included across the runtime component during builds. Use the `--strip-runtime` flag to bundle styles from the `src/styles` folder directly into each component:
 
 ```bash
 npx standalone build --strip-runtime
