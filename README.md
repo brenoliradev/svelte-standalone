@@ -47,7 +47,7 @@ You'll be prompted to:
 2. **Choose an embedding strategy**:
    - **Explicit Call (Single Instance)**: Start with `window.payments.start()`.
    - **Explicit Call (Multiple Instances)**: Start with `window.payments.start()` and mount multiple instances.
-   - **Auto-Embed with Target**: Automatically append to a target element - It'll searched using it's `id`.
+   - **Auto-Embed with Target**: Automatically append to a target element - It'll be searched by it's `id`.
    - **Auto-Embed on Body**: Automatically append to the `<body>`.
 
 This will generate the following files in `src/_standalone/payments/`:
