@@ -12,7 +12,7 @@ export default defineConfig({
 			'meta',
 			{ property: 'og:description', content: 'Transform Svelte components in standalone scripts!' }
 		],
-		['meta', { property: 'og:image', content: 'https://ibb.co/St0yJyT' }],
+		['meta', { property: 'og:image', content: 'https://svelte-standalone.vercel.app/svelte-standalone.png' }],
 		['meta', { property: 'og:url', content: 'https://svelte-standalone.vercel.app/' }],
 		['meta', { property: 'og:type', content: 'website' }],
 
@@ -23,7 +23,7 @@ export default defineConfig({
 			'meta',
 			{ name: 'twitter:description', content: 'Transform Svelte components in standalone scripts!' }
 		],
-		['meta', { name: 'twitter:image', content: 'https://ibb.co/St0yJyT' }]
+		['meta', { name: 'twitter:image', content: 'https://svelte-standalone.vercel.app/svelte-standalone.png' }]
 	],
 
 	themeConfig: {
