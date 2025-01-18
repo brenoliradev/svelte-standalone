@@ -5,6 +5,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
+import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
@@ -46,26 +47,42 @@ const normalizeComponentName = (componentName: string) => componentName.replace(
 const isRuntime = (componentName: string) =>
 	componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
 
-const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
-	if (hasRuntime && isRuntime(componentName)) {
-		return [`./${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
-	}
-
-	const sharedContent = hasRuntime ? [] : ['./src/shared/**/*.{svelte,ts,js}'];
-
-	return [`./${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
-};
-
-const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) =>
-	tailwindConfig
-		? ([
-				tailwindcss({
-					...tailwindConfig,
-					content: getContent(purgeDir, componentName, hasRuntime)
-				}),
-				cssnanoPlugin()
-			] as AcceptedPlugin[])
-		: ([cssnanoPlugin()] as AcceptedPlugin[]);
+	const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
+		const content = [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`)];
+	
+		if (!hasRuntime || isRuntime(componentName)) {
+			content.push(path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}'));
+		}
+	
+		return content;
+	};
+	
+	const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
+		const content = getContent(purgeDir, componentName, hasRuntime);
+	
+		const s = new RegExp(`s-${componentName}`);
+	
+		return [
+			tailwindConfig
+				? tailwindcss({
+						...tailwindConfig,
+						content
+					}) as AcceptedPlugin
+				: purgeCSSPlugin({
+						content,
+						extractors: [
+							{
+								extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
+								extensions: ['svelte', 'js', 'ts', 'css']
+							}
+						],
+						safelist: {
+							standard: [s]
+						}
+					}),
+			cssnanoPlugin()
+		];
+	};
 
 const getProd = (prod: boolean) =>
 	prod
