@@ -24,14 +24,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: oven-sh/setup-bun@v1
         with:
           node-version: 20
-          cache: npm
+          cache: bun
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
-        run: bun install
+        run: bun ci
       - name: Build with VitePress
         run: bun run docs:build
       - name: Upload artifact
