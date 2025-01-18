@@ -61,7 +61,7 @@ export default defineConfig({
 		footer: {
 			message: 'Released under the <a href="https://opensource.org/license/MIT">MIT License</a>.',
 			copyright:
-				'Copyright © 2019-present <a href="https://github.com/brenoliradev">Breno Lira</a>'
+				'Copyright © 2024-present <a href="https://github.com/brenoliradev">Breno Lira</a>'
 		},
 
 		socialLinks: [{ icon: 'github', link: 'https://github.com/brenoliradev/svelte-standalone' }]
