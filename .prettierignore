@@ -9,3 +9,6 @@ static/dist
 # Ignore handlebard
 *.hbs
 .github/*
+
+dist
+docs/.vitepress/cache
