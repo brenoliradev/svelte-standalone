@@ -14,12 +14,32 @@ import { AcceptedPlugin } from 'postcss';
 
 import { pathToFileURL } from 'url';
 
-const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
+const svelteAliases = fs.existsSync(svelteConfig)
+	? ((await import(pathToFileURL(svelteConfig).href)) as { default: { kit: { alias: Record<string, string> } } }).default?.kit?.alias
+	: undefined;
 
+const viteConfig = path.resolve(rootDir, 'vite.config.js');
+const viteAliases = fs.existsSync(viteConfig)
+	? ((await import(pathToFileURL(viteConfig).href)) as { default: { resolve: { alias: Record<string, string> } } }).default?.resolve?.alias
+	: undefined;
+
+const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 const tailwindConfig = fs.existsSync(tailwindPath)
 	? ((await import(pathToFileURL(tailwindPath).href)) as { default: Config }).default
 	: undefined;
+
+const parseAlias = (alias: Record<string, string> | undefined) => {
+	if (!alias) return undefined
+
+	return Object.fromEntries(
+		Object.entries(alias).map(([key, value]) => {
+			const newKey = key.replace('/*', ''); // Remove '/*' from the key
+			const newValue = path.resolve(rootDir, value.replace('/*', '')); // Resolve the path
+			return [newKey, newValue];
+		})
+	);
+}
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -119,9 +139,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 				}
 			},
 			resolve: {
-				alias: {
-					'@': path.resolve(rootDir, 'src')
-				}
+				alias: parseAlias(viteAliases || svelteAliases)
 			}
 		});
 	});

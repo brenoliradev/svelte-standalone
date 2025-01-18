@@ -2,9 +2,9 @@
 	import { onDestroy } from 'svelte';
 	
 	{{#if typescript}}
-	import { defaultConfig } from '@/_standalone/{{componentName}}/config';
+	import { defaultConfig } from '../../_standalone/{{componentName}}/config';
 	{{else}}
-	import { defaultConfig } from '@/_standalone/{{componentName}}/config.js';
+	import { defaultConfig } from '../../_standalone/{{componentName}}/config.js';
 	{{/if}}
 
 	let validInstances{{#if typescript}}: Map<number, () => void>{{/if}} = new Map();
