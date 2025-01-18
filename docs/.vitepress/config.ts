@@ -4,6 +4,22 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
 	title: 'Svelte Standalone',
 	description: 'Transform Svelte components in standalone scripts!',
+
+  head: [
+    // Open Graph Meta Tags
+    ['meta', { property: 'og:title', content: 'Svelte Standalone' }],
+    ['meta', { property: 'og:description', content: 'Transform Svelte components in standalone scripts!' }],
+    ['meta', { property: 'og:image', content: 'https://ibb.co/St0yJyT' }],
+    ['meta', { property: 'og:url', content: 'https://svelte-standalone.vercel.app/' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+
+    // Twitter Card Meta Tags
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'Svelte Standalone' }],
+    ['meta', { name: 'twitter:description', content: 'Transform Svelte components in standalone scripts!' }],
+    ['meta', { name: 'twitter:image', content: 'https://ibb.co/St0yJyT' }],
+  ],
+
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
 		nav: [{ text: 'Guide', link: '/introduction' }],
