@@ -148,7 +148,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 export const buildStandalone = async (files: string[], prod: boolean, hasRuntime: boolean) => {
 	try {
 		const configs = handleBuild(files, prod, hasRuntime);
-		configs.forEach((c) => build({ ...c, configFile: false }));
+		await Promise.all(configs.map((c) => build({ ...c, configFile: false })));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
 	}
