@@ -1,5 +1,5 @@
 :::warning
-*This is currently a workaround. It only works in this specific setup.*
+_This is currently a workaround. It only works in this specific setup._
 :::
 
 # Bundling Web Components
@@ -11,11 +11,11 @@ You can bundle Web Components using **Svelte Standalone** as a tool. To setup it
 3. **Setup your Web Component**: Add the following options to your svelte component.
 
 ```javascript
-<svelte:options 
-    customElement={{
-        tag: "standalone-button",
-        shadow: 'none'
-    }}
+<svelte:options
+	customElement={{
+		tag: 'standalone-button',
+		shadow: 'none'
+	}}
 />
 ```
 
