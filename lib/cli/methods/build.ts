@@ -115,10 +115,10 @@ const getProd = (prod: boolean) =>
 const commonPlugins = (componentName: string, visualizerDir: string) =>
 	[
 		svelte({
-			configFile: svelteConfig
-			// compilerOptions: {
-			// 	cssHash: ({ name }) => `s-${name?.toLowerCase()}`
-			// }
+			configFile: svelteConfig,
+			compilerOptions: {
+				cssHash: ({ name }) => `s-${name?.toLowerCase()}`
+			}
 		}),
 		visualizer({
 			filename: `${visualizerDir}.status.html`,
