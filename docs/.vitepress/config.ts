@@ -6,7 +6,7 @@ export default defineConfig({
 	description: 'Transform Svelte components in standalone scripts!',
 
 	head: [
-		// Open Graph Meta Tags
+		['link', { rel: 'icon', href: '/favicon.ico' }],
 		['meta', { property: 'og:title', content: 'Svelte Standalone' }],
 		[
 			'meta',
@@ -21,8 +21,6 @@ export default defineConfig({
 		],
 		['meta', { property: 'og:url', content: 'https://svelte-standalone.vercel.app/' }],
 		['meta', { property: 'og:type', content: 'website' }],
-
-		// Twitter Card Meta Tags
 		['meta', { name: 'twitter:card', content: 'summary_large_image' }],
 		['meta', { name: 'twitter:title', content: 'Svelte Standalone' }],
 		[
