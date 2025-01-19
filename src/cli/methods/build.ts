@@ -4,8 +4,8 @@ import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import cssnanoPlugin from 'cssnano';
+import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
@@ -15,14 +15,40 @@ import { type AcceptedPlugin } from 'postcss';
 
 import { pathToFileURL } from 'url';
 
-const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
-const sveltePath = path.resolve(rootDir, 'svelte.config.js');
+const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
+const svelteAliases = fs.existsSync(svelteConfig)
+	? (
+			(await import(pathToFileURL(svelteConfig).href)) as {
+				default: { kit: { alias: Record<string, string> } };
+			}
+		).default?.kit?.alias
+	: undefined;
 
+const viteConfig = path.resolve(rootDir, 'vite.config.js');
+const viteAliases = fs.existsSync(viteConfig)
+	? (
+			(await import(pathToFileURL(viteConfig).href)) as {
+				default: { resolve: { alias: Record<string, string> } };
+			}
+		).default?.resolve?.alias
+	: undefined;
+
+const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 const tailwindConfig = fs.existsSync(tailwindPath)
 	? ((await import(pathToFileURL(tailwindPath).href)) as { default: Config }).default
 	: undefined;
 
-const svelteConfig = fs.existsSync(sveltePath) ? sveltePath : undefined;
+const parseAlias = (alias: Record<string, string> | undefined) => {
+	if (!alias) return undefined;
+
+	return Object.fromEntries(
+		Object.entries(alias).map(([key, value]) => {
+			const newKey = key.replace('/*', ''); // Remove '/*' from the key
+			const newValue = path.resolve(rootDir, value.replace('/*', '')); // Resolve the path
+			return [newKey, newValue];
+		})
+	);
+};
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -54,7 +80,6 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 					content,
 					extractors: [
 						{
-							// eslint-disable-next-line no-useless-escape
 							extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
 							extensions: ['svelte', 'js', 'ts', 'css']
 						}
@@ -144,9 +169,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 				}
 			},
 			resolve: {
-				alias: {
-					'@': path.resolve(rootDir, 'src')
-				}
+				alias: parseAlias(viteAliases || svelteAliases)
 			}
 		});
 	});
@@ -155,7 +178,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 export const buildStandalone = async (files: string[], prod: boolean, hasRuntime: boolean) => {
 	try {
 		const configs = handleBuild(files, prod, hasRuntime);
-		configs.forEach((c) => build({ ...c, configFile: false }));
+		await Promise.all(configs.map((c) => build({ ...c, configFile: false })));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
 	}
