@@ -116,9 +116,9 @@ const commonPlugins = (componentName: string, visualizerDir: string) =>
 	[
 		svelte({
 			configFile: svelteConfig,
-			compilerOptions: {
-				cssHash: ({ name }) => `s-${name?.toLowerCase()}`
-			}
+			// compilerOptions: {
+			// 	cssHash: ({ name }) => `s-${name?.toLowerCase()}`
+			// }
 		}),
 		visualizer({
 			filename: `${visualizerDir}.status.html`,
