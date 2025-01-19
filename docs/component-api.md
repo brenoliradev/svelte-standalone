@@ -1,10 +1,10 @@
-# Leveraging Component API
-
-**Svelte Standalone** exposes the `$set` and `$on` methods from the [Svelte Component API](https://svelte.dev/docs/svelte/legacy-component-api) at `window.<componentId>`. These methods allow you to interact with your standalone components programmatically.
-
 ::: warning
 _This feature is currently only supported in Svelte 4 and `svelte-standalone@latest`._
 :::
+
+# Leveraging Component API
+
+**Svelte Standalone** exposes the `$set` and `$on` methods from the [Svelte Component API](https://svelte.dev/docs/svelte/legacy-component-api) at `window.<componentId>`. These methods allow you to interact with your standalone components programmatically.
 
 ## Available Methods
 
