@@ -61,12 +61,13 @@ export default defineConfig({
 				items: [
 					{ text: 'Shared Components', link: '/shared' },
 					{ text: 'Svelte 4 vs Svelte 5', link: '/svelte-versions' },
-					{ text: 'Svelte Component API', link: '/component-api' }
+					{ text: 'Svelte Component API', link: '/component-api' },
+					{ text: 'Web Components', link: '/web-components' }
 				]
 			},
 			{
 				text: 'Examples',
-				items: [{ text: 'Bundling svelte-notifications', link: '/svelte-notifications' }]
+				items: [{ text: 'Bundling an node package', link: '/svelte-notifications' }]
 			}
 		],
 
