@@ -7,7 +7,7 @@ _This is currently a workaround. It only works in this specific setup._
 You can bundle Web Components using **Svelte Standalone** as a tool. To setup it, you need to:
 
 1. **Setup your `svelte.config.js`**: Set `compilerOptions.customElement` to `true`.
-2. **Generate a Standalone Component**: Run `standalone create` and create a component. The `embed method` isn't important.
+2. **Generate a Standalone Component**: Run `standalone create` and create a component. The [embed method](/embed) isn't important.
 3. **Setup your Web Component**: Add the following options to your svelte component.
 
 ```javascript
@@ -19,7 +19,7 @@ You can bundle Web Components using **Svelte Standalone** as a tool. To setup it
 />
 ```
 
-4. **Update Your Embed File**: This is the correct `embed method` for Web Components.
+4. **Update Your Embed File**: This is the correct [embed method](/embed) for Web Components.
 
 ```javascript
 import Once from './index.svelte'
