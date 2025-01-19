@@ -1,6 +1,6 @@
 # Shared Components
 
-With **Svelte Standalone**, you can simplify the process of creating new embeddables by sharing common components across your projects. 
+With **Svelte Standalone**, you can simplify the process of creating new embeddables by sharing common components across your projects.
 
 For example, if you're building a Dashboard, you can reuse shared components (i.e. `Tabs` or `Tables`) across multiple Svelte components.
 

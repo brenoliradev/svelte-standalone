@@ -12,11 +12,13 @@ Follow these steps to set up **Svelte Standalone** in your project:
 :::
 
 ### For **Svelte 4**:
+
 ```bash
 npm install -D svelte-standalone@latest
 ```
 
 ### For **Svelte 5**:
+
 ```bash
 npm install -D svelte-standalone@beta
 ```

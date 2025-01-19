@@ -19,7 +19,7 @@ Featuring _opt-in_ support for **Tailwind**, **TypeScript** or **Storybook**, it
 
 **Svelte Standalone** is designed to seamlessly integrate into your existing Svelte workflow. It generates boilerplate code tailored to your specific needs, saving you time and effort.
 
-It includes *opt-in* support for:
+It includes _opt-in_ support for:
 
 - **Tailwind**
 - **TypeScript**
@@ -34,10 +34,10 @@ _You can also use Tailwind plugins — just configure them as you normally would
 
 ## Path Aliases
 
-**Svelte Standalone** includes *opt-in* support for [path aliases](https://vite.dev/config/shared-options.html#resolve-alias). 
+**Svelte Standalone** includes _opt-in_ support for [path aliases](https://vite.dev/config/shared-options.html#resolve-alias).
 
 :::tip
-*Configure path aliases as you normally would in your `vite.config.js` or `svelte.config.js`, and **Svelte Standalone** will handle the bundling process for you.*
+_Configure path aliases as you normally would in your `vite.config.js` or `svelte.config.js`, and **Svelte Standalone** will handle the bundling process for you._
 :::
 
 ## Boilerplate Generation
@@ -49,9 +49,9 @@ _You can also use Tailwind plugins — just configure them as you normally would
 - If you have **TypeScript** or **Tailwind** installed, the boilerplate code will be generated using them.
 
 :::tip
-*You should include **Sveltejs/Kit** to generate routing with your **bundled** standalone embedabbles*
+_You should include **Sveltejs/Kit** to generate routing with your **bundled** standalone embedabbles_
 
-*You should include **Storybook** to generate storyes with your svelte components **before** the bundling*
+_You should include **Storybook** to generate storyes with your svelte components **before** the bundling_
 :::
 
 ## Is It Type-Safe?
