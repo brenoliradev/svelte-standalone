@@ -5,6 +5,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import cssnanoPlugin from 'cssnano';
+import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
@@ -14,12 +15,40 @@ import { AcceptedPlugin } from 'postcss';
 
 import { pathToFileURL } from 'url';
 
-const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
+const svelteAliases = fs.existsSync(svelteConfig)
+	? (
+			(await import(pathToFileURL(svelteConfig).href)) as {
+				default: { kit: { alias: Record<string, string> } };
+			}
+		).default?.kit?.alias
+	: undefined;
 
+const viteConfig = path.resolve(rootDir, 'vite.config.js');
+const viteAliases = fs.existsSync(viteConfig)
+	? (
+			(await import(pathToFileURL(viteConfig).href)) as {
+				default: { resolve: { alias: Record<string, string> } };
+			}
+		).default?.resolve?.alias
+	: undefined;
+
+const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
 const tailwindConfig = fs.existsSync(tailwindPath)
 	? ((await import(pathToFileURL(tailwindPath).href)) as { default: Config }).default
 	: undefined;
+
+const parseAlias = (alias: Record<string, string> | undefined) => {
+	if (!alias) return undefined;
+
+	return Object.fromEntries(
+		Object.entries(alias).map(([key, value]) => {
+			const newKey = key.replace('/*', ''); // Remove '/*' from the key
+			const newValue = path.resolve(rootDir, value.replace('/*', '')); // Resolve the path
+			return [newKey, newValue];
+		})
+	);
+};
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -27,25 +56,41 @@ const isRuntime = (componentName: string) =>
 	componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
 
 const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
-	if (hasRuntime && isRuntime(componentName)) {
-		return [`./${purgeDir}/**/*.{svelte,ts,js}`, './src/shared/**/*.{svelte,ts,js}'];
+	const content = [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`)];
+
+	if (!hasRuntime || isRuntime(componentName)) {
+		content.push(path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}'));
 	}
 
-	const sharedContent = hasRuntime ? [] : ['./src/shared/**/*.{svelte,ts,js}'];
-
-	return [`./${purgeDir}/**/*.{svelte,ts,js}`, ...sharedContent];
+	return content;
 };
 
-const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) =>
-	tailwindConfig
-		? ([
-				tailwindcss({
+const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
+	const content = getContent(purgeDir, componentName, hasRuntime);
+
+	const s = new RegExp(`s-${componentName}`);
+
+	return [
+		tailwindConfig
+			? (tailwindcss({
 					...tailwindConfig,
-					content: getContent(purgeDir, componentName, hasRuntime)
+					content
+				}) as AcceptedPlugin)
+			: purgeCSSPlugin({
+					content,
+					extractors: [
+						{
+							extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
+							extensions: ['svelte', 'js', 'ts', 'css']
+						}
+					],
+					safelist: {
+						standard: [s]
+					}
 				}),
-				cssnanoPlugin()
-			] as AcceptedPlugin[])
-		: ([cssnanoPlugin()] as AcceptedPlugin[]);
+		cssnanoPlugin()
+	];
+};
 
 const getProd = (prod: boolean) =>
 	prod
@@ -69,7 +114,12 @@ const getProd = (prod: boolean) =>
 
 const commonPlugins = (componentName: string, visualizerDir: string) =>
 	[
-		svelte({ configFile: svelteConfig }),
+		svelte({
+			configFile: svelteConfig
+			// compilerOptions: {
+			// 	cssHash: ({ name }) => `s-${name?.toLowerCase()}`
+			// }
+		}),
 		visualizer({
 			filename: `${visualizerDir}.status.html`,
 			title: `${componentName} status`
@@ -119,9 +169,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 				}
 			},
 			resolve: {
-				alias: {
-					'@': path.resolve(rootDir, 'src')
-				}
+				alias: parseAlias(viteAliases || svelteAliases)
 			}
 		});
 	});
@@ -130,7 +178,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 export const buildStandalone = async (files: string[], prod: boolean, hasRuntime: boolean) => {
 	try {
 		const configs = handleBuild(files, prod, hasRuntime);
-		configs.forEach((c) => build({ ...c, configFile: false }));
+		await Promise.all(configs.map((c) => build({ ...c, configFile: false })));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
 	}

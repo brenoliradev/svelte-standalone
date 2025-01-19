@@ -9,7 +9,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/stories/{{componentName}}.stories.js'),
-				templateFile: path.resolve(moduleDir, 'src/plop-templates/story/{{strategy}}.hbs')
+				templateFile: path.resolve(moduleDir, 'lib/plop-templates/story/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -20,7 +20,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/embed.js'),
-				templateFile: path.resolve(moduleDir, 'src/plop-templates/embed/{{strategy}}.hbs')
+				templateFile: path.resolve(moduleDir, 'lib/plop-templates/embed/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -31,7 +31,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/config.js'),
-				templateFile: path.resolve(moduleDir, 'src/plop-templates/config/{{strategy}}.hbs')
+				templateFile: path.resolve(moduleDir, 'lib/plop-templates/config/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -42,7 +42,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/routes/{{componentName}}/+page.svelte'),
-				templateFile: path.resolve(moduleDir, 'src/plop-templates/route/{{strategy}}.hbs')
+				templateFile: path.resolve(moduleDir, 'lib/plop-templates/route/{{strategy}}.hbs')
 			}
 		]
 	});
@@ -53,7 +53,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/routes/+layout.svelte'),
-				templateFile: path.resolve(moduleDir, 'src/plop-templates/route/layout.hbs')
+				templateFile: path.resolve(moduleDir, 'lib/plop-templates/route/layout.hbs')
 			}
 		]
 	});
@@ -64,7 +64,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.resolve(rootDir, 'src/_standalone/{{componentName}}/index.svelte'),
-				templateFile: path.resolve(moduleDir, 'src/plop-templates/structure/component.hbs')
+				templateFile: path.resolve(moduleDir, 'lib/plop-templates/structure/component.hbs')
 			}
 		]
 	});

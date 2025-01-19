@@ -3,7 +3,7 @@
 I started **Svelte Standalone** to streamline Svelte 4 for powering a fully customizable dashboard. Since I'm still actively developing this dashboard, my focus hasn't shifted to fully supporting Svelte 5. However, you can still use **Svelte Standalone** with Svelte 5 by installing the beta version:
 
 ```bash
-npm install svelte-standalone@beta
+npm install -D svelte-standalone@beta
 ```
 
 ## Key Differences
