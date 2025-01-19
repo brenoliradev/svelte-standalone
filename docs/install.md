@@ -12,7 +12,7 @@ Follow these steps to set up **Svelte Standalone** in your project:
 3. **Install Svelte Standalone**
 
 :::tip
-_My current workflows include Svelte 4 with **Svelte Standalone**. This version is well tested and used in a daily basis._
+_My current workflow includes Svelte 4 with **Svelte Standalone**. This version is well tested and used in a daily basis._
 
 _If you want to use it as myself, create your Svelte project - with the svelte CLI - and downgrade the following dependencies: `svelte@4 @sveltejs/vite-plugin-svelte@3`_
 :::
