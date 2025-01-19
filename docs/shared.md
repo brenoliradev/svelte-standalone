@@ -1,6 +1,8 @@
 # Shared Components
 
-With **Svelte Standalone**, you can simplify the process of creating new embeddables by sharing common components across your projects. For example, if you're building a Dashboard, you can reuse shared components (i.e. `Tabs` or `Tables`) across multiple Svelte components.
+With **Svelte Standalone**, you can simplify the process of creating new embeddables by sharing common components across your projects. 
+
+For example, if you're building a Dashboard, you can reuse shared components (i.e. `Tabs` or `Tables`) across multiple Svelte components.
 
 ## How to Share Components
 
@@ -8,7 +10,7 @@ You can write plain Svelte components, stores, or utilities and import them into
 
 To leverage CSS purging and reuse styles across your components, create a `/src/shared` folder. By placing your components in this folder, their styles will automatically be shared across all your Svelte embeddables, ensuring consistency and reducing redundancy.
 
-This approach works great if you plan to use these components independently. For example, you could create a `Tooltip` component and reuse it across multiple embeddables in different apps. [But what if you want to use both in the same app?](#creating-a-runtime-component)
+This approach works great if you plan to use these components independently. For example, you could create a `Tooltip` component and reuse it across multiple embeddables in different apps. [But what if you want to use both in the same app?](#runtime-components)
 
 ## Runtime Components
 
