@@ -1,8 +1,8 @@
-# Embed Types
+# Embed Methods
 
 While [creating a standalone component](/cli#create), you can specify how your embeddable should be inserted after bundling it.
 
-By default, all embed types include a way to programmatically stop them. Additionally, after selecting your embed type, **Svelte Standalone** will automatically generate the necessary boilerplate for it.
+By default, all embed methods include a way to programmatically stop them. Additionally, after selecting your embed type, **Svelte Standalone** will automatically generate the necessary boilerplate for it.
 
 ::: tip
 _You can change an existing embeddable's embed type by updating its embed method._

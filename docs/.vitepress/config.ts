@@ -53,7 +53,7 @@ export default defineConfig({
 					{ text: 'Introduction', link: '/introduction' },
 					{ text: 'Installation Guide', link: '/install' },
 					{ text: 'Cli Commands', link: '/cli' },
-					{ text: 'Embed Types', link: '/embed' }
+					{ text: 'Embed Methods', link: '/embed' }
 				]
 			},
 			{
