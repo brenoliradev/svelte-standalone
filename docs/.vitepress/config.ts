@@ -10,7 +10,10 @@ export default defineConfig({
 		['meta', { property: 'og:title', content: 'Svelte Standalone' }],
 		[
 			'meta',
-			{ property: 'og:description', content: 'Transform Svelte components in standalone embedabbles!' }
+			{
+				property: 'og:description',
+				content: 'Transform Svelte components in standalone embedabbles!'
+			}
 		],
 		[
 			'meta',
