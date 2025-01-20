@@ -7,7 +7,7 @@ hero:
   tagline: An cross plataform, developer focused and customizable tool to streamline svelte.
   actions:
     - theme: brand
-      text: Streamline Svelte Now
+      text: Create Embedabbles Now
       link: /introduction
     - theme: alt
       text: Quickstart
