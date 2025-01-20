@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: 'Integrate Svelte Anywhere'
-  tagline: An cross plataform, developer focused and customizable tool to streamline javascript embedabbles
+  tagline: An cross plataform, developer focused and customizable tool to create javascript embedabbles
   actions:
     - theme: brand
       text: Create Embedabbles Now
