@@ -1,3 +1,7 @@
+:::warning
+_Is strongly recommended to use **Svelte 4** in this setup._
+:::
+
 # Supporting Shadcn
 
 With **Svelte Standalone** is possible to integrate the modern UI kits with ease. For example, to implement [shadcn](https://www.shadcn-svelte.com/) you only to follow **two** steps:

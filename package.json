@@ -1,6 +1,6 @@
 {
 	"name": "svelte-standalone",
-	"version": "1.9.5-rc",
+	"version": "1.9.0",
 	"description": "Transform Svelte components in standalone scripts!",
 	"bin": {
 		"standalone": "dist/cli/cli.js"
@@ -9,8 +9,7 @@
 	"exports": {
 		".": {
 			"import": "./dist/index.js"
-		},
-		"./css/": "./lib/css/"
+		}
 	},
 	"files": [
 		"dist",
