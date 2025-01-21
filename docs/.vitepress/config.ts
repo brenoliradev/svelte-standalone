@@ -3,14 +3,17 @@ import { defineConfig } from 'vitepress';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
 	title: 'Svelte Standalone',
-	description: 'Transform Svelte components in standalone scripts!',
+	description: 'Transform Svelte components in standalone embedabbles!',
 
 	head: [
 		['link', { rel: 'icon', href: '/favicon.ico' }],
 		['meta', { property: 'og:title', content: 'Svelte Standalone' }],
 		[
 			'meta',
-			{ property: 'og:description', content: 'Transform Svelte components in standalone scripts!' }
+			{
+				property: 'og:description',
+				content: 'Transform Svelte components in standalone embedabbles!'
+			}
 		],
 		[
 			'meta',
@@ -68,7 +71,7 @@ export default defineConfig({
 				items: [
 					{ text: 'Bundling an Mode Package', link: '/svelte-notifications' },
 					{ text: 'Supporting Shadcn', link: '/shadcn' }
-				],
+				]
 			}
 		],
 
