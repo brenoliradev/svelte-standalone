@@ -13,8 +13,7 @@
 	},
 	"files": [
 		"dist",
-		"lib/plop-templates",
-		"lib/css"
+		"lib/plop-templates"
 	],
 	"devDependencies": {
 		"@eslint/js": "^9.17.0",
