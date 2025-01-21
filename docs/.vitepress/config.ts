@@ -70,6 +70,7 @@ export default defineConfig({
 				text: 'Examples',
 				items: [
 					{ text: 'Bundling an Mode Package', link: '/svelte-notifications' },
+					{ text: 'Supporting Tailwind', link: '/tailwind' },
 					{ text: 'Supporting Shadcn', link: '/shadcn' }
 				]
 			}
