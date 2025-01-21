@@ -92,7 +92,7 @@ _If your target app has Tailwind, you can remove the following styles from app.c
 
 `@tailwind components;`
 
-_If your target app doesnt include Tailwind, I would recommend you to create a runtime and include these styles only once_
+_If your target app doesn't include Tailwind and you plan to have multiple embedabbles, consider creating [a runtime](/shared) and including these directives once_
 :::
 
 ## Troubleshooting
