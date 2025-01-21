@@ -1,4 +1,26 @@
+<script lang="ts">
+  	import { onMount } from "svelte";
+	let runtimeExists = false;
+
+	// simple validation if valid runtime exists
+	onMount(async () => {
+		try {
+			const response = await fetch('/dist/standalone/runtime.min.js');
+			runtimeExists = response.ok;
+		} catch (error) {
+			runtimeExists = false;
+		}
+	})
+</script>
+
+<svelte:head>
+	{#if runtimeExists}
+    	<script src="/dist/standalone/runtime.min.js" defer></script>
+	{/if}
+</svelte:head>
+
 <slot></slot>
+
 <a	
 	class="home-button"
 	href="/"

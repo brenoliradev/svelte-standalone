@@ -15,9 +15,29 @@ import { includesTailwind, includesTypeScript } from './cli/utils/isDependency.j
 
 const routesDir = path.resolve(rootDir, 'src', 'routes');
 
-const initialContent = `<div></div>`;
+const initialContent = `<div class="layout"></div>
+
+<style>
+	.layout {
+		display: flex;
+		padding: 0.25rem;
+	}
+
+	.button {
+		padding: 8px 12px;
+		border-radius: 0.5rem;
+		font-weight: 500;
+		color: #ffffff; 
+		background-color: #1D4ED8; 
+	}
+
+	.button:hover {
+		background-color: #1E40AF; 
+	}
+</style>`;
+
 const newLink = (componentName: string) =>
-	`<a class="home-button" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
+	`<a class="button" href="/${componentName}">Redirect to ${componentName} script</a>\n`;
 
 const typescript = includesTypeScript();
 const tailwind = includesTailwind();
