@@ -1,19 +1,26 @@
 # Supporting Shadcn
 
-**Svelte Standalone** makes possible to integrate even the modern UI kits with easy. You just need to follow the **two** steps bellow.
+With **Svelte Standalone** is possible to integrate the modern UI kits with ease. For example, to implement [shadcn](https://www.shadcn-svelte.com/) you only to follow **two** steps:
 
 1. [Install Svelte Standalone](/install) - For the sake of simplicity, this tutorial is using only **Tailwind** and **TypeScript**.
-2. [Install shadcn-svelte](https://www.shadcn-svelte.com/docs/installation/sveltekit) - You don't have to follow any workarounds, but to extract the best of **Svelte Standalone** do the following:
-   - Move `app.css` to `src/shared/app.css`.
-   - Include your [kit.alias](https://svelte.dev/docs/kit/configuration#alias) to match `/src/shared/lib`.
+2. [Install shadcn-svelte](https://www.shadcn-svelte.com/docs/installation/sveltekit)
 
-After these two steps, you can just start creating your embedabbles using `Shadcn`.
+:::tip
+_You aren't required to setup anything different than what you would do, but to leverage all capabilities of **Svelte Standalone** this is my recommended setup:_
 
-## Installing A Shadcn Component
+- Move `app.css` to `src/shared/app.css`.
+- Include your [kit.alias](https://svelte.dev/docs/kit/configuration#alias) to match `/src/shared/lib`.
+
+_Thil will allow you to: [include your shadcn styles at Runtime](#including-a-runtime)_
+:::
+
+After these steps, you can just start creating your embedabbles using the Shadcn CLI.
+
+## Adding A Shadcn Component
 
 To continue explaining how easy is to have an amazing developer experience while using **Svelte Standalone** let's install the [Table component](https://www.shadcn-svelte.com/docs/components/table) from Shadcn.
 
-1. **Create Your Embedabble**: For this, we can use the following options:
+1. **Create Your Embedabble**: For this embedabble, we can use the following options:
    - Name your component: `table`.
    - Choose an embedding strategy: `Explicit Call (Single Instance)`
 2. **Install Table**
@@ -21,8 +28,8 @@ To continue explaining how easy is to have an amazing developer experience while
 
 ```svelte
 <script lang="ts">
-    import '../../shared/app.css';
-    import * as Table from "$/ui/table";
+    import '../../shared/app.css'; // you can remove this if you have a runtime
+    import * as Table from "$/ui/table"; // update to your alias
 </script>
 
 <Table.Root>
@@ -46,7 +53,7 @@ To continue explaining how easy is to have an amazing developer experience while
 </Table.Root>
 ```
 
-4. **Transform It**: Just by running `npm run standalone build -ap` you're going to have a minified, production-ready standalone version of `Table`. This is my output for bundling the entire table:
+4. **Transform It**: Just by running `npm run standalone build -ap` you have a minified, production-ready standalone version of `Table`:
 
 ```bash
 ➜  shadcn-standalone bun standalone build -ap
@@ -56,12 +63,34 @@ static/dist/standalone/table.min.js  45.37 kB │ gzip: 13.38 kB
 ✓ built in 815ms
 ```
 
-## **Including Shadcn at a Runtime**
+## **Including a Runtime**
 
-Bundling code isn't the only feature from **Svelte Standalone** we can also [share the styles between multiple tables](/shared). To make it, we just have to:
+Turning the code into an embedabble isn't the only feature from **Svelte Standalone** if you're planning to have multipel embedabbles in the same app I would recommend you to [include styles into a runtime](/shared). It seems hard, but isn't. To handle it we just have to do the following:
 
-- **Create Another Embedabble**: For this, we can use the following options:
+- **Create Another Embedabble**: For this embedabble, we can use the following options:
   - Name your component: `$runtime`.
   - Choose an embedding strategy: `Auto-Embed on Body`
 
-By creating an runtime and bundling all your embedabbles all of your styles from `/src/shared` are **only** included at `runtime.min.js`. This would be particularly usefull if you aim to use multiple Shadcn components in multiple embedabbles.
+Initially, your runtime would be just:
+
+```svelte
+<script lang="ts">
+    import '../../shared/app.css';
+</script>
+```
+
+By creating an runtime and bundling it all of your styles from `/src/shared` are **only** included at `runtime.min.js`. Which means you'll can use multiple embedabbles in the same page, but download it's CSS only once.
+
+:::tip
+_If your target app has Tailwind, you can remove the following styles from app.css_
+
+`@tailwind base;`
+
+`@tailwind components;`
+
+_If your target app doesnt include Tailwind, I would recommend you to create a runtime and include these styles only once_
+:::
+
+## Troubleshooting
+
+You can see all the code used for this example [here](https://github.com/brenoliradev/shadcn-and-svelte-standalone/tree/main) but If you encounter any problems [open an issue](https://github.com/brenoliradev/svelte-standalone/issues) on GitHub for assistance.
