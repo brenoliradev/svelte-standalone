@@ -65,7 +65,10 @@ export default defineConfig({
 			},
 			{
 				text: 'Examples',
-				items: [{ text: 'Bundling an node package', link: '/svelte-notifications' }]
+				items: [
+					{ text: 'Bundling an Mode Package', link: '/svelte-notifications' },
+					{ text: 'Supporting Shadcn', link: '/shadcn' }
+				],
 			}
 		],
 
