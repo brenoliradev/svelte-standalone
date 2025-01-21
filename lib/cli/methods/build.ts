@@ -9,11 +9,13 @@ import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
-import fs from 'fs';
 import { rootDir } from '../../dir.js';
 import { AcceptedPlugin } from 'postcss';
 
+import { getPath } from '../utils/getPath.js';
+
 import { pathToFileURL } from 'url';
+import fs from 'fs';
 
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 const svelteAliases = fs.existsSync(svelteConfig)
@@ -22,20 +24,6 @@ const svelteAliases = fs.existsSync(svelteConfig)
 				default: { kit: { alias: Record<string, string> } };
 			}
 		).default?.kit?.alias
-	: undefined;
-
-const viteConfig = path.resolve(rootDir, 'vite.config.js');
-const viteAliases = fs.existsSync(viteConfig)
-	? (
-			(await import(pathToFileURL(viteConfig).href)) as {
-				default: { resolve: { alias: Record<string, string> } };
-			}
-		).default?.resolve?.alias
-	: undefined;
-
-const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
-const tailwindConfig = fs.existsSync(tailwindPath)
-	? ((await import(pathToFileURL(tailwindPath).href)) as { default: Config }).default
 	: undefined;
 
 const parseAlias = (alias: Record<string, string> | undefined) => {
@@ -49,6 +37,8 @@ const parseAlias = (alias: Record<string, string> | undefined) => {
 		})
 	);
 };
+
+const tailwindPath = getPath('tailwind.config');
 
 const normalizeComponentName = (componentName: string) => componentName.replace(/^[+$]/, '');
 
@@ -71,9 +61,9 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 	const s = new RegExp(`s-${componentName}`);
 
 	return [
-		tailwindConfig
+		tailwindPath
 			? (tailwindcss({
-					...tailwindConfig,
+					config: tailwindPath,
 					content
 				}) as AcceptedPlugin)
 			: purgeCSSPlugin({
@@ -169,7 +159,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 				}
 			},
 			resolve: {
-				alias: parseAlias(viteAliases || svelteAliases)
+				alias: parseAlias(svelteAliases)
 			}
 		});
 	});

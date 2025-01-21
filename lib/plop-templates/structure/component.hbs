@@ -1,7 +1,7 @@
 <script{{#if typescript}} lang="ts"{{/if}}>
     {{#if tailwind}}
-    import 'svelte-standalone/css/tailwind-utils.css';
-
+    // you MUST explicitly import tailwind
+    // refer to: https://svelte-standalone.vercel.app/tailwind
     {{/if}}
     const greeting = () => {
         alert('thank you for using svelte-standalone!')
