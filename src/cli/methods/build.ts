@@ -1,6 +1,6 @@
-import { build, defineConfig, loadConfigFromFile, type PluginOption } from 'vite';
+import { build, defineConfig, type PluginOption } from 'vite';
 import path from 'path';
-import tailwindcss from 'tailwindcss';
+import tailwindcss, { Config } from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
@@ -9,23 +9,11 @@ import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
+import fs from 'fs';
 import { rootDir } from '../../dir.js';
-import { AcceptedPlugin } from 'postcss';
-
-import { getPath } from '../utils/getPath.js';
+import { type AcceptedPlugin } from 'postcss';
 
 import { pathToFileURL } from 'url';
-import fs from 'fs';
-
-const tailwindPath = getPath('tailwind.config');
-
-const viteAliases = await loadConfigFromFile(
-	{ command: 'build', mode: 'production' },
-	getPath('vite.config'),
-	rootDir
-  ).then(result => 
-	result?.config?.resolve?.alias as Record<string, string>
-);
 
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 const svelteAliases = fs.existsSync(svelteConfig)
@@ -34,6 +22,20 @@ const svelteAliases = fs.existsSync(svelteConfig)
 				default: { kit: { alias: Record<string, string> } };
 			}
 		).default?.kit?.alias
+	: undefined;
+
+const viteConfig = path.resolve(rootDir, 'vite.config.js');
+const viteAliases = fs.existsSync(viteConfig)
+	? (
+			(await import(pathToFileURL(viteConfig).href)) as {
+				default: { resolve: { alias: Record<string, string> } };
+			}
+		).default?.resolve?.alias
+	: undefined;
+
+const tailwindPath = path.resolve(rootDir, 'tailwind.config.js');
+const tailwindConfig = fs.existsSync(tailwindPath)
+	? ((await import(pathToFileURL(tailwindPath).href)) as { default: Config }).default
 	: undefined;
 
 const parseAlias = (alias: Record<string, string> | undefined) => {
@@ -69,9 +71,9 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 	const s = new RegExp(`s-${componentName}`);
 
 	return [
-		tailwindPath
+		tailwindConfig
 			? (tailwindcss({
-					config: tailwindPath,
+					...tailwindConfig,
 					content
 				}) as AcceptedPlugin)
 			: purgeCSSPlugin({
@@ -167,7 +169,7 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 				}
 			},
 			resolve: {
-				alias: { ...parseAlias(svelteAliases), ...parseAlias(viteAliases) }
+				alias: parseAlias(viteAliases || svelteAliases)
 			}
 		});
 	});
