@@ -23,9 +23,7 @@ const viteAliases = await loadConfigFromFile(
 	{ command: 'build', mode: 'production' },
 	getPath('vite.config'),
 	rootDir
-  ).then(result => 
-	result?.config?.resolve?.alias as Record<string, string>
-);
+).then((result) => result?.config?.resolve?.alias as Record<string, string>);
 
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 const svelteAliases = fs.existsSync(svelteConfig)
