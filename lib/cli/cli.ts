@@ -11,7 +11,7 @@ program
 	.name('standalone')
 	.description('Transform Svelte components in standalone scripts!')
 	.showHelpAfterError('(add --help for additional information)')
-	.version('1.9.2', '-v, --version', 'output the current version');
+	.version('1.10.0', '-v, --version', 'output the current version');
 
 program
 	.command('create')
@@ -27,11 +27,12 @@ program
 		'--strip-runtime',
 		'Exclude "runtime" styles sharing and bundle shared styles directly into the selected components'
 	)
+	.option('-m, --mode <mode>', 'Set the Vite mode')
 	.action((cmd) => {
 		if (cmd.stripRuntime) {
 			console.log('Including shared styles in all components');
 		}
-		build(cmd.production, cmd.all, cmd.stripRuntime);
+		build(cmd.production, cmd.all, cmd.stripRuntime, cmd.mode);
 	});
 
 if (process.argv.length < 3) {

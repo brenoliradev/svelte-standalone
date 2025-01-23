@@ -1,4 +1,4 @@
-import { build, defineConfig, loadConfigFromFile, type PluginOption } from 'vite';
+import { build, defineConfig, loadConfigFromFile, UserConfig, type PluginOption } from 'vite';
 import path from 'path';
 import tailwindcss from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -18,12 +18,6 @@ import { pathToFileURL } from 'url';
 import fs from 'fs';
 
 const tailwindPath = getPath('tailwind.config');
-
-const viteAliases = await loadConfigFromFile(
-	{ command: 'build', mode: 'production' },
-	getPath('vite.config'),
-	rootDir
-).then((result) => result?.config?.resolve?.alias as Record<string, string>);
 
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 const svelteAliases = fs.existsSync(svelteConfig)
@@ -123,7 +117,12 @@ const commonPlugins = (componentName: string, visualizerDir: string) =>
 		libInjectCss()
 	] as PluginOption[];
 
-const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
+const handleBuild = (
+	files: string[],
+	prod: boolean,
+	hasRuntime: boolean,
+	viteConfig?: UserConfig
+) => {
 	return files.map((file) => {
 		const rawComponentName = path.dirname(file).split(path.sep).at(-1) || '';
 		const componentName = normalizeComponentName(rawComponentName);
@@ -165,16 +164,34 @@ const handleBuild = (files: string[], prod: boolean, hasRuntime: boolean) => {
 				}
 			},
 			resolve: {
-				alias: { ...parseAlias(svelteAliases), ...parseAlias(viteAliases) }
-			}
+				alias: {
+					...parseAlias(svelteAliases),
+					...parseAlias(viteConfig?.resolve?.alias as Record<string, string>)
+				}
+			},
+			mode: viteConfig?.mode,
+			envPrefix: viteConfig?.envPrefix,
+			define: viteConfig?.define,
+			envDir: viteConfig?.envDir
 		});
 	});
 };
 
-export const buildStandalone = async (files: string[], prod: boolean, hasRuntime: boolean) => {
+export const buildStandalone = async (
+	files: string[],
+	prod: boolean,
+	hasRuntime: boolean,
+	mode?: string
+) => {
+	const viteConfig = await loadConfigFromFile(
+		{ command: 'build', mode: mode ?? 'production' },
+		getPath('vite.config'),
+		rootDir
+	).then((result) => result?.config);
+
 	try {
-		const configs = handleBuild(files, prod, hasRuntime);
-		await Promise.all(configs.map((c) => build({ ...c, configFile: false })));
+		const configs = handleBuild(files, prod, hasRuntime, viteConfig);
+		await Promise.all(configs.map((c) => build({ ...c, configFile: false, mode })));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
 	}

@@ -51,6 +51,10 @@ npx standalone build
   ```bash
   npx standalone build --strip-runtime
   ```
+- **Mode**: Implements [modes](https://vite.dev/guide/env-and-mode.html#modes) from Vite.
+  ```bash
+  npx standalone build --mode dev
+  ```
 
 ### Output:
 
