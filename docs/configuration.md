@@ -1,6 +1,6 @@
 # Path Aliases
 
-**Svelte Standalone** includes _opt-in_ support for [path aliases](https://vite.dev/config/shared-options.html#resolve-alias).
+**Svelte Standalone** supports [path aliases](https://vite.dev/config/shared-options.html#resolve-alias).
 
 :::tip
 _Configure path aliases as you normally would in your `vite.config.js` or `svelte.config.js`, and **Svelte Standalone** will handle the bundling process for you._
