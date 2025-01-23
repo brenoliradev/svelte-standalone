@@ -25,7 +25,7 @@ export const buildStrategy = {
 	choices: c
 } as const;
 
-export async function build(prod: boolean, all: boolean, stripRuntime: boolean) {
+export async function build(prod: boolean, all: boolean, stripRuntime: boolean, mode: string) {
 	if (buildStrategy.choices.length === 0) {
 		console.warn(
 			"You don't have any standalone component. Create them running: standalone create."
@@ -42,7 +42,8 @@ export async function build(prod: boolean, all: boolean, stripRuntime: boolean) 
 		buildStandalone(
 			c.map((co) => co.value),
 			prod,
-			hasRuntime
+			hasRuntime,
+			mode
 		);
 
 		return;
@@ -51,7 +52,7 @@ export async function build(prod: boolean, all: boolean, stripRuntime: boolean) 
 	const answers = await checkbox(buildStrategy);
 
 	try {
-		buildStandalone(answers, prod, hasRuntime);
+		buildStandalone(answers, prod, hasRuntime, mode);
 	} catch (error) {
 		if (error instanceof Error && error.name === 'ExitPromptError') {
 			// noop; silence this error
