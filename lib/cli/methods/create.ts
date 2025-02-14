@@ -8,7 +8,6 @@ import {
 } from '../../generate-plop.js';
 
 import {
-	TYPE_TO_EMBED,
 	TYPE_TO_ROUTE,
 	TYPE_TO_STORY,
 	TYPE_TO_TYPESCRIPT
@@ -27,7 +26,7 @@ export const create = (componentName: string, type: EmbeddableStrategies) => {
 		generateRoutesFile(componentName, TYPE_TO_ROUTE[type]);
 	}
 
-	generateEmbedFiles(componentName, type, TYPE_TO_EMBED[type]);
+	generateEmbedFiles(componentName, type);
 
 	generateTypesFile(componentName, TYPE_TO_TYPESCRIPT[type]);
 

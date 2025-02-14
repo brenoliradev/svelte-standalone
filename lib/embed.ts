@@ -1,140 +1,174 @@
-import { unmount, type ComponentProps, type Component, mount } from 'svelte';
+import { type Component, type ComponentProps, mount, unmount } from 'svelte';
+
+type UnmountOptions = Parameters<typeof unmount>['1'];
 
 /**
- * Provides definition for `window[id].start` and `window[id].stop` works while embedding with {@link embed}.
- *
- * @template T - The Svelte component type being embedded.
+ * Global singleton component controller interface
+ * @template T - Svelte component class
+ * @template R - Window property key
  */
 export type EmbedWindow<T extends Component, R extends string> = {
-	[id in R]: {
-		/**
-		 * Starts the Svelte component with the given props.
-		 *
-		 * @param {ComponentProps<T>} props - Props to initialize the component with.
-		 */
-		start: (props: ComponentProps<T>) => void;
-
-		/**
-		 * Stops the component and destroys it.
-		 */
-		stop: () => void;
-	};
+  [id in R]: {
+    /** Initializes singleton instance with props */
+    start: (props: ComponentProps<T>) => void;
+    /** Destroys instance and cleans up DOM */
+    stop: (options?: UnmountOptions) => void;
+  };
 };
 
 /**
- *  * Provides definition for `window[id].start` works while embedding with {@link embedMultiple}.
- *
- * @template T - The Svelte component type being embedded.
+ * Multi-instance component factory interface
+ * @template T - Component constructor type
+ * @template R - Window namespace key
  */
 export type MultipleEmbedWindow<T extends Component, R extends string> = {
-	[id in R]: {
-		/**
-		 * Starts a new instance of the Svelte component with the given props and target.
-		 *
-		 * @param {ComponentProps<T>} props - Props to initialize the component with.
-		 * @param {string} [target] - Optional target element ID to embed the component into.
-		 * @returns {Object} An object containing a `stop` method to destroy the component.
-		 */
-		start: (props: ComponentProps<T>, target?: string) => { stop: () => void };
-	};
+  [id in R]: {
+    /** Creates new instance with optional target */
+    start: (
+      props: ComponentProps<T>,
+      target?: string
+    ) => { stop: (options?: UnmountOptions) => void };
+  };
 };
 
 /**
- * Provides definition for `window[id].stop` works while embedding with {@link autoEmbedOnBody} or {@link autoEmbedWithTarget}.
- *
- * * For {@link autoEmbedOnBody} `id` will be the embeddable name.
- * * For {@link autoEmbedWithTarget} `id` will be the target.
- *
- * @template R - A string type used as embeddable `id`.
+ * Contextual auto-embedding controller interface
+ * @template R - DOM identifier (ID or class)
  */
 export type TargetEmbeddedWindow<R extends string> = {
-	[id in R]: {
-		stop: () => void;
-	};
+  [id in R]: {
+    /** Destroys all instances in context */
+    stop: (options?: UnmountOptions) => void;
+  };
 };
 
-/**
- * Embeds a Svelte component as a singleton.
- *
- * @template T - The Svelte component type.
- * @param {ComponentType<T>} component - The Svelte component to embed.
- * @param {string} id - The id of the embedding instance. Will define `window[id].start` to programmatically start the embeddable and `window[id].stop` to programmatically stop it.
- */
-export function embed<T extends Component, R extends string>(component: Component, id: R) {
-	let c: Record<string, unknown> | undefined = undefined;
+// ========================
+// EMBEDDING METHODS
+// ========================
 
-	(window as unknown as EmbedWindow<T, R>)[id] = {
-		start: (props) => {
-			if (!c) {
-				c = mount(component, {
-					target: document.body,
-					props: {
-						...props
-					}
-				});
-			}
-		},
-		stop: () => c && (unmount(c), (c = undefined))
-	};
+/**
+ * Singleton component manager
+ * @param component - Svelte component to manage
+ * @param id - Global window property key
+ * 
+ * @example
+ * embed(Modal, 'authDialog');
+ * window.authDialog.start({ title: 'Login' });
+ * window.authDialog.stop();
+ */
+export function embed<T extends Component, R extends string>(
+  component: T,
+  id: R
+): void {
+  let instance: ReturnType<typeof mount> | undefined;
+
+  (window as unknown as EmbedWindow<T, R>)[id] = {
+    start: (props) => {
+      if (!instance) {
+        instance = mount(component, {
+          target: document.body,
+          props
+        });
+      }
+    },
+    stop: (options) => {
+      if (instance) {
+        unmount(instance, options);
+        instance = undefined;
+      }
+    }
+  };
 }
 
 /**
- * Embeds multiple instances of a Svelte component.
- *
- * @template T - The Svelte component type.
- * @param {ComponentType<T>} component - The Svelte component to embed.
- * @param {string} id - The name of the embedding instance. Will define `window[id].start` to programmatically start the embeddable.
+ * Multi-instance component factory
+ * @param component - Component to instantiate
+ * @param id - Window namespace key
+ * 
+ * @example
+ * embedMultiple(Toast, 'notifications');
+ * const toast = window.notifications.start({ message: 'Saved!' }, 'status-area');
+ * toast.stop();
  */
-export function embedMultiple<T extends Component, R extends string>(component: Component, id: R) {
-	(window as unknown as MultipleEmbedWindow<T, R>)[id] = {
-		start: (props, target) => {
-			const c = mount(component, {
-				target: document.getElementById(target!) ?? document.body,
-				props: props
-			});
+export function embedMultiple<T extends Component, R extends string>(
+  component: T,
+  id: R
+): void {
+  (window as unknown as MultipleEmbedWindow<T, R>)[id] = {
+    start: (props, target) => {
+      const instance = mount(component, {
+        target: document.getElementById(target!) ?? document.body,
+        props
+      });
 
-			return {
-				stop: () => unmount(c)
-			};
-		}
-	};
+      return {
+        stop: () => unmount(instance)
+      };
+    }
+  };
 }
 
 /**
- * Automatically embeds a Svelte component in a specific DOM target based on the URL query string.
- *
- * * Should provide a `target` search param to URL. Will define `window[target].stop to programmatically stop the embeddable`.
- *
- * @template T - The Svelte component type.
- * @param {T} component - The Svelte component to embed.
+ * Auto-mount to elements by URL parameter target
+ * @param component - Component to auto-install
+ * @param targetId - Target css id to mount your Component - can be provided dynamically by adding a `target` at your widget search params.
+ * 
+ * @example
+ * // Load script with ?target=chart-container
+ * autoEmbedWithTarget(DataChart, 'chart');
+ * window['chart-container'].stop();
  */
-export const autoEmbedWithTarget = <T extends Component, R extends string>(component: T, id: R) => {
-	const t = (document.currentScript as HTMLScriptElement).src
-		.split('target=')[1]
-		.split('&')[0] as R;
+export function autoEmbedWithTarget<T extends Component, R extends string>(
+  component: T,
+  targetId: R
+): void {
+  const target = new URLSearchParams(window.location.search).get('target') as unknown as R ?? targetId;
+  const instance = mount(component, {
+    target: document.getElementById(target) ?? document.body
+  });
 
-	const c = mount(component, {
-		target: document.getElementById(t ?? id) ?? document.body
-	});
-
-	(window as unknown as TargetEmbeddedWindow<R>)[t] = {
-		stop: () => unmount(c)
-	};
-};
+  (window as unknown as TargetEmbeddedWindow<R>)[target] = {
+    stop: () => unmount(instance)
+  };
+}
 
 /**
- * Automatically embeds a Svelte component into the document body.
- *
- * @template T - The Svelte component type.
- * @param {Component<T>} component - The Svelte component to embed.
- * @param {string} id - The name of the embedding instance. Will define `window[id].stop`.
+ * Full-page component auto-mounter
+ * @param component - Component to render
+ * @param id - Window property key
+ * 
+ * @example
+ * autoEmbedOnBody(Loader, 'pageLoader');
+ * window.pageLoader.stop();
  */
-export const autoEmbedOnBody = <T extends Component, R extends string>(component: T, id: R) => {
-	const c = mount(component, {
-		target: document.body
-	});
+export function autoEmbedOnBody<T extends Component, R extends string>(
+  component: T,
+  id: R
+): void {
+  const instance = mount(component, { target: document.body });
+  
+  (window as unknown as TargetEmbeddedWindow<R>)[id] = {
+    stop: () => unmount(instance)
+  };
+}
 
-	(window as unknown as TargetEmbeddedWindow<R>)[id] = {
-		stop: () => unmount(c)
-	};
-};
+/**
+ * Batch mount by CSS class selector
+ * @param component - Component to replicate
+ * @param targetClass - Target css class to mount your Component - can be provided dynamically by adding a `target` at your widget search params. 
+ * 
+ * @example
+ * autoEmbedMultiple(Tooltip, 'hint');
+ * window.hint.stop(); // Removes all tooltips
+ */
+export function autoEmbedMultiple<T extends Component, R extends string>(
+  component: T,
+  targetClass: R
+): void {
+const target = new URLSearchParams(window.location.search).get('target') as unknown as R ?? targetClass;
+
+  (window as unknown as TargetEmbeddedWindow<R>)[target] = {
+    stop: (options) => Array.from(document.getElementsByClassName(target))
+    .map(el => mount(component, { target: el })).forEach(instance => unmount(instance, options))
+  };
+}
