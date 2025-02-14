@@ -8,8 +8,9 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"rootDir": "lib"
 	},
-	"include": ["src/**/*"],
+	"include": ["lib/**/*"],
 	"exclude": ["node_modules", "dist"]
 }
