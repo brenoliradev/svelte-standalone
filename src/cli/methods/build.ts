@@ -1,7 +1,7 @@
 import { build, defineConfig, loadConfigFromFile, UserConfig, type PluginOption } from 'vite';
 
 import fs from 'fs';
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite';
 
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -62,21 +62,23 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 
 	const s = new RegExp(`s-${componentName}`);
 
-	return tailwind ? undefined : [
-		purgeCSSPlugin({
-				content,
-				extractors: [
-					{
-						extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
-						extensions: ['svelte', 'js', 'ts', 'css']
+	return tailwind
+		? undefined
+		: [
+				purgeCSSPlugin({
+					content,
+					extractors: [
+						{
+							extractor: (c) => c.match(/[A-Za-z0-9-_:/\.]+/g) || [],
+							extensions: ['svelte', 'js', 'ts', 'css']
+						}
+					],
+					safelist: {
+						standard: [s]
 					}
-				],
-				safelist: {
-					standard: [s]
-				}
-			}),
-	cssnanoPlugin()
-];
+				}),
+				cssnanoPlugin()
+			];
 };
 
 const getProd = (prod: boolean) =>
@@ -112,7 +114,7 @@ const commonPlugins = (componentName: string, visualizerDir: string) =>
 			title: `${componentName} status`
 		}),
 		libInjectCss(),
-		tailwind && tailwindcss(),
+		tailwind && tailwindcss()
 	] as PluginOption[];
 
 const handleBuild = (
