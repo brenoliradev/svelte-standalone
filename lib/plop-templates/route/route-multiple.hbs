@@ -12,7 +12,7 @@
 	const generateInstance = () => {
 		const i = window.{{componentName}}.start(defaultConfig);
 
-		validInstances = validInstances.set(Math.random() * 100, () => i.$destroy());
+		validInstances = validInstances.set(Math.random() * 100, () => i.stop());
 	};
 
 	const removeInstance = (instance{{#if typescript}}: () => void, i: number{{/if}}) => {
@@ -23,8 +23,8 @@
 	};
 
 	onDestroy(() => {
-		validInstances.forEach((v) => {
-			v();
+		validInstances.forEach((stop) => {
+			stop();
 		})
 		validInstances.clear();
 	})
@@ -36,14 +36,12 @@
 
 <main class="p-2">
 	<button
-		class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 		on:click={generateInstance}>init instance of {{componentName}}</button
 	>
-	<p class="pt-2">defaultConfig: {JSON.stringify(defaultConfig)}</p>
+	<p>defaultConfig: {JSON.stringify(defaultConfig)}</p>
 	{#each validInstances as [i, instance]}
-		<div class="d-flex flex-col gap-2">
+		<div>
 			<button
-				class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 				on:click={() => removeInstance(instance, i)}>stop {i}</button
 			>
 		</div>

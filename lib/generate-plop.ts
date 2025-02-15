@@ -4,12 +4,7 @@ import path from 'path';
 
 import { distDir, rootDir } from './dir.js';
 import { EmbeddableStrategies } from './cli/cli-create.js';
-import {
-	TYPE_TO_EMBED,
-	TYPE_TO_ROUTE,
-	TYPE_TO_STORY,
-	TYPE_TO_TYPESCRIPT
-} from './cli/utils/hashmaps.js';
+import { TYPE_TO_ROUTE, TYPE_TO_STORY, TYPE_TO_TYPESCRIPT } from './cli/utils/hashmaps.js';
 
 import { includesTailwind, includesTypeScript } from './cli/utils/isDependency.js';
 
@@ -91,10 +86,9 @@ export async function generateStoryFile(
  */
 export async function generateEmbedFiles(
 	componentName: string,
-	embedType: EmbeddableStrategies,
-	strategy?: (typeof TYPE_TO_EMBED)[EmbeddableStrategies]
+	embedType: EmbeddableStrategies
 ): Promise<void> {
-	await generateFile('embed files', componentName, { embedType, strategy });
+	await generateFile('embed files', componentName, { embedType });
 }
 
 /**

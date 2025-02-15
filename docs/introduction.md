@@ -28,10 +28,6 @@ It includes _opt-in_ support for:
 
 But **Svelte Standalone** isn't limited to include either of them. You can just use it with plain Svelte, plain CSS and vanilla JavaScript.
 
-:::tip
-_You can also use Tailwind plugins — just configure them as you normally would in your `tailwind.config.js` file._
-:::
-
 ## Boilerplate Generation
 
 **Svelte Standalone** automatically inspects your `package.json` and generates boilerplate code tailored to your project's specifications.

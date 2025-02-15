@@ -3,16 +3,16 @@
   
 	onMount(() => {
 	  const script = document.createElement('script');
-	  script.src = '/dist/standalone/{{componentName}}.min.js?target={{componentName}}';
+	  script.src = '/dist/standalone/{{componentName}}.min.js';
 	  script.async = true;
   
 	  document.head.appendChild(script);
   
 	  return () => {
 		document.head.removeChild(script);
-		window.{{componentName}}.$destroy();
+		window.{{componentName}}.stop();
 	  };
 	});
 </script>
 
-<div id="{{componentName}}" class="p-2 w-full h-screen"></div>
+<div id="{{componentName}}"></div>

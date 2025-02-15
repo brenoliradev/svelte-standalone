@@ -1,6 +1,9 @@
 import { build, defineConfig, loadConfigFromFile, UserConfig, type PluginOption } from 'vite';
+
+import fs from 'fs';
+import tailwindcss from '@tailwindcss/vite';
+
 import path from 'path';
-import tailwindcss from 'tailwindcss';
 import { visualizer } from 'rollup-plugin-visualizer';
 import resolve from '@rollup/plugin-node-resolve';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
@@ -10,14 +13,13 @@ import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import strip from '@rollup/plugin-strip';
 import terser from '@rollup/plugin-terser';
 import { rootDir } from '../../dir.js';
-import { AcceptedPlugin } from 'postcss';
 
 import { getPath } from '../utils/getPath.js';
 
 import { pathToFileURL } from 'url';
-import fs from 'fs';
+import { includesTailwind } from '../utils/isDependency.js';
 
-const tailwindPath = getPath('tailwind.config');
+const tailwind = includesTailwind();
 
 const svelteConfig = path.resolve(rootDir, 'svelte.config.js');
 const svelteAliases = fs.existsSync(svelteConfig)
@@ -60,13 +62,10 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 
 	const s = new RegExp(`s-${componentName}`);
 
-	return [
-		tailwindPath
-			? (tailwindcss({
-					config: tailwindPath,
-					content
-				}) as AcceptedPlugin)
-			: purgeCSSPlugin({
+	return tailwind
+		? undefined
+		: [
+				purgeCSSPlugin({
 					content,
 					extractors: [
 						{
@@ -78,8 +77,8 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 						standard: [s]
 					}
 				}),
-		cssnanoPlugin()
-	];
+				cssnanoPlugin()
+			];
 };
 
 const getProd = (prod: boolean) =>
@@ -114,7 +113,8 @@ const commonPlugins = (componentName: string, visualizerDir: string) =>
 			filename: `${visualizerDir}.status.html`,
 			title: `${componentName} status`
 		}),
-		libInjectCss()
+		libInjectCss(),
+		tailwind && tailwindcss()
 	] as PluginOption[];
 
 const handleBuild = (

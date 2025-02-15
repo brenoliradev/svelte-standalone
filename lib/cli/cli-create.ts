@@ -58,9 +58,14 @@ const embeddableStrategy = {
 			short: 'Explicit call w/ instances'
 		},
 		{
-			name: 'Automatically append to the target <div> when downloaded',
+			name: 'Automatically append to the target id when downloaded',
 			value: 'autoEmbedWithTarget',
-			short: 'Auto-embed with target'
+			short: 'Auto-embed with id selector'
+		},
+		{
+			name: 'Automatically append to the target class when downloaded',
+			value: 'autoEmbedMultiple',
+			short: 'Auto-embed with class selector'
 		},
 		{
 			name: 'Automatically append to the <body> when downloaded',

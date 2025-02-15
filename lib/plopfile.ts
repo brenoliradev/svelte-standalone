@@ -20,7 +20,7 @@ export default function (plop: NodePlopAPI) {
 			{
 				type: 'add',
 				path: path.join(rootDir, 'src/_standalone/{{componentName}}/embed.ts'),
-				templateFile: path.join(moduleDir, 'lib/plop-templates/embed/{{strategy}}.hbs')
+				templateFile: path.join(moduleDir, 'lib/plop-templates/embed.hbs')
 			}
 		]
 	});

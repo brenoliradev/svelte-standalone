@@ -62,7 +62,6 @@ export default defineConfig({
 				text: 'Advanced',
 				items: [
 					{ text: 'Shared Components', link: '/shared' },
-					{ text: 'Svelte 4 vs Svelte 5', link: '/svelte-versions' },
 					{ text: 'Svelte Component API', link: '/component-api' },
 					{ text: 'Web Components', link: '/web-components' }
 				]
