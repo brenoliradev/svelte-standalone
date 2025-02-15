@@ -8,5 +8,5 @@ export type {{capitalizeName}}Props = ComponentProps<{{capitalizeName}}>;
 export const defaultConfig: {{capitalizeName}}Props = {};
 
 declare global {
-	interface Window extends EmbedWindow<{{capitalizeName}}, '{{componentName}}'> {}
+	interface Window extends EmbedWindow<typeof {{capitalizeName}}, '{{componentName}}'> {}
 }

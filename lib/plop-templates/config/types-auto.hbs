@@ -3,5 +3,5 @@ import {{capitalizeName}} from './index.svelte';
 import type { TargetEmbeddedWindow } from 'svelte-standalone';
 
 declare global {
-	interface Window extends TargetEmbeddedWindow<{{capitalizeName}}, "{{componentName}}"> {}
+	interface Window extends TargetEmbeddedWindow<typeof {{capitalizeName}}, "{{componentName}}"> {}
 }

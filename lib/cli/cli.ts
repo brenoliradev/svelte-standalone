@@ -11,7 +11,7 @@ program
 	.name('standalone')
 	.description('Transform Svelte components in standalone scripts!')
 	.showHelpAfterError('(add --help for additional information)')
-	.version('2.0.2-rc', '-v, --version', 'output the current version');
+	.version('2.0.0', '-v, --version', 'output the current version');
 
 program
 	.command('create')

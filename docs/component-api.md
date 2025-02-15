@@ -1,5 +1,5 @@
 ::: warning
-_This feature is currently only supported in Svelte 4 and `svelte-standalone@latest`._
+_This feature is currently only supported in Svelte 4 and `svelte-standalone@1` (version should be 1.X.X)._
 :::
 
 # Leveraging Component API
@@ -76,4 +76,4 @@ Here’s a complete example of how to use these methods with a standalone compon
    window.myComponent.$on('click', (event) => {
    	console.log('Component clicked!', event.detail);
    });
-   ```
+```
