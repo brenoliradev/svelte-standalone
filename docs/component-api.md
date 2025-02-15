@@ -76,4 +76,8 @@ Here’s a complete example of how to use these methods with a standalone compon
    window.myComponent.$on('click', (event) => {
    	console.log('Component clicked!', event.detail);
    });
+   ```
+
+```
+
 ```

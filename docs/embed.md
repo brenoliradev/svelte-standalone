@@ -119,7 +119,7 @@ import { autoEmbedWithTarget } from 'svelte-standalone';
 ### Params:
 
 - `mount`: The Svelte component to embed.
-- `id`: A unique identifier for the component. 
+- `id`: A unique identifier for the component.
 
 #### Usage:
 
@@ -149,6 +149,7 @@ import { autoEmbedWithTarget } from 'svelte-standalone';
 Batch mount components to multiple elements using CSS class selector.
 
 ###Embed Method:
+
 ```javascript
 import { autoEmbedMultiple } from 'svelte-standalone';
 ```
@@ -159,6 +160,7 @@ import { autoEmbedMultiple } from 'svelte-standalone';
 - `id`: A unique identifier for the component.
 
 #### Usage:
+
 ```html
 <!-- Auto-mount to elements with matching class -->
 <!-- By default, it'll match to the widget `id` -->
@@ -177,6 +179,7 @@ import { autoEmbedMultiple } from 'svelte-standalone';
   ```
 
 #### Key Points:
+
 - **CSS Class Targeting** - Batch element selection.
 - **Bulk Initialization** - Create multiple instances at once.
 - **Unified Control** - Remove all instances at once.
