@@ -11,3 +11,4 @@
 ## License
 
 MIT © 2024 Breno Lira
+# standalone-test
