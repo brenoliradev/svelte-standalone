@@ -19,7 +19,7 @@
 
 <svelte:head>
 	{#if runtimeExists}
-    	<script src="/dist/standalone/runtime.min.js" defer></script>
+    	<script type="module" src="/src/_standalone/runtime/embed{{#if typescript}}.ts{{else}}.js{{/if}}" defer></script>
 	{/if}
 </svelte:head>
 

@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<script type="module" src="/dist/standalone/{{componentName}}.min.js"></script>
+	<script type="module" src="/src/_standalone/{{componentName}}/embed{{#if typescript}}.ts{{else}}.js{{/if}}"></script>
 </svelte:head>
 
 <main>

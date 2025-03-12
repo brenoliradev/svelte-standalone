@@ -3,8 +3,9 @@
   
 	onMount(() => {
 	  const script = document.createElement('script');
-	  script.src = '/dist/standalone/{{componentName}}.min.js';
+	  script.src = '/src/_standalone/{{componentName}}/embed{{#if typescript}}.ts{{else}}.js{{/if}}';
 	  script.async = true;
+	  script.type = 'module';
   
 	  document.head.appendChild(script);
   

@@ -55,7 +55,9 @@ export default defineConfig({
 					{ text: 'Installation Guide', link: '/install' },
 					{ text: 'Configuration', link: '/configuration' },
 					{ text: 'CLI Commands', link: '/cli' },
-					{ text: 'Embed Methods', link: '/embed' }
+					{ text: 'Boilerplate Files', link: '/boilerplate' },
+					{ text: 'Embed Methods', link: '/embed' },
+					{ text: 'Hot Reload', link: '/hot-reload' }
 				]
 			},
 			{
