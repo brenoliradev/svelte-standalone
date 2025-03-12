@@ -5,6 +5,7 @@
 	  const script = document.createElement('script');
 	  script.src = '/src/_standalone/{{componentName}}/embed{{#if typescript}}.ts{{else}}.js{{/if}}';
 	  script.async = true;
+	  script.type = 'module';
   
 	  document.head.appendChild(script);
   
