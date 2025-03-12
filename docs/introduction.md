@@ -6,39 +6,39 @@ Featuring _opt-in_ support for **Tailwind**, **TypeScript** or **Storybook**, it
 
 [Just want to try it out? Let's install it.](/install)
 
-## What Are Embedabbles?  
+## What Are Embedabbles?
 
-Simply put, *embedabbles* are Svelte components designed to work in **any JavaScript environment**. Unlike regular Svelte components, an embedabble **must** be fully self-contained since it should be able to **mount itself** and function independently without relying on a specific framework or setup.  
+Simply put, _embedabbles_ are Svelte components designed to work in **any JavaScript environment**. Unlike regular Svelte components, an embedabble **must** be fully self-contained since it should be able to **mount itself** and function independently without relying on a specific framework or setup.
 
-## When to Use Embedabbles?  
+## When to Use Embedabbles?
 
-Embedabbles are great when you need to **embed a Svelte component anywhere**, regardless of the tech stack i.e. **third-party integrations**, **no-framework environments** or even as **microfrontends**.  
+Embedabbles are great when you need to **embed a Svelte component anywhere**, regardless of the tech stack i.e. **third-party integrations**, **no-framework environments** or even as **microfrontends**.
 
-## Why Use Svelte Standalone?  
+## Why Use Svelte Standalone?
 
-- **Reactive & Lightweight** – Build fast, self-contained embeddables with Svelte’s reactivity.  
-- **Flexible** – Opt-in support for Tailwind, TypeScript, and Storybook.  
-- **Zero Setup** – Handles minification, CSS purging, and boilerplate generation for you.  
-- **Universal Compatibility** – Works across all OS and node package managers.  
+- **Reactive & Lightweight** – Build fast, self-contained embeddables with Svelte’s reactivity.
+- **Flexible** – Opt-in support for Tailwind, TypeScript, and Storybook.
+- **Zero Setup** – Handles minification, CSS purging, and boilerplate generation for you.
+- **Universal Compatibility** – Works across all OS and node package managers.
 
-## Can I Use It With?  
+## Can I Use It With?
 
-Yes you can! **Svelte Standalone** is made to integrate with any Svelte workflow. It offers **_opt-in_** support for:  
+Yes you can! **Svelte Standalone** is made to integrate with any Svelte workflow. It offers **_opt-in_** support for:
 
-- **Tailwind**  
-- **TypeScript**  
-- **Storybook**  
-- **SvelteKit**  
+- **Tailwind**
+- **TypeScript**
+- **Storybook**
+- **SvelteKit**
 
 ## Boilerplate Generation
 
-**Svelte Standalone** automatically scans your `package.json` and generates boilerplate code based on your setup:  
+**Svelte Standalone** automatically scans your `package.json` and generates boilerplate code based on your setup:
 
-- **Storybook detected?** → Generates story files.  
-- **SvelteKit detected?** → Generates route files.  
-- **TypeScript/Tailwind detected?** → Applies them to the boilerplate.  
-- **SvelteKit** → Generate routes for bundled embedabbles.  
-- **Storybook** → Create component stories.  
+- **Storybook detected?** → Generates story files.
+- **SvelteKit detected?** → Generates route files.
+- **TypeScript/Tailwind detected?** → Applies them to the boilerplate.
+- **SvelteKit** → Generate routes for bundled embedabbles.
+- **Storybook** → Create component stories.
 
 ## Is It Type-Safe?
 
