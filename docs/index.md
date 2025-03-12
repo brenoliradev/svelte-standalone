@@ -4,23 +4,23 @@ layout: home
 
 hero:
   name: 'Integrate Svelte Anywhere'
-  tagline: A cross plataform, developer focused and customizable tool to create javascript embedabbles
+  tagline: A cross-platform, developer-friendly tool for creating JavaScript embeddables.
   actions:
     - theme: brand
-      text: Create Embedabbles Now
+      text: Get Started
       link: /introduction
     - theme: alt
       text: Quickstart
       link: /install
 
 features:
-  - icon: 🖥️
-    title: Cross-Platform
-    details: Works seamlessly with your favorite Node package manager and operating system.
-  - icon: 🛠️
-    title: No Tooling Hassle
-    details: Out-of-the-box minification, CSS purging, and boilerplate generation.
+  - icon: ⚡
+    title: Zero Config
+    details: Write Svelte components, and Svelte Standalone handles the rest.
   - icon: 🎛️
-    title: Optional Features
-    details: Integrate `svelte-standalone` into your existing workflow with optional support for Tailwind, TypeScript, or Storybook.
+    title: Fully Customizable
+    details: Build independent components without altering your existing Svelte environment.
+  - icon: 🔥
+    title: Hot Reload
+    details: See changes instantly in your embedabbles without page refresh.
 ---

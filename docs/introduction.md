@@ -1,46 +1,44 @@
 # What is Svelte Standalone?
 
-**Svelte Standalone** is a CLI tool for effortlessly bundling Svelte components into standalone JavaScript files.
+**Svelte Standalone** is a CLI tool designed to simplify the process of creating embedabbles to **just writing Svelte**.
 
 Featuring _opt-in_ support for **Tailwind**, **TypeScript** or **Storybook**, it seamlessly integrates into your existing workflow, allowing you to focus on building great user experiences without the tooling hassle.
 
-**Svelte Standalone** is designed to simplify the process of writing embedabbles to **just writing Svelte**.
-
 [Just want to try it out? Let's install it.](/install)
 
-## Why Use Svelte Standalone?
+## What Are Embedabbles?  
 
-- **Reactive Components**: Leverages Svelte’s reactivity to create lightweight yet powerful embeddables.
-- **Optional Features**: Tailor your workflow with optional support for Tailwind, TypeScript, or Storybook.
-- **No Tooling Hassle**: Automatically handles minification, CSS purging, and boilerplate generation, so you can focus on building.
-- **Cross-Platform Support**: Works seamlessly across your favorite operating systems and Node package managers.
+Simply put, *embedabbles* are Svelte components designed to work in **any JavaScript environment**. Unlike regular Svelte components, an embedabble **must** be fully self-contained since it should be able to **mount itself** and function independently without relying on a specific framework or setup.  
 
-## "Can I Use It With?"
+## When to Use Embedabbles?  
 
-**Svelte Standalone** is designed to seamlessly integrate into your existing Svelte workflow. It generates boilerplate code tailored to your specific needs, saving you time and effort.
+Embedabbles are great when you need to **embed a Svelte component anywhere**, regardless of the tech stack i.e. **third-party integrations**, **no-framework environments** or even as **microfrontends**.  
 
-It includes _opt-in_ support for:
+## Why Use Svelte Standalone?  
 
-- **Tailwind**
-- **TypeScript**
-- **Storybook**
-- **Sveltejs/Kit**
+- **Reactive & Lightweight** – Build fast, self-contained embeddables with Svelte’s reactivity.  
+- **Flexible** – Opt-in support for Tailwind, TypeScript, and Storybook.  
+- **Zero Setup** – Handles minification, CSS purging, and boilerplate generation for you.  
+- **Universal Compatibility** – Works across all OS and node package managers.  
 
-But **Svelte Standalone** isn't limited to include either of them. You can just use it with plain Svelte, plain CSS and vanilla JavaScript.
+## Can I Use It With?  
+
+Yes you can! **Svelte Standalone** is made to integrate with any Svelte workflow. It offers **_opt-in_** support for:  
+
+- **Tailwind**  
+- **TypeScript**  
+- **Storybook**  
+- **SvelteKit**  
 
 ## Boilerplate Generation
 
-**Svelte Standalone** automatically inspects your `package.json` and generates boilerplate code tailored to your project's specifications.
+**Svelte Standalone** automatically scans your `package.json` and generates boilerplate code based on your setup:  
 
-- If you have **Storybook** installed, it will generate stories boilerplate.
-- If you have **Sveltejs/Kit** installed, the boilerplate code will generate routes boilerplate.
-- If you have **TypeScript** or **Tailwind** installed, the boilerplate code will be generated using them.
-
-:::tip
-_You should include **Sveltejs/Kit** to generate routing with your **bundled** standalone embedabbles_
-
-_You should include **Storybook** to generate storyes with your svelte components **before** the bundling_
-:::
+- **Storybook detected?** → Generates story files.  
+- **SvelteKit detected?** → Generates route files.  
+- **TypeScript/Tailwind detected?** → Applies them to the boilerplate.  
+- **SvelteKit** → Generate routes for bundled embedabbles.  
+- **Storybook** → Create component stories.  
 
 ## Is It Type-Safe?
 
@@ -55,5 +53,5 @@ Test your components as you would test any Svelte app.
 For **deployment**, standalone components are JavaScript files that can be hosted on any static hosting platform or CDN, such as **Netlify**, **Vercel**, or **AWS S3**.
 
 ::: tip
-_If your target app has a file server, you can include your embedabble at your `/public` or `/static` folder._
+_If your target app has a file server, you can even include your embedabbles at your `/public` or `/static` folder._
 :::

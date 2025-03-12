@@ -1,10 +1,10 @@
 # CLI Commands
 
-**Svelte Standalone** provides a set of CLI commands to simplify the creation, building, and management of standalone Svelte components. Below is a detailed breakdown of the available commands and their usage.
+**Svelte Standalone** provides CLI commands to handle the creation and bundling process of your embedabbles.
 
 ## `create`
 
-Generates boilerplate code for a new standalone component.
+Generates [boilerplate code](/boilerplate) for a new standalone component.
 
 ### Usage:
 
@@ -16,16 +16,13 @@ npx standalone create
 
 1. **Name your component**: Enter a name for your component (e.g., `payments`).
 2. **Choose an embedding strategy**:
-   - **Explicit Call (Single Instance)**: Start with `window.payments.start()`.
-   - **Explicit Call (Multiple Instances)**: Start with `window.payments.start()` and mount multiple instances.
-   - **Auto-Embed with Target**: Automatically append to a target element, identified by its `id`.
-   - **Auto-Embed on Body**: Automatically append to the `<body>`.
+  - **Explicit Call (Single Instance)**: Mounts the component **once** using `window.payments.start()`.
+  - **Explicit Call (Multiple Instances)**: Allows mounting **multiple** instances with `window.payments.start()`.
+  - **Auto-Embed with Target ID**: **Automatically** appends to an element with a specified `id`.
+  - **Auto-Embed with Target Class**: **Automatically** appends to elements with a specified `class`.
+  - **Auto-Embed on Body**: **Automatically** appends to the `<body>` when downloaded.
 
-### Generated Files:
 
-- `index.svelte`: The main Svelte component.
-- `embed.ts` (or `embed.js`): Embedding logic based on your chosen strategy.
-- `config.ts` (or `config.js`): Default configuration for the component.
 
 ## `build`
 
@@ -39,15 +36,15 @@ npx standalone build
 
 ### Options:
 
-- **Production Build**: Minify and optimize for production.
-  ```bash
-  npx standalone build --production
+- **Production Build**: Minifies and optimizes for production.
+```bash
+npx standalone build --production
+```
+- **Build All Components**: Builds all standalone components at once.
+```bash
+npx standalone build --all
   ```
-- **Build All Components**: Build all standalone components at once.
-  ```bash
-  npx standalone build --all
-  ```
-- **Strip Runtime**: Bundle shared styles directly into components (excludes the runtime component).
+- **Strip Runtime**: Bundles shared styles directly into components (excludes the runtime).
   ```bash
   npx standalone build --strip-runtime
   ```
