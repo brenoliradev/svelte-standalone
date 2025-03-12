@@ -16,13 +16,12 @@ npx standalone create
 
 1. **Name your component**: Enter a name for your component (e.g., `payments`).
 2. **Choose an embedding strategy**:
-  - **Explicit Call (Single Instance)**: Mounts the component **once** using `window.payments.start()`.
-  - **Explicit Call (Multiple Instances)**: Allows mounting **multiple** instances with `window.payments.start()`.
-  - **Auto-Embed with Target ID**: **Automatically** appends to an element with a specified `id`.
-  - **Auto-Embed with Target Class**: **Automatically** appends to elements with a specified `class`.
-  - **Auto-Embed on Body**: **Automatically** appends to the `<body>` when downloaded.
 
-
+- **Explicit Call (Single Instance)**: Mounts the component **once** using `window.payments.start()`.
+- **Explicit Call (Multiple Instances)**: Allows mounting **multiple** instances with `window.payments.start()`.
+- **Auto-Embed with Target ID**: **Automatically** appends to an element with a specified `id`.
+- **Auto-Embed with Target Class**: **Automatically** appends to elements with a specified `class`.
+- **Auto-Embed on Body**: **Automatically** appends to the `<body>` when downloaded.
 
 ## `build`
 
@@ -37,13 +36,17 @@ npx standalone build
 ### Options:
 
 - **Production Build**: Minifies and optimizes for production.
+
 ```bash
 npx standalone build --production
 ```
+
 - **Build All Components**: Builds all standalone components at once.
+
 ```bash
 npx standalone build --all
-  ```
+```
+
 - **Strip Runtime**: Bundles shared styles directly into components (excludes the runtime).
   ```bash
   npx standalone build --strip-runtime
