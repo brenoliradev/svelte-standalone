@@ -47,8 +47,8 @@ const normalizeComponentName = (componentName: string) => componentName.replace(
 const isRuntime = (componentName: string) =>
 	componentName === 'runtime' || componentName === '$runtime' || componentName === '+runtime';
 
-const getContent = (purgeDir: string, componentName: string, hasRuntime: boolean) => {
-	const content = [path.resolve(rootDir, `${purgeDir}/**/*.{svelte,ts,js,css}`)];
+const getContent = (sourceDir: string, componentName: string, hasRuntime: boolean) => {
+	const content = [path.resolve(rootDir, `${sourceDir}/**/*.{svelte,ts,js,css}`)];
 
 	if (!hasRuntime || isRuntime(componentName)) {
 		content.push(path.resolve(rootDir, './src/shared/**/*.{svelte,ts,js,css}'));
@@ -81,8 +81,8 @@ const getPostCSSPlugins = (purgeDir: string, componentName: string, hasRuntime: 
 			];
 };
 
-const getProd = (prod: boolean) =>
-	prod
+const getProdConfig = (prod: boolean) => {
+	return prod
 		? [
 				strip({
 					functions: ['console.log', 'console.warn', 'console.error', 'assert.*']
@@ -100,37 +100,42 @@ const getProd = (prod: boolean) =>
 				})
 			]
 		: [];
+};
 
-const commonPlugins = (componentName: string, visualizerDir: string) =>
+const commonPlugins = (componentName: string, injectAssets: boolean, visualizerDir?: string) =>
 	[
 		svelte({
 			configFile: svelteConfig,
 			compilerOptions: {
-				cssHash: ({ name }) => `s-${name?.toLowerCase()}`
+				cssHash: ({ name }) => `s-${componentName.toLowerCase()}-${name?.toLowerCase()}`
 			}
 		}),
-		visualizer({
-			filename: `${visualizerDir}.status.html`,
-			title: `${componentName} status`
-		}),
-		libInjectCss(),
+		visualizerDir // If visualizerDir is not set. Disable it!
+			? visualizer({
+					filename: `${visualizerDir}.status.html`,
+					title: `${componentName} status`
+				})
+			: undefined,
+		injectAssets ? libInjectCss() : undefined,
 		tailwind && tailwindcss()
 	] as PluginOption[];
 
-const handleBuild = (
-	files: string[],
+const prepareConfigForBuild = (
+	componentNames: string[],
 	prod: boolean,
+	injectAssets: boolean,
 	hasRuntime: boolean,
+	inputDir: string,
+	outputDir: string,
 	viteConfig?: UserConfig
 ) => {
-	return files.map((file) => {
+	return componentNames.map((file) => {
 		const rawComponentName = path.dirname(file).split(path.sep).at(-1) || '';
 		const componentName = normalizeComponentName(rawComponentName);
-		const visualizerDir = path
-			.dirname(file)
-			.replace('src', 'static')
-			.replace('_standalone', `dist${path.sep}visualizer`);
-		const purgeDir = path.dirname(file).replace('embed.ts', '');
+		const visualizerDir = prod // If we are in production. Don't output the visualizer
+			? path.dirname(file).replace(inputDir, path.join(outputDir, 'visualizer'))
+			: undefined;
+		const purgeDir = path.dirname(file); // This was here before. Shouldn't be necessary `.replace('embed.ts', '')`
 
 		if (!componentName) {
 			console.error('Invalid fileName: ', file);
@@ -138,12 +143,15 @@ const handleBuild = (
 		}
 
 		return defineConfig({
-			css: {
-				postcss: {
-					plugins: getPostCSSPlugins(purgeDir, rawComponentName, hasRuntime)
-				}
-			},
-			plugins: commonPlugins(componentName, visualizerDir),
+			css: prod
+				? {
+						// Wipe unused css in production builds
+						postcss: {
+							plugins: getPostCSSPlugins(purgeDir, rawComponentName, hasRuntime)
+						}
+					}
+				: undefined,
+			plugins: commonPlugins(componentName, injectAssets, visualizerDir),
 			build: {
 				minify: prod,
 				emptyOutDir: false,
@@ -153,15 +161,17 @@ const handleBuild = (
 					name: componentName,
 					fileName: componentName
 				},
-				outDir: path.resolve(rootDir, 'static/dist/standalone'),
+				outDir: path.resolve(rootDir, outputDir),
 				rollupOptions: {
 					output: {
 						chunkFileNames: 'chunks/[name].[hash].js',
 						assetFileNames: 'assets/[name][extname]',
 						entryFileNames: `${componentName}.min.js`
 					},
-					plugins: [resolve({ browser: true, dedupe: ['svelte'] }), ...getProd(prod)]
-				}
+					plugins: [resolve({ browser: true, dedupe: ['svelte'] }), ...getProdConfig(prod)]
+				},
+				cssCodeSplit: false // This is explicitly set with default value.
+				// We are handling style injection with a injectCSS plugin anyway.
 			},
 			resolve: {
 				alias: {
@@ -177,20 +187,39 @@ const handleBuild = (
 	});
 };
 
-export const buildStandalone = async (
-	files: string[],
-	prod: boolean,
-	hasRuntime: boolean,
-	mode?: string
-) => {
+export const buildStandalone = async ({
+	componentsPaths,
+	prod,
+	injectAssets,
+	hasRuntime,
+	mode,
+	inputDir,
+	outputDir
+}: {
+	componentsPaths: string[];
+	prod: boolean;
+	injectAssets: boolean;
+	hasRuntime: boolean;
+	mode: string;
+	inputDir: string;
+	outputDir: string;
+}) => {
 	const viteConfig = await loadConfigFromFile(
-		{ command: 'build', mode: mode ?? 'production' },
+		{ command: 'build', mode },
 		getPath('vite.config'),
 		rootDir
 	).then((result) => result?.config);
 
 	try {
-		const configs = handleBuild(files, prod, hasRuntime, viteConfig);
+		const configs = prepareConfigForBuild(
+			componentsPaths,
+			prod,
+			hasRuntime,
+			injectAssets,
+			inputDir,
+			outputDir,
+			viteConfig
+		);
 		await Promise.all(configs.map((c) => build({ ...c, configFile: false, mode })));
 	} catch (handleBuildError) {
 		console.error('Error during handleBuild:', handleBuildError);
